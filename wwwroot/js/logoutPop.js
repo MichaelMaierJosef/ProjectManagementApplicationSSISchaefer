@@ -20,3 +20,12 @@ function openWin() {
         // Do nothing!
     }
 }
+
+function mySubmitFunction(e) {
+    //e.preventDefault();
+    if (confirm('Are you sure you want to logout?')) {
+        return true;
+    }
+    return false;
+}
+
