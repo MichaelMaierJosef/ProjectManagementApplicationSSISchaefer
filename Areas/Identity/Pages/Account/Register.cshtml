@@ -38,22 +38,27 @@
                         <i class="fas fa-user-alt trailing"></i>
                         <input asp-for="Input.Email" type="email" id="formUser" class="form-control form-control-lg form-icon-trailing" />
                         <label class="form-label" asp-for="Input.Email"></label>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                         <i class="fas fa-key trailing"></i>
                         <input asp-for="Input.Password" type="password" id="formPassword" class="form-control form-control-lg form-icon-trailing" />
                         <label class="form-label" asp-for="Input.Password"></label>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+
                     <div class="form-outline mb-4">
                         <i class="fas fa-key trailing"></i>
                         <input asp-for="Input.ConfirmPassword" type="password" id="formPassword" class="form-control form-control-lg form-icon-trailing" />
                         <label class="form-label" asp-for="Input.ConfirmPassword"></label>
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+                    <!-- all Errors -->
                     <div asp-validation-summary="All" class="text-danger"></div>
+
                     <!-- Submit button -->
                     <div class="mb-4 mt-4 d-grid gap-2 col-10 mx-auto">
                         <button type="submit" class="btn btn-blue-gray-50 btn-lg btn-rounded">Register</button>
