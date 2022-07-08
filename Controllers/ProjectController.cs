@@ -48,6 +48,8 @@ namespace ProjectManagementApplication.Controllers
             return View("CreateEditProject", projectInDb);
         }
 
+
+
         [HttpPost]
         public IActionResult CreateEditProject(Project project)
         {

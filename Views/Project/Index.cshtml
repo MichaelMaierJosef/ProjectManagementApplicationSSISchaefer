@@ -49,6 +49,9 @@
                     {
                                 <li class="bermia">
                                     <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                    <form asp-action="">
+                                        <a>Mitarbeiter</a>
+                                    </form>
                                     <form asp-action="CreateEdit" asp-route-id="@project1.id">
                                         <button onclick="" type="submit" class="projectEditButton">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
