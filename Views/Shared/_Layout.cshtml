@@ -28,7 +28,7 @@
         <div class="container-fluid">
 
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="./">
                 <img src="~/pictures/SSI_Schäfer_Logo.png"
                      height="50"
                      alt="SSI Schäfer"
@@ -140,16 +140,16 @@
             <script src="~/js/logoutPop.js"></script>
             <button onclick="openWin()">Logout</button>
     @{
-                                                                                            <a style="text-align:right">Willkommen, <br>@User.Identity.Name!</a>
+                                                                                                <a style="text-align:right">Willkommen, <br>@User.Identity.Name!</a>
         if (User.Identity.IsAuthenticated)
         {
-                                                                                                                                                    <form id="logiout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="display: none">
-                                                                                                                                                        <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-                                                                                                                                                    </form>
+                                                                                                                                                            <form id="logiout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="display: none">
+                                                                                                                                                                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+                                                                                                                                                            </form>
         }
         else
         {
-                                                                                                                                                    <p>You have successfully logged out of the application.</p>
+                                                                                                                                                            <p>You have successfully logged out of the application.</p>
         }
     }
             <img src="~/pictures/User.png" style="width:4%; margin-left:43%" />
