@@ -26,59 +26,59 @@
         <h3>Neues Projekt</h3>
     </div>
     <form asp-action="CreateEditProject" method="post">
-        <input hidden asp-for="id" placeholder="id"/>
-    <div class="d-flex justify-content-between mt-2 mx-auto">
-        <div class="form-outline my-2">
-            <input type="text" id="formControlLg" class="form-control form-control-lg" asp-for="projectName" size="30" />
-            <label class="form-label" for="formControlLg">Projekt Name</label>
+        <input hidden asp-for="id" placeholder="id" />
+        <div class="d-flex justify-content-between mt-2 mx-auto">
+            <div class="form-outline my-2">
+                <input type="text" id="formControlLg" class="form-control form-control-lg" asp-for="projectName" size="30" />
+                <label class="form-label" for="formControlLg">Projekt Name</label>
+            </div>
+            <div class="align-self-end d-flex my-2">
+                <h4 class="my-auto me-3">Projektart:</h4>
+                <select id="" class="select form-control form-control-lg me-2" asp-for="tense" checked>
+                    <option value="active">Aktuell</option>
+                    <option value="future">Zukünftig</option>
+                    <option value="past">Vergangen</option>
+                </select>
+            </div>
         </div>
-        <div class="align-self-end d-flex my-2">
-            <h4 class="my-auto me-3">Projektart:</h4>
-            <select id="" class="select form-control form-control-lg me-2" asp-for="tense" checked>
-                <option value="active">Aktuell</option>
-                <option value="future">Zukünftig</option>
-                <option value="past">Vergangen</option>
-            </select>
-        </div>
-    </div>
 
-    <h4 class="my-auto me-3 mt-3">Mitarbeiter:</h4>
-    <div id="employeeList" class="d-flex my-2 mx-2">
-        <div id="employee1" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
-            <button type="submit" class="btn btn-link text-black btn-floating" disabled>
-                <i class="fas fa-times fa-2x"></i>
-            </button>
-            <h5 class="my-auto mx-1">Max Mustermann</h5>
-            <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
-                <i class="fas fa-times fa-2x"></i>
-            </button>
-        </div>
-        <div id="employee2" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
-            <button type="submit" class="btn btn-link text-black btn-floating" disabled>
-                <i class="fas fa-times fa-2x"></i>
-            </button>
-            <h5 class="my-auto mx-1">Max Mustermann</h5>
-            <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
-                <i class="fas fa-times fa-2x"></i>
-            </button>
-        </div>
+        <h4 class="my-auto me-3 mt-3">Mitarbeiter:</h4>
+        <div id="employeeList" class="d-flex my-2 mx-2">
+            <div id="employee1" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
+                <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                    <i class="fas fa-times fa-2x"></i>
+                </button>
+                <h5 class="my-auto mx-1">Max Mustermann</h5>
+                <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                    <i class="fas fa-times fa-2x"></i>
+                </button>
+            </div>
+            <div id="employee2" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
+                <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                    <i class="fas fa-times fa-2x"></i>
+                </button>
+                <h5 class="my-auto mx-1">Max Mustermann</h5>
+                <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                    <i class="fas fa-times fa-2x"></i>
+                </button>
+            </div>
             <button type="submit" class="btn btn-link text-black btn-floating">
                 <i class="fas fa-plus fa-2x"></i>
             </button>
-        
 
-    </div>
 
-    <h4 class="my-auto me-3 mt-3">Deteils:</h4>
-    <div class="d-flex justify-content-between my-3  mx-auto">
-        <div class="form-outline flex-fill">
-            <textarea class="form-control form-control-lg" asp-for="description" id="textAreaExample" rows="5"></textarea>
-            <label class="form-label" for="textAreaExample">Beschreibung</label>
         </div>
-    </div>
-    <div class="d-flex justify-content-center mt-4 mx-auto">
+
+        <h4 class="my-auto me-3 mt-3">Deteils:</h4>
+        <div class="d-flex justify-content-between my-3  mx-auto">
+            <div class="form-outline flex-fill">
+                <textarea class="form-control form-control-lg" asp-for="description" id="textAreaExample" rows="5"></textarea>
+                <label class="form-label" for="textAreaExample">Beschreibung</label>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4 mx-auto">
             <button type="button"
-                    onclick="window.location.href = './'"
+                    onclick="window.location.href = '../'"
                     class="btn btn-lg h-100 mx-5 align-self-end"
                     data-mdb-ripple-color="dark"
                     style="background-color: #EFEDED">
@@ -91,7 +91,7 @@
                     style="background-color: #EFE407">
                 SPEICHERN
             </button>
-    </div>
+        </div>
 
     </form>
 </div>

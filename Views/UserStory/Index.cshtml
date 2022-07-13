@@ -10,84 +10,86 @@
 <script type="text/javascript" src="~/js/story.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<body onload="loadTaskIndex()"></body>
+<body onload="loadTaskIndex()">
+</body>
 
 
-    <div>
-        <div id="projektname">
-            @ViewBag.currentProjectName
+<div>
+    <div id="projektname">
+        @ViewBag.currentProjectName
+    </div>
+</div>
+
+<form asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
+    <div class="row mt-2">
+        <div class="col-12">
+            <label class="col-form-label">Select Multiple Files</label>
+            <input asp-for="Files" class="form-control" multiple />
+            <span asp-validation-for="Files" class="text-danger"></span>
         </div>
     </div>
 
-    <form asp-action="MultiUpload" asp-controller="UserStory" method="post" enctype="multipart/form-data">
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <label class="col-form-label">Select Multiple Files</label>
-                            <input asp-for="Files" class="form-control" multiple/>
-                            <span asp-validation-for="Files" class="text-danger"></span>
-                        </div>
-                    </div>
 
-
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-success">Upload Files</button>
-                        </div>
-                    </div>
-                </form>
-    
-     
-    <div>
-        <div id="borderButton">
-            <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
+    <div class="row mt-2">
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Upload Files</button>
         </div>
+    </div>
+</form>
 
-        <div class="scoll" id="userStory">
-            <ul id="listUl">
-                @{
-                    foreach (UserStory userstory in ViewBag.UserStorys)
-                    {
-                                <li id="dus0">
-                                    <div class="nameIcon">
-                                        <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                    '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
-                                            <div class="iconDiv">
-                                                <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
-                                            </div>
-                                            <a class="usp">@userstory.name</a>
-                                        </div>
-                                    </div>
-                                    <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                        <button type="submit" class="usState">
-                                            @if (userstory.state == 0)
-                                             {
-                                                 <div style="background-color:white"></div>
-                                             }else if (userstory.state == 1)
-                                             {
-                                               <div style="background-color:red"></div>
-                                             }
-                                             else if (userstory.state == 2)
-                                             {
-                                                 <div style="background-color:green"></div>
-                                             }
-                                        </button>
-                                    </form>
-                                    <label class="control control--checkbox">
-                                        <input id="c0" type="checkbox" />
-                                        <div class="control__indicator"></div>
-                                    </label>
-                                    <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" >
-                                        <button type="submit" class="deleteUS">
-                                            <span class="material-icons-outlined">delete</span>
-                                            <div class="deletCircle"></div>
-                                        </button>
-                                    </form>
-                                </li>
-                    }
+
+<div>
+    <div id="borderButton">
+        <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
+    </div>
+
+    <div class="scoll" id="userStory">
+        <ul id="listUl">
+            @{
+                foreach (UserStory userstory in ViewBag.UserStorys)
+                {
+                    <li id="dus0">
+                        <div class="nameIcon">
+                            <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
+                                                                                        '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
+                                <div class="iconDiv">
+                                    <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
+                                </div>
+                                <a class="usp">@userstory.name</a>
+                            </div>
+                        </div>
+                        <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                            <button type="submit" class="usState">
+                                @if (userstory.state == 0)
+                                {
+                                    <div style="background-color:white"></div>
+                                }
+                                else if (userstory.state == 1)
+                                {
+                                    <div style="background-color:red"></div>
+                                }
+                                else if (userstory.state == 2)
+                                {
+                                    <div style="background-color:green"></div>
+                                }
+                            </button>
+                        </form>
+                        <label class="control control--checkbox">
+                            <input id="c0" type="checkbox" />
+                            <div class="control__indicator"></div>
+                        </label>
+                        <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                            <button type="submit" class="deleteUS">
+                                <span class="material-icons-outlined">delete</span>
+                                <div class="deletCircle"></div>
+                            </button>
+                        </form>
+                    </li>
                 }
-            </ul>
-        </div>
+            }
+        </ul>
     </div>
+</div>
 
 
 <div class="bg-modal">

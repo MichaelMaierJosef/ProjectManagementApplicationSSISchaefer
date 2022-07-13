@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace ProjectManagementApplication.Controllers
 {
@@ -64,7 +65,8 @@ namespace ProjectManagementApplication.Controllers
                 var ProjectUser = new ProjectUser(id, userID, 0);
 
                 _context.ProjectUsers.Add(ProjectUser);
-            } else
+            }
+            else
             {
                 _context.Projects.Update(project);
             }
@@ -86,6 +88,17 @@ namespace ProjectManagementApplication.Controllers
 
             _context.Projects.Remove(projectInDb);
             _context.SaveChanges();
+
+            try
+            {
+                var dir = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + id));
+                dir.Attributes = dir.Attributes & ~FileAttributes.ReadOnly;
+                dir.Delete(true);
+            }
+            catch (IOException ex)
+            {
+                Console.Write(ex);
+            }
 
             return RedirectToAction("Index");
         }
