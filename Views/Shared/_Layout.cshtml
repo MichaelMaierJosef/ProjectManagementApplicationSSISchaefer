@@ -16,7 +16,9 @@
     <!--<link rel="stylesheet" href="~/css/site.css" />-->
     <style>
         h3 {
+
             margin: 0;
+
         }
 
     </style>
@@ -25,7 +27,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-light navbar-light ">
+    <nav class="navbar navbar-expand-lg bg-light navbar-light mb-4">
         <!-- Container wrapper -->
         <div class="container-fluid">
 
@@ -48,7 +50,7 @@
                     <!-- Link -->
                     <li class="nav-item">
                         <div class="align-content-center">
-                            <h3 id="title">Projekte</h3>
+                            <h3 id="indicator">Projekte</h3>
                         </div>
                     </li>
                 </ul>
@@ -124,7 +126,7 @@
                           asp-page="/Account/Logout"
                           asp-route-returnUrl="@Url.Page("/", new { area = "" })"
                           method="post">
-                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Okay</button>
+                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
                     </form>
                     <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
                 </div>
