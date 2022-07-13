@@ -39,7 +39,7 @@ namespace ProjectManagementApplication.Controllers
             ViewBag.currentProjectName = projectName;
             ViewBag.UserStorys = projectStoryList;
 
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -100,14 +100,14 @@ namespace ProjectManagementApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult MultiUpload(List<IFormFile> Files)
+        public IActionResult MultiUpload(List<IFormFile> Files, int projectid, string projectname)
         {
             if (Files.Count > 0)
             {
                 foreach (var file in Files)
                 {
 
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectid);
 
                     //create folder if not exist
                     if (!Directory.Exists(path))
@@ -125,7 +125,8 @@ namespace ProjectManagementApplication.Controllers
             else
             {
             }
-            return View("MultiFile", Files);
+
+            return Index(projectid, projectname);
         }
 
     }
