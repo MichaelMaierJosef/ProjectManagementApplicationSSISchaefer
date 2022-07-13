@@ -264,7 +264,7 @@ li:hover {
     font-family: 'Poppins';
     width: 25em;
     border-radius: 10px;
-    background: url("https://source.unsplash.com/RAZU_R66vUc");
+    /*background: url("https://source.unsplash.com/RAZU_R66vUc");*/
     border: 2px dashed black;
     margin-left: 1em;
     margin-bottom: 1em;
@@ -505,11 +505,11 @@ h3 {
 }
 
     #imagecontainer h3 {
-        color: white;
+        color: black;
     }
 
     #imagecontainer span {
-        color: white;
+        color: black;
     }
 
 #userStoryContent {

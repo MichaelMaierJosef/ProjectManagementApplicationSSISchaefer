@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementApplication.Data;
 using ProjectManagementApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +21,7 @@ namespace ProjectManagementApplication.Controllers
         {
             _context = context;
         }
-        
+
         public IActionResult Index(int projectid, string projectName)
         {
             var storyList = _context.UserStorys.ToList();
@@ -39,7 +41,7 @@ namespace ProjectManagementApplication.Controllers
 
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult CreateEditUserStory(UserStory story, int pid, string pname)
         {
@@ -95,6 +97,35 @@ namespace ProjectManagementApplication.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", _context.UserStorys);
+        }
+
+        [HttpPost]
+        public IActionResult MultiUpload(List<IFormFile> Files)
+        {
+            if (Files.Count > 0)
+            {
+                foreach (var file in Files)
+                {
+
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
+
+                    //create folder if not exist
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+
+
+                    string fileNameWithPath = Path.Combine(path, file.FileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+            }
+            else
+            {
+            }
+            return View("MultiFile", Files);
         }
 
     }

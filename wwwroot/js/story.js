@@ -40,33 +40,47 @@ function dragDropped(current) {
     if (current == 0) {
         var dragArea = document.getElementById(1);
         let fileURL = document.getElementById("imgURLs").value;
-            let imgTag = `<img class="usImage" src="${fileURL}">`
-            dragArea.innerHTML = imgTag;
-            document.getElementById(1).style.border = '2px solid #6f7275';
-            if (idList.includes(1) == false && idList.length < 0) {
-                idList.push(imgCount);
-                imgCount++;
-                var insertOption =
-                    `<div id="${imgCount}" class="anhang" ondragleave="dragLeave(${imgCount})" ondrop="dragDropped(${imgCount})" ondragover="dragEnter(${imgCount})">
+        let imgTag = `<img class="usImage" src="${fileURL}">`;
+        dragArea.innerHTML = imgTag;
+        document.getElementById(1).style.border = '2px solid #6f7275';
+        if (true == true || idList.includes(1) == false && idList.length < 0) {
+            idList.push(imgCount);
+            imgCount++;
+            var insertOption =
+                `<div id="${imgCount}" class="anhang" ondragleave="dragLeave(${imgCount})" ondrop="dragDropped(${imgCount})" ondragover="dragEnter(${imgCount})">
                 <h3>Upload your Image</h3>
                 <div id="drag-area" class="drag-area">
                     <div class="icon">
                         <i class="fas fa-images"></i>
                     </div>
-                    <span id="text" class="header">Drag & Drop</span></br>
+                    <span id="text" class="header">Drag & Drop</span></br><br><br>
                 <span class="support">Supports: JPEG, JPG, PNG</span>
-            </div>
-        </div>`;
-                document.getElementById("imagecontainer").insertAdjacentHTML("afterbegin", insertOption);
-                var wi = document.getElementById("imagecontainer").offsetWidth;
-                var helpwi = parseInt(wi) + 300;
-                document.getElementById("imagecontainer").style.width = helpwi + 'px';
+                </div>
+                </div>
+                @model ProjectManagementApplication.Models.UserStory
+<form asp-action="MultiUpload" asp-controller="UserStory" method="post" enctype="multipart/form-data">
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label class="col-form-label">Select Multiple Files</label>
+                            <input asp-for="Files" class="form-control" multiple/>
+                            <span asp-validation-for="Files" class="text-danger"></span>
+                        </div>
+                    </div>
 
-            }
-        
-    }
 
-    else {
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">Upload Files</button>
+                        </div>
+                    </div>
+                </form>`;
+            document.getElementById("imagecontainer").insertAdjacentHTML("afterbegin", insertOption);
+            var wi = document.getElementById("imagecontainer").offsetWidth;
+            var helpwi = parseInt(wi) + 300;
+            document.getElementById("imagecontainer").style.width = helpwi + 'px';
+        }
+
+    }else {
         var dragArea = document.getElementById(current);
         event.preventDefault();
         file = event.dataTransfer.files[0];
@@ -112,13 +126,13 @@ function dragDropped(current) {
     }
 }
 
-var usedIDs = [0,1,2,3];
+var usedIDs = [0, 1, 2, 3];
 
 function deleteUserStory() {
 
     var list = document.getElementById("listUl");
 
-    for (var i = usedIDs.length -1 ; i >= 0; i--) {
+    for (var i = usedIDs.length - 1; i >= 0; i--) {
         var cBox = document.getElementById("c" + usedIDs[i]).checked;
         if (cBox) {
             document.getElementById("dus" + usedIDs[i]).innerHTML = "";
@@ -137,9 +151,9 @@ function showDetailMore(title, sid, desc, usname, imgurl, state, snumber) {
     document.getElementById("usnameInp").value = usname;
     document.getElementById("storyId").value = sid;
     document.getElementById("storyState").value = state;
-    document.getElementById("imgURLs").value = imgurl;
+    document.getElementById("imgURLs").value = "https://cdn.lko.at/lko3/mmedia/image/2022.05.05/1651738187451445.jpg?m=MjczLDM0Nyw1MCUsOTUuMjUlLDI0LjE2NyUsNC43NSUsLCw2MA%3D%3D&_=1651738189";
     document.getElementById("storyNumber").value = snumber;
-    
+
     dragDropped(0);
 }
 
@@ -168,6 +182,7 @@ function setTaskName(currentProId) {
     });
 }
 
+//alles arsch
 function loadTaskIndex() {
     $(document).ready(function () {
         $.ajax({
@@ -190,6 +205,8 @@ function loadTaskIndex() {
         });
     });
 }
+
+
 function filterlist() {
     var input, filter, li, a, i, txtValue;
     input = document.getElementById("keyWordInput");
@@ -205,6 +222,6 @@ function filterlist() {
         }
     }
 
-    
+
 
 }

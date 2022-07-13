@@ -19,8 +19,24 @@
         </div>
     </div>
 
-    
+    <form asp-action="MultiUpload" asp-controller="UserStory" method="post" enctype="multipart/form-data">
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label class="col-form-label">Select Multiple Files</label>
+                            <input asp-for="Files" class="form-control" multiple/>
+                            <span asp-validation-for="Files" class="text-danger"></span>
+                        </div>
+                    </div>
 
+
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">Upload Files</button>
+                        </div>
+                    </div>
+                </form>
+    
+     
     <div>
         <div id="borderButton">
             <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
@@ -46,8 +62,7 @@
                                             @if (userstory.state == 0)
                                              {
                                                  <div style="background-color:white"></div>
-                                             }
-                                             else if (userstory.state == 1)
+                                             }else if (userstory.state == 1)
                                              {
                                                <div style="background-color:red"></div>
                                              }
