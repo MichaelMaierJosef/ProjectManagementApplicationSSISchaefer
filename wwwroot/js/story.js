@@ -221,7 +221,4 @@ function filterlist() {
             li[i].style.display = "none";
         }
     }
-
-
-
 }
