@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta chmarginutf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProjectManagementApplication</title>
     <!-- Font Awesome -->
@@ -15,15 +16,18 @@
     <!--<link rel="stylesheet" href="~/css/site.css" />-->
     <style>
         h3 {
+
             margin: 0;
+
         }
+
     </style>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-light navbar-light ">
+    <nav class="navbar navbar-expand-lg bg-light navbar-light mb-4">
         <!-- Container wrapper -->
         <div class="container-fluid">
 
@@ -46,7 +50,7 @@
                     <!-- Link -->
                     <li class="nav-item">
                         <div class="align-content-center">
-                            <h3 id="title">Projekte</h3>
+                            <h3 id="indicator">Projekte</h3>
                         </div>
                     </li>
                 </ul>
@@ -61,25 +65,33 @@
                            data-mdb-toggle="dropdown"
                            aria-expanded="false">
                             <div class="d-flex flex-row text-end text-black">
+                                <i class="fas fa-caret-down my-auto me-2"></i>
                                 <h5 class="mb-0 me-2">Willkommen! <p class="mb-0"><strong>@User.Identity.Name</strong></p></h5>
                                 <i class="fas fa-user-alt fa-3x"></i>
                             </div>
                         </a>
 
                         <!-- Dropdown menu -->
-                        <ul class="dropdown-menu dropdown-menu-end text-center" aria-labelledby="navbarDropdown">
+                        <ul id="dropdownList" class="dropdown-menu dropdown-menu-end text-center" aria-labelledby="navbarDropdown">
                             <li>
                                 <a class="dropdown-item" href="">Profile</a>
                             </li>
-                            <li><hr class="dropdown-divider" /></li>
                             <li>
-                                <button data-mdb-toggle="modal"
-                                        data-mdb-target="#staticBackdrop"
-                                        id="mailFormSubmit"
-                                        class="nav-link btn btn-block btn-link text-dark">
-                                    Logout
-                                    <i class="fas fa-sign-out-alt"></i>
-                                </button>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                @{
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        <button data-mdb-toggle="modal"
+                                            data-mdb-target="#staticBackdrop"
+                                            id="mailFormSubmit"
+                                            class="nav-link btn btn-block btn-link text-dark">
+                                            Logout
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    }
+                                }
                             </li>
                         </ul>
                     </li>
@@ -114,7 +126,7 @@
                           asp-page="/Account/Logout"
                           asp-route-returnUrl="@Url.Page("/", new { area = "" })"
                           method="post">
-                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Okay</button>
+                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
                     </form>
                     <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
                 </div>
@@ -140,16 +152,16 @@
             <script src="~/js/logoutPop.js"></script>
             <button onclick="openWin()">Logout</button>
     @{
-                                                                                                <a style="text-align:right">Willkommen, <br>@User.Identity.Name!</a>
+                                                                                                                    <a style="text-align:right">Willkommen, <br>@User.Identity.Name!</a>
         if (User.Identity.IsAuthenticated)
         {
-                                                                                                                                                            <form id="logiout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="display: none">
-                                                                                                                                                                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-                                                                                                                                                            </form>
+                                                                                                                                                                                                    <form id="logiout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="display: none">
+                                                                                                                                                                                                        <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+                                                                                                                                                                                                    </form>
         }
         else
         {
-                                                                                                                                                            <p>You have successfully logged out of the application.</p>
+                                                                                                                                                                                                    <p>You have successfully logged out of the application.</p>
         }
     }
             <img src="~/pictures/User.png" style="width:4%; margin-left:43%" />
@@ -157,7 +169,7 @@
     </header>
     -->
 
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

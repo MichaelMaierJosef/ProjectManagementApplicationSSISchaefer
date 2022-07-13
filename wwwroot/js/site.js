@@ -13,3 +13,6 @@ function showDetail() {
 function hideDetail() {
     document.querySelector('.bg-modal').style.display = 'none';
 }
+
+
+
