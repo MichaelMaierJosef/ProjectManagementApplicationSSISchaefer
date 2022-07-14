@@ -3,7 +3,6 @@ ul {
 }
 
 body {
-    background: #c9c9c9;
     display: flow;
 }
 
@@ -489,11 +488,6 @@ li:hover {
     }
 
 
-h3 {
-    font-family: 'Poppins';
-    margin-bottom: 20px;
-    font-weight: 500;
-}
 
 #descriptionP {
     position: absolute;

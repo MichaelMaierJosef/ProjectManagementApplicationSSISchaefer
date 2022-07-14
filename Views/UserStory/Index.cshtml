@@ -19,14 +19,14 @@
         transition: all .2s linear;
     }
 
-    .form-control {
+    .search {
         border: 0px;
         border-style: none;
     }
 </style>
 
 <div id="topNavigation" class="me-2 d-flex justify-content-end">
-    <div class="input-group w-25 rounded-8" style="background-color: #EFEDED;">
+    <div class="input-group w-25 rounded-8" style="background-color: #EFEDED">
         <span class="input-group-text border-0" id="search-addon">
             <i class="fas fa-search"></i>
         </span>
@@ -37,26 +37,46 @@
                id="keyWordInput" oninput="filterPrjectlist()"
                style="border-radius: 20px" />
     </div>
-    <form>
-        <button type="submit" class="btn btn-link text-black btn-floating ms-2">
-            <i class="fas fa-plus fa-2x"></i>
-        </button>
-    </form>
+
+
 </div>
 
-<div class="d-flex mt-2">
-    <div class="d-flex flex-column me-2">
+<div class="d-flex mt-2 mb-5">
+    <div class="d-flex flex-column me-4">
         <div class="pb-3">
             <div style="background-color:#EFEDED;border-radius: 10px 10px 0 0;height:15%"></div>
             <div class="d-flex" style="background-color: #EFEDED">
-                <h4 class="my-1 mx-3">Product Backlog</h4>
+                <h4 class="my-1 mx-3 me-5" id="statusTitle">Product Backlog</h4>
+                <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                    <i style="opacity:50%;" class="fas fa-trash-alt fa-2x"></i>
+                </button>
             </div>
+
             <div style="background-color:maroon;border-radius: 0 0 10px 10px;height:15%"></div>
         </div>
-        <div class="my-2 rounded-8" style="background-color:#EFEDED;height:fit-content">
-            <h4 class="my-2 mx-3">Product Backlog</h4>
+        <div class="my-2 rounded-6" style="background-color:#EFEDED;height:fit-content">
+            <h4 class="my-2 mb-3 mx-3" id="taskTitle">GitHub Machen</h4>
+            <div class="d-flex my-2 mx-3">
+                <div class=" bg-transparent me-1">
+                    <i class="fas fa-calendar trailing"></i>
+                    <label class="form-label" for="start1">Start Date</label>
+                    <input type="datetime-local" size="10" value=" " id="start1" class="form-control datePicker" />
 
-            <div class="progress mt-3 mx-2 bg-white rounded-8" style="height:20px">
+                </div>
+
+                <div class="bg-transparent">
+                    <i class="fas fa-calendar trailing"></i>
+                    <label class="form-label" for="end1">Due Date</label>
+                    <input type="datetime-local" size="10" value=" " id="end1" class="form-control datePicker" />
+
+                </div>
+            </div>
+            <div class="bg-transparent mx-3">
+                <i class="fas fa-clipboard-check trailing my-auto"></i>
+                <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
+            </div>
+
+            <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
                 <div class="progress-bar"
                      role="progressbar"
                      style="width: 10%;"
@@ -77,21 +97,24 @@
                      aria-valuemax="100"></div>
             </div>
         </div>
+        <div class="my-2 d-flex justify-content-center w-100">
+            <button type="submit" class="btn btn-link text-black btn-floating">
+                <i class="fas fa-plus fa-2x"></i>
+            </button>
+        </div>
     </div>
 
-    <div class="d-flex flex-column me-2">
-        <div class="pb-3">
-            <div style="background-color:#EFEDED;border-radius: 10px 10px 0 0;height:15%"></div>
-            <div class="d-flex" style="background-color: #EFEDED">
-                <h4 class="my-1 mx-3">Product Backlog</h4>
-            </div>
-            <div style="background-color:maroon;border-radius: 0 0 10px 10px;height:15%"></div>
+    <div class="d-flex flex-column me-4">
+        <div class=" mt-1">
+            <button type="submit" class="btn btn-link text-black btn-floating">
+                <i class="fas fa-plus fa-2x"></i>
+            </button>
         </div>
-        <div class="my-2">
-            Task 1
-        </div>
+
     </div>
 </div>
+
+
 
 
 
@@ -104,7 +127,7 @@
 </body>
 
 <div>
-    <div id="projektname">
+    <div class="mt-5" id="projektname">
         @ViewBag.currentProjectName
     </div>
 </div>
@@ -139,7 +162,7 @@
                     <li id="dus0">
                         <div class="nameIcon">
                             <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                                '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
+                                                                                                                            '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
                                 <div class="iconDiv">
                                     <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
                                 </div>
@@ -308,43 +331,43 @@
 @{
     foreach (UserStory userstory in ViewBag.UserStorys)
     {
-    <li id="dus0">
-                                                                                                                                                <div class="nameIcon">
-                                                                                                                                                    <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                                                                                                    '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
-                                                                                                                                                        <div class="iconDiv">
-                                                                                                                                                            <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
-                                                                                                                                                        </div>
-                                                                                                                                                        <a class="usp">@userstory.name</a>
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                                <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                                                                                                                                    <button type="submit" class="usState">
-                            @if (userstory.state == 0)
+        <li id="dus0">
+                                                                                                                                                                                                        <div class="nameIcon">
+                                                                                                                                                                                                            <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
+                                                                                                                                                                                                '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
+                                                                                                                                                                                                                <div class="iconDiv">
+                                                                                                                                                                                                                    <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                <a class="usp">@userstory.name</a>
+                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                                                                                                                                                                                                            <button type="submit" class="usState">
+                    @if (userstory.state == 0)
                     {
-                                                                                                                                                                                         <div style="background-color:white"></div>
+                                                                                                                                                                                                                                                                             <div style="background-color:white"></div>
                     }
                     else if (userstory.state == 1)
                     {
-                                                                                                                                                                                       <div style="background-color:red"></div>
+                                                                                                                                                                                                                                                                           <div style="background-color:red"></div>
                     }
                     else if (userstory.state == 2)
                     {
-                                                                                                                                                                                         <div style="background-color:green"></div>
+                                                                                                                                                                                                                                                                             <div style="background-color:green"></div>
                     }
-                                                                                                                                                    </button>
-                                                                                                                                                </form>
-                                                                                                                                                <label class="control control--checkbox">
-                                                                                                                                                    <input id="c0" type="checkbox" />
-                                                                                                                                                    <div class="control__indicator"></div>
-                                                                                                                                                </label>
-                                                                                                                                                <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" >
-                                                                                                                                                    <button type="submit" class="deleteUS">
-                                                                                                                                                        <span class="material-icons-outlined">delete</span>
-                                                                                                                                                        <div class="deletCircle"></div>
-                                                                                                                                                    </button>
-                                                                                                                                                </form>
-    </li>
+                                                                                                                                                                                                            </button>
+                                                                                                                                                                                                        </form>
+                                                                                                                                                                                                        <label class="control control--checkbox">
+                                                                                                                                                                                                            <input id="c0" type="checkbox" />
+                                                                                                                                                                                                            <div class="control__indicator"></div>
+                                                                                                                                                                                                        </label>
+                                                                                                                                                                                                        <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" >
+                                                                                                                                                                                                            <button type="submit" class="deleteUS">
+                                                                                                                                                                                                                <span class="material-icons-outlined">delete</span>
+                                                                                                                                                                                                                <div class="deletCircle"></div>
+                                                                                                                                                                                                            </button>
+                                                                                                                                                                                                        </form>
+        </li>
     }
 }
             </ul>
