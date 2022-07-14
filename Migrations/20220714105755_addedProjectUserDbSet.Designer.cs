@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagementApplication.Data;
 
-namespace ProjectManagementApplication.Data.Migrations
+namespace ProjectManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211209194831_addedProjectDbSet")]
-    partial class addedProjectDbSet
+    [Migration("20220714105755_addedProjectUserDbSet")]
+    partial class addedProjectUserDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -240,6 +240,90 @@ namespace ProjectManagementApplication.Data.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.ProjectUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<short>("Admin")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectUsers");
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.Task", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("project_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("state")
+                        .HasColumnType("int");
+
+                    b.Property<string>("taskText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("userstory_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("descriptionTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("endDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("imageURLs")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("project_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("startDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("state")
+                        .HasColumnType("int");
+
+                    b.Property<int>("storyNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("UserStorys");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

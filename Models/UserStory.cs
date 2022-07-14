@@ -19,6 +19,8 @@ namespace ProjectManagementApplication.Models
         public String imageURLs { get; set; }
         public String description { get; set; }
         public int state {get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
 
         //[Required(ErrorMessage = "Please select files")]
         [NotMapped]
