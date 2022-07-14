@@ -100,14 +100,14 @@ namespace ProjectManagementApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult MultiUpload(List<IFormFile> Files, int projectid, string projectname)
+        public IActionResult MultiUpload(int id/*UserStoryId*/, List<IFormFile> Files, int projectid, string projectname)
         {
             if (Files.Count > 0)
             {
                 foreach (var file in Files)
                 {
 
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectid);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectid + "/" + id);
 
                     //create folder if not exist
                     if (!Directory.Exists(path))

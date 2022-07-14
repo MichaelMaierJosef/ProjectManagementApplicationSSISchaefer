@@ -154,6 +154,11 @@ function showDetailMore(title, sid, desc, usname, imgurl, state, snumber) {
     document.getElementById("imgURLs").value = "https://cdn.lko.at/lko3/mmedia/image/2022.05.05/1651738187451445.jpg?m=MjczLDM0Nyw1MCUsOTUuMjUlLDI0LjE2NyUsNC43NSUsLCw2MA%3D%3D&_=1651738189";
     document.getElementById("storyNumber").value = snumber;
 
+    //alert("sid: " + sid);
+    //alert("Inhalt davor: " + document.getElementById("userStoryId").value);
+    document.getElementById("userStoryId").value = sid;
+    //alert("Inhalt danach: " + document.getElementById("userStoryId").value);
+
     dragDropped(0);
 }
 
