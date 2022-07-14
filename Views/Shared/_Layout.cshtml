@@ -81,13 +81,13 @@
                                 @{
                                     if (User.Identity.IsAuthenticated)
                                     {
-                                        <button data-mdb-toggle="modal"
-                                            data-mdb-target="#staticBackdrop"
-                                            id="mailFormSubmit"
-                                            class="nav-link btn btn-block btn-link text-dark">
-                                            Logout
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </button>
+                                            <button data-mdb-toggle="modal"
+                                                data-mdb-target="#staticBackdrop"
+                                                id="mailFormSubmit"
+                                                class="nav-link btn btn-block btn-link text-dark">
+                                                Logout
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </button>
                                     }
                                 }
                             </li>
@@ -150,16 +150,16 @@
             <script src="~/js/logoutPop.js"></script>
             <button onclick="openWin()">Logout</button>
     @{
-                                                                                                                        <a style="text-align:right">Willkommen, <br>@User.Identity.Name!</a>
+                                                                                                                            <a style="text-align:right">Willkommen, <br>@User.Identity.Name!</a>
         if (User.Identity.IsAuthenticated)
         {
-                                                                                                                                                                                                            <form id="logiout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="display: none">
-                                                                                                                                                                                                                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-                                                                                                                                                                                                            </form>
+                                                                                                                                                                                                                <form id="logiout" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" style="display: none">
+                                                                                                                                                                                                                    <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+                                                                                                                                                                                                                </form>
         }
         else
         {
-                                                                                                                                                                                                            <p>You have successfully logged out of the application.</p>
+                                                                                                                                                                                                                <p>You have successfully logged out of the application.</p>
         }
     }
             <img src="~/pictures/User.png" style="width:4%; margin-left:43%" />
@@ -167,7 +167,7 @@
     </header>
     -->
 
-    <div class="container-fluid">
+    <div class="container-fluid px-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
