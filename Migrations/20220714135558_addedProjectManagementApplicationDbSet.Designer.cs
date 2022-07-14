@@ -10,8 +10,8 @@ using ProjectManagementApplication.Data;
 namespace ProjectManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220714105817_addedProjectDbSet")]
-    partial class addedProjectDbSet
+    [Migration("20220714135558_addedProjectManagementApplicationDbSet")]
+    partial class addedProjectManagementApplicationDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -261,30 +261,6 @@ namespace ProjectManagementApplication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectUsers");
-                });
-
-            modelBuilder.Entity("ProjectManagementApplication.Models.Task", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("project_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("state")
-                        .HasColumnType("int");
-
-                    b.Property<string>("taskText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("userstory_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>

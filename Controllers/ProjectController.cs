@@ -26,8 +26,10 @@ namespace ProjectManagementApplication.Controllers
         public IActionResult Index()
         {
             var projectList = _context.Projects.ToList();
+            var storyList = _context.UserStorys.ToList();
 
             ViewBag.Projects = projectList;
+            ViewBag.UserStories = storyList;
 
             return View();
         }
