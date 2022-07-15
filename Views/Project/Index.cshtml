@@ -74,7 +74,7 @@
             string staticBackdropid = "id" + @project1.id;
             string staticBackdropTarget = "#" + @staticBackdropid;
 
-                        <div class="projectItem rounded-8" style="background-color: #EFEDED; display:flex">
+                        <div class="projectItem rounded-8" style="background-color: #EFEDED; display:flex" draggable="true">
                             <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
                                 <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
                                 <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
@@ -110,11 +110,12 @@
 
                             <button type="button" data-mdb-toggle="modal"
                                 data-mdb-target="@staticBackdropTarget"
-                                class="btn btn-link btn-lg h-100 me-3 align-self-end"
+                                class="btn btn-link btn-lg h-100 align-self-end"
                                 data-mdb-ripple-color="dark"
                                 style="color:red">
                                 DELETE
                             </button>
+                            <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2"></i>
                         </div>
                         <div class="modal fade"
                          id="@staticBackdropid"
@@ -149,7 +150,7 @@
             string staticBackdropid = "id" + @project1.id;
             string staticBackdropTarget = "#" + @staticBackdropid;
 
-                        <div class="projectItem rounded-8" style="background-color: #EFEDED;display:flex">
+                        <div class="projectItem rounded-8" style="background-color: #EFEDED;display:flex" draggable="true">
                             <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
                                 <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
                                 <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
@@ -185,11 +186,12 @@
 
                             <button type="button" data-mdb-toggle="modal"
                                 data-mdb-target="@staticBackdropTarget"
-                                class="btn btn-link btn-lg h-100 me-3 align-self-end"
+                                class="btn btn-link btn-lg h-100 align-self-end"
                                 data-mdb-ripple-color="dark"
                                 style="color:red">
                                 DELETE
                             </button>
+                            <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2"></i>
                         </div>
                         <div class="modal fade"
                          id="@staticBackdropid"
@@ -224,7 +226,7 @@
             string staticBackdropid = "id" + @project1.id;
             string staticBackdropTarget = "#" + @staticBackdropid;
 
-                        <div class="projectItem rounded-8" style="background-color: #EFEDED;display:flex">
+                        <div class="projectItem rounded-8" style="background-color: #EFEDED;display:flex" draggable="true">
                             <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
                                 <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
                                 <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
@@ -260,11 +262,14 @@
 
                             <button type="button" data-mdb-toggle="modal"
                                 data-mdb-target="@staticBackdropTarget"
-                                class="btn btn-link btn-lg h-100 me-3 align-self-end"
+                                class="btn btn-link btn-lg h-100 align-self-end"
                                 data-mdb-ripple-color="dark"
                                 style="color:red">
                                 DELETE
                             </button>
+                            <i class="fas fa-arrows-alt-v fa-2x my-auto mx-3"></i>
+
+
                         </div>
                         <div class="modal fade"
                          id="@staticBackdropid"
