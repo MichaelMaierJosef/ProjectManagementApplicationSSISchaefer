@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace ProjectManagementApplication.Controllers
 {
@@ -31,8 +32,10 @@ namespace ProjectManagementApplication.Controllers
         public IActionResult Index()
         {
             var projectList = _context.Projects.ToList();
+            var storyList = _context.UserStorys.ToList();
 
             ViewBag.Projects = projectList;
+            ViewBag.UserStories = storyList;
 
             return View();
         }
@@ -156,6 +159,17 @@ namespace ProjectManagementApplication.Controllers
 
             _context.Projects.Remove(projectInDb);
             _context.SaveChanges();
+
+            try
+            {
+                var dir = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + id));
+                dir.Attributes = dir.Attributes & ~FileAttributes.ReadOnly;
+                dir.Delete(true);
+            }
+            catch (IOException ex)
+            {
+                Console.Write(ex);
+            }
 
             return RedirectToAction("Index");
         }

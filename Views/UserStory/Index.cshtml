@@ -5,6 +5,288 @@
 @{
 }
 
+<style>
+    body {
+        background: white;
+    }
+
+    .form-outline {
+        min-height: auto;
+        padding: .33em .75em;
+        border: 0px;
+        border-style: none;
+        background: transparent;
+        transition: all .2s linear;
+    }
+
+    .search {
+        border: 0px;
+        border-style: none;
+    }
+</style>
+
+<div id="topNavigation" class="me-2 d-flex justify-content-end">
+    <div class="input-group w-25 rounded-8" style="background-color: #EFEDED">
+        <span class="input-group-text border-0" id="search-addon">
+            <i class="fas fa-search"></i>
+        </span>
+        <input type="search"
+               class="form-control bg-transparent autocomplete-input"
+               placeholder=""
+               aria-describedby="search-addon"
+               id="keyWordInput" oninput="filterPrjectlist()"
+               style="border-radius: 20px" />
+    </div>
+
+
+</div>
+
+<!--Input Data for UserStory-->
+<div class="d-flex mt-2 mb-5">
+    <div class="d-flex flex-column me-4">
+        <div class="pb-3">
+            <div style="background-color:#EFEDED;border-radius: 10px 10px 0 0;height:15%"></div>
+            <div class="d-flex" style="background-color: #EFEDED">
+                <h4 class="my-1 mx-3 me-5" id="statusTitle">Product Backlog</h4>
+                <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                    <i style="opacity:50%;" class="fas fa-trash-alt fa-2x"></i>
+                </button>
+            </div>
+
+            <div style="background-color:maroon;border-radius: 0 0 10px 10px;height:15%"></div>
+        </div>
+        <div class="my-2 rounded-6" style="background-color:#EFEDED;height:fit-content" draggable="true">
+            <h4 class="my-2 mb-3 mx-3" id="taskTitle">GitHub Machen</h4>
+            <div class="d-flex my-2 mx-3">
+                <div class=" bg-transparent me-1">
+                    <i class="fas fa-calendar trailing"></i>
+                    <label class="form-label" for="start1">Start Date</label>
+                    <input type="datetime-local" size="10" value=" " id="start1" class="form-control datePicker" />
+
+                </div>
+
+                <div class="bg-transparent">
+                    <i class="fas fa-calendar trailing"></i>
+                    <label class="form-label" for="end1">Due Date</label>
+                    <input type="datetime-local" size="10" value=" " id="end1" class="form-control datePicker" />
+
+                </div>
+            </div>
+            <div class="bg-transparent mx-3">
+                <i class="fas fa-clipboard-check trailing my-auto"></i>
+                <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
+            </div>
+
+            <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: 10%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width: 10%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-info"
+                     role="progressbar"
+                     style="width: 10%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
+        </div>
+        <div class="my-2 d-flex justify-content-center w-100">
+            <button type="submit" class="btn btn-link text-black btn-floating">
+                <i class="fas fa-plus fa-2x"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column me-4">
+        <div class=" mt-1">
+            <button type="submit" class="btn btn-link text-black btn-floating">
+                <i class="fas fa-plus fa-2x"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!--Rest of the Page-->
+<link rel="stylesheet" href="~/css/UserStory.css" />
+<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+<script type="text/javascript" src="~/js/story.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<body onload="loadTaskIndex()">
+</body>
+
+<div>
+    <div class="mt-5" id="projektname">
+        @ViewBag.currentProjectName
+    </div>
+</div>
+
+<div>
+    <div id="borderButton">
+        <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
+    </div>
+
+    <div class="scoll" id="userStory">
+        <ul id="listUl">
+            @{
+                foreach (UserStory userstory in ViewBag.UserStorys)
+                {
+                        <li id="dus0">
+                            <div class="nameIcon">
+                                <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
+                                                                                                                                    '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
+                                    <div class="iconDiv">
+                                        <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
+                                    </div>
+                                    <a class="usp">@userstory.name</a>
+                                </div>
+                            </div>
+                            <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                                <button type="submit" class="usState">
+                                    @if (userstory.state == 0)
+                                {
+                                        <div style="background-color:white"></div>
+                                }
+                                else if (userstory.state == 1)
+                                {
+                                        <div style="background-color:red"></div>
+                                }
+                                else if (userstory.state == 2)
+                                {
+                                        <div style="background-color:green"></div>
+                                }
+                                </button>
+                            </form>
+                            <label class="control control--checkbox">
+                                <input id="c0" type="checkbox" />
+                                <div class="control__indicator"></div>
+                            </label>
+                            <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                                <button type="submit" class="deleteUS">
+                                    <span class="material-icons-outlined">delete</span>
+                                    <div class="deletCircle"></div>
+                                </button>
+                            </form>
+                        </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+
+
+<div class="bg-modal">
+    <div class="modal-content">
+        <form asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-form-label">Select Multiple Files</label>
+                    <input asp-for="id" id="userStoryId" hidden />
+                    <input asp-for="Files" class="form-control" multiple />
+                    <span asp-validation-for="Files" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success">Upload Files</button>
+                </div>
+            </div>
+        </form>
+
+        <div onclick="hideDetail()" class="close">+</div>
+        <h3 id="usname"></h3>
+        <h3 id="anh"><span id="att" class="material-icons-outlined">attach_file</span>Anhang</h3>
+        <div id="imagecontainer">
+            <div id="1" class="anhang" ondragleave="dragLeave(1)" ondrop="dragDropped(1)" ondragover="dragEnter(1)">
+                <h3>Upload your Image</h3>
+                <div id="drag-area" class="drag-area">
+                    <div class="icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <span id="text" class="header">Drag & Drop</span></br>
+                    <span class="support">Supports: JPEG, JPG, PNG</span>
+                </div>
+            </div>
+        </div>
+        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+            <div class="scoll" id="description">
+                <div id="descriptionCont">
+                    <input hidden id="storyId" type="text" asp-for="id" />
+                    <input hidden id="usnameInp" type="text" asp-for="name" />
+                    <input hidden id="storyState" type="text" asp-for="state" />
+                    <input hidden id="imgURLs" type="text" asp-for="imageURLs" />
+                    <input hidden id="storyNumber" type="text" asp-for="storyNumber" />
+                    <h3><span id="des" class="material-icons-outlined">post_add</span>Beschreibung</h3>
+                    <p id="descriptionP">
+                        <input asp-for="descriptionTitle" type="text" id="title">
+                        <textarea asp-for="description" id="userStoryContent" type="text"></textarea>
+                    </p>
+                </div>
+            </div>
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+
+<div class="add-modal">
+    <div class="add-content">
+        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+            <div class="allTags">
+                <input hidden asp-for="id" />
+                <input hidden asp-for="descriptionTitle" value="Titel:" />
+                <div onclick="hideDetailAdd()" class="close2">+</div>
+                <h2 id="addProjektTitle"></h2>
+                <h3>Titel: </h3>
+                <br />
+                <input asp-for="name" placeholder=" ... " type="text" />
+                <h3>Story Number: </h3>
+                <br />
+                <input asp-for="storyNumber" placeholder=" ... " type="number" />
+                <div id="addContainerDescription">
+                    <h3>Beschreibung: </h3>
+                    <br />
+                    <textarea id="descriptionContent" asp-for="description" placeholder=" ... "></textarea>
+                </div>
+                <div>
+                    <h3 class="form-label" for="start1">Start Date:</h3>
+                    <br />
+                    <input asp-for="startDate" size="10" value=" " id="start1" class="form-control datePicker" />
+                </div>
+                <div style="position: absolute;left: 20.5em;top: 15em;">
+                    <h3 class="form-label" for="end1">End Date:</h3>
+                    <br />
+                    <input asp-for="endDate" size="10" value=" " id="end1" class="form-control datePicker" />
+                </div>
+                <div class="vl"></div>
+            </div>
+            <button id="btnAddStory">Speichern</button>
+        </form>
+    </div>
+</div>
+
+
+<!--Tag for the URL of the image-->
+<p id="invIMGid" hidden></p>
+
+
+
+
+<!--
+
 <link rel="stylesheet" href="~/css/UserStory.css" />
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
 <script type="text/javascript" src="~/js/story.js"></script>
@@ -15,9 +297,27 @@
 
     <div>
         <div id="projektname">
-            @ViewBag.currentProjectName
+@ViewBag.currentProjectName
         </div>
     </div>
+
+    <form asp-action="MultiUpload" asp-controller="UserStory" method="post" enctype="multipart/form-data">
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label class="col-form-label">Select Multiple Files</label>
+                            <input asp-for="Files" class="form-control" multiple/>
+                            <span asp-validation-for="Files" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">Upload Files</button>
+                        </div>
+                    </div>
+                </form>
+
 
     <div>
         <div id="borderButton">
@@ -26,48 +326,48 @@
 
         <div class="scoll" id="userStory">
             <ul id="listUl">
-                @{
-                    foreach (UserStory userstory in ViewBag.UserStorys)
+@{
+    foreach (UserStory userstory in ViewBag.UserStorys)
+    {
+    <li id="dus0">
+                                                                                                                                                                                                                    <div class="nameIcon">
+                                                                                                                                                                                                                        <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
+                                                                                                                                                                                                        '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
+                                                                                                                                                                                                                            <div class="iconDiv">
+                                                                                                                                                                                                                                <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                            <a class="usp">@userstory.name</a>
+                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                    <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                                                                                                                                                                                                                        <button type="submit" class="usState">
+                        @if (userstory.state == 0)
                     {
-                                <li id="dus0">
-                                    <div class="nameIcon">
-                                        <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                    '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
-                                            <div class="iconDiv">
-                                                <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
-                                            </div>
-                                            <a class="usp">@userstory.name</a>
-                                        </div>
-                                    </div>
-                                    <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                        <button type="submit" class="usState">
-                                            @if (userstory.state == 0)
-                                             {
-                                                 <div style="background-color:white"></div>
-                                             }
-                                             else if (userstory.state == 1)
-                                             {
-                                               <div style="background-color:red"></div>
-                                             }
-                                             else if (userstory.state == 2)
-                                             {
-                                                 <div style="background-color:green"></div>
-                                             }
-                                        </button>
-                                    </form>
-                                    <label class="control control--checkbox">
-                                        <input id="c0" type="checkbox" />
-                                        <div class="control__indicator"></div>
-                                    </label>
-                                    <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" >
-                                        <button type="submit" class="deleteUS">
-                                            <span class="material-icons-outlined">delete</span>
-                                            <div class="deletCircle"></div>
-                                        </button>
-                                    </form>
-                                </li>
+                                                                                                                                                                                                                                                                                             <div style="background-color:white"></div>
                     }
-                }
+                    else if (userstory.state == 1)
+                    {
+                                                                                                                                                                                                                                                                                           <div style="background-color:red"></div>
+                    }
+                    else if (userstory.state == 2)
+                    {
+                                                                                                                                                                                                                                                                                             <div style="background-color:green"></div>
+                    }
+                                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                                    </form>
+                                                                                                                                                                                                                    <label class="control control--checkbox">
+                                                                                                                                                                                                                        <input id="c0" type="checkbox" />
+                                                                                                                                                                                                                        <div class="control__indicator"></div>
+                                                                                                                                                                                                                    </label>
+                                                                                                                                                                                                                    <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" >
+                                                                                                                                                                                                                        <button type="submit" class="deleteUS">
+                                                                                                                                                                                                                            <span class="material-icons-outlined">delete</span>
+                                                                                                                                                                                                                            <div class="deletCircle"></div>
+                                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                                    </form>
+    </li>
+    }
+}
             </ul>
         </div>
     </div>
@@ -133,6 +433,6 @@
     </div>
 </div>
 
-
-<!--Tag for the URL of the image-->
-<p id="invIMGid" hidden></p>
+-->
+<!--Tag for the URL of the image
+<p id="invIMGid" hidden></p>-->

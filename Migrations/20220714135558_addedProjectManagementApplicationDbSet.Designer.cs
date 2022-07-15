@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManagementApplication.Data;
 
-namespace ProjectManagementApplication.Data.Migrations
+namespace ProjectManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220707082208_addedProjectUserDbSet")]
-    partial class addedProjectUserDbSet
+    [Migration("20220714135558_addedProjectManagementApplicationDbSet")]
+    partial class addedProjectManagementApplicationDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -252,8 +252,8 @@ namespace ProjectManagementApplication.Data.Migrations
                     b.Property<short>("Admin")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("ProjectID")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProjectID")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(max)");
@@ -261,30 +261,6 @@ namespace ProjectManagementApplication.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectUsers");
-                });
-
-            modelBuilder.Entity("ProjectManagementApplication.Models.Task", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("project_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("state")
-                        .HasColumnType("int");
-
-                    b.Property<string>("taskText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("userstory_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>
@@ -300,6 +276,9 @@ namespace ProjectManagementApplication.Data.Migrations
                     b.Property<string>("descriptionTitle")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("endDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("imageURLs")
                         .HasColumnType("nvarchar(max)");
 
@@ -308,6 +287,9 @@ namespace ProjectManagementApplication.Data.Migrations
 
                     b.Property<int>("project_id")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("startDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("state")
                         .HasColumnType("int");

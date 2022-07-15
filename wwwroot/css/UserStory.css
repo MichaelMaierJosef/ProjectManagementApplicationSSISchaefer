@@ -3,7 +3,6 @@ ul {
 }
 
 body {
-    background: #c9c9c9;
     display: flow;
 }
 
@@ -264,7 +263,7 @@ li:hover {
     font-family: 'Poppins';
     width: 25em;
     border-radius: 10px;
-    background: url("https://source.unsplash.com/RAZU_R66vUc");
+    /*background: url("https://source.unsplash.com/RAZU_R66vUc");*/
     border: 2px dashed black;
     margin-left: 1em;
     margin-bottom: 1em;
@@ -489,11 +488,6 @@ li:hover {
     }
 
 
-h3 {
-    font-family: 'Poppins';
-    margin-bottom: 20px;
-    font-weight: 500;
-}
 
 #descriptionP {
     position: absolute;
@@ -505,11 +499,11 @@ h3 {
 }
 
     #imagecontainer h3 {
-        color: white;
+        color: black;
     }
 
     #imagecontainer span {
-        color: white;
+        color: black;
     }
 
 #userStoryContent {
