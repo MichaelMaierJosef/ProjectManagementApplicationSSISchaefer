@@ -111,5 +111,15 @@ namespace ProjectManagementApplication.Controllers
 
             return RedirectToAction("CreateEdit", projectId);
         }
+        public JsonResult ChangeTense(string str_projectId, string tense)
+        {
+            int projectId = Int32.Parse(str_projectId);
+
+            Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+
+            _context.Projects.FromSqlRaw("");
+
+            return Json(project);
+        }
     }
 }
