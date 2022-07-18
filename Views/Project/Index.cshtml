@@ -25,6 +25,8 @@
 </style>
 
 
+
+
 <div id="topNavigation" class="me-2 d-flex justify-content-end">
     <div class="input-group w-25 rounded-8" style="background-color: #EFEDED;">
         <span class="input-group-text border-0" id="search-addon">
@@ -64,18 +66,58 @@
             pastProjects.Add(project);
         }
     }
-}
 
-<div id="currentProjekts" class="mt-2 d-grid gap-3">
-    <h3>Aktuelle Projekte</h3>
-    @{
-        foreach (Project project1 in activeProjects)
-        {
-            string staticBackdropid = "id" + @project1.id;
-            string staticBackdropTarget = "#" + @staticBackdropid;
-            DateTime currentD = DateTime.Now;
-            DateTime startD = default;
-            DateTime endD = default;
+
+}
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev, id) {
+        ev.dataTransfer.setData("id", id);
+        ev.dataTransfer.setData("projectItem", ev.target.id);
+
+    }
+
+    function drop(ev) {
+        var id = ev.dataTransfer.getData("id");
+        var divtoMove = ev.dataTransfer.getData("projectItem");
+
+        var data = {
+           str_projectId: id
+           tense: "future"
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/project/ChangeTense",
+            data: data,
+            success: function (msg) {
+                // Do something interesting here.
+                console.log(msg);
+            }
+        });
+
+        //$.get("/project/")
+
+        ev.preventDefault();
+        
+        //ev.target.appendChild(document.getElementById(data));
+    }
+</script>
+
+<div id="allProjects" class="mt-2 d-grid gap-3">
+    <div id="currentProjects" class="mt-2 d-grid gap-3" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h3>Aktuelle Projekte</h3>
+        @{
+            foreach (Project project1 in activeProjects)
+            {
+                string staticBackdropid = "id" + @project1.id;
+                string staticBackdropTarget = "#" + @staticBackdropid;
+                DateTime currentD = DateTime.Now;
+                DateTime startD = default;
+                DateTime endD = default;
 
             DateTime endDOverdue = default;
 
@@ -144,15 +186,15 @@
                          aria-valuemax="100"></div>
                     </div>
 
-                </a>
-                <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                    <button type="submit"
-                        class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                        data-mdb-ripple-color="dark"
-                        style="color:#6750A4">
-                        EDIT
-                    </button>
-                </form>
+                        </a>
+                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                            <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                EDIT
+                            </button>
+                        </form>
 
                 <button type="button" data-mdb-toggle="modal"
                     data-mdb-target="@staticBackdropTarget"
@@ -263,15 +305,15 @@
                          aria-valuemax="100"></div>
                     </div>
 
-                </a>
-                <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                    <button type="submit"
-                        class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                        data-mdb-ripple-color="dark"
-                        style="color:#6750A4">
-                        EDIT
-                    </button>
-                </form>
+                        </a>
+                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                            <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                EDIT
+                            </button>
+                        </form>
 
                 <button type="button" data-mdb-toggle="modal"
                     data-mdb-target="@staticBackdropTarget"
@@ -382,50 +424,52 @@
                          aria-valuemax="100"></div>
                     </div>
 
-                </a>
-                <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                    <button type="submit"
-                        class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                        data-mdb-ripple-color="dark"
-                        style="color:#6750A4">
-                        EDIT
-                    </button>
-                </form>
+                        </a>
+                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                            <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                EDIT
+                            </button>
+                        </form>
 
-                <button type="button" data-mdb-toggle="modal"
-                    data-mdb-target="@staticBackdropTarget"
-                    class="btn btn-link btn-lg h-100 me-3 align-self-end"
-                    data-mdb-ripple-color="dark"
-                    style="color:red">
-                    DELETE
-                </button>
-            </div>
-            <div class="modal fade"
-             id="@staticBackdropid"
-             data-mdb-backdrop="static"
-             data-mdb-keyboard="false"
-             tabindex="-1"
-             aria-labelledby="staticBackdropLabel"
-             aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                            <h5 class="modal-title">Wirklich Löschen?</h5>
-                        </div>
-                        <div class="modal-body d-flex justify-content-center">
-                            <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                        </div>
-                        <div class="modal-footer align-content-between d-flex justify-content-center">
-                            <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                            </form>
-                            <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                        <button type="button" data-mdb-toggle="modal"
+                            data-mdb-target="@staticBackdropTarget"
+                            class="btn btn-link btn-lg h-100 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:red">
+                            DELETE
+                        </button>
+                        <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+                    </div>
+                    <div class="modal fade"
+                     id="@staticBackdropid"
+                     data-mdb-backdrop="static"
+                     data-mdb-keyboard="false"
+                     tabindex="-1"
+                     aria-labelledby="staticBackdropLabel"
+                     aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                    <h5 class="modal-title">Wirklich Löschen?</h5>
+                                </div>
+                                <div class="modal-body d-flex justify-content-center">
+                                    <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                                </div>
+                                <div class="modal-footer align-content-between d-flex justify-content-center">
+                                    <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                    </form>
+                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+            }
         }
-    }
+    </div>
 </div>
 
 
@@ -462,24 +506,24 @@
     foreach (Project project1 in activeProjects)
     {
         <li class="bermia">
-                                                                                                                                <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
-                                                                                                                                <form asp-action="">
-                                                                                                                                    <a>Mitarbeiter</a>
-                                                                                                                                </form>
-                                                                                                                                <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                                                                                                                                    <button onclick="" type="submit" class="projectEditButton">
-                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                                                                                        </svg>
-                                                                                                                                    </button>
-                                                                                                                                </form>
-                                                                                                                                <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
-                                                                                                                                    <button type="submit" class="projectDeleteButton">
-                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                                                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                                                                                        </svg>
-                                                                                                                                    </button>
-                                                                                                                                </form>
+                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                                                                                            <form asp-action="">
+                                                                                                                <a>Mitarbeiter</a>
+                                                                                                            </form>
+                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                                                                                                                <button onclick="" type="submit" class="projectEditButton">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </form>
+                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
+                                                                                                                <button type="submit" class="projectDeleteButton">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </form>
         </li>
     }
 }
@@ -497,21 +541,21 @@
     foreach (Project project1 in futureProjects)
     {
         <li class="bermia">
-                                                                                                                                <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
-                                                                                                                                <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                                                                                                                                    <button type="submit" class="projectEditButton">
-                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                                                                                        </svg>
-                                                                                                                                    </button>
-                                                                                                                                </form>
-                                                                                                                                <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
-                                                                                                                                    <button type="submit" class="projectDeleteButton">
-                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                                                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                                                                                        </svg>
-                                                                                                                                    </button>
-                                                                                                                                </form>
+                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                                                                                                                <button type="submit" class="projectEditButton">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </form>
+                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
+                                                                                                                <button type="submit" class="projectDeleteButton">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </form>
         </li>
     }
 }
@@ -531,21 +575,21 @@
     foreach (Project project1 in pastProjects)
     {
         <li class="bermia">
-                                                                                                                                <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
-                                                                                                                                <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                                                                                                                                    <button type="submit" class="projectEditButton">
-                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                                                                                        </svg>
-                                                                                                                                    </button>
-                                                                                                                                </form>
-                                                                                                                                <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
-                                                                                                                                    <button type="submit" class="projectDeleteButton">
-                                                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                                                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                                                                                        </svg>
-                                                                                                                                    </button>
-                                                                                                                                </form>
+                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                                                                                                                <button type="submit" class="projectEditButton">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </form>
+                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
+                                                                                                                <button type="submit" class="projectDeleteButton">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                                                                    </svg>
+                                                                                                                </button>
+                                                                                                            </form>
         </li>
     }
 }

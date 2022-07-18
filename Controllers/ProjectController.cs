@@ -18,6 +18,12 @@ namespace ProjectManagementApplication.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        private Dictionary<IdentityUser, int> userRights = new Dictionary<IdentityUser, int>();
+        private List<IdentityUser> userList = new List<IdentityUser>();
+        private List<IdentityUser> usersFromProject = new List<IdentityUser>();
+        private List<IdentityUser> actualUser = new List<IdentityUser>();
+
+
         public ProjectController(ApplicationDbContext context)
         {
             _context = context;
@@ -34,8 +40,70 @@ namespace ProjectManagementApplication.Controllers
             return View();
         }
 
+        //gets the UserRoles and all User
+        public Dictionary<IdentityUser,int> GetUserRoles(int projectId)
+        {
+
+            LoadUserFromProject(projectId);
+
+            foreach(IdentityUser user in usersFromProject)
+            {
+                int adminRight = _context.ProjectUsers.Where(u => u.UserID == user.Id && u.ProjectID == projectId).Select(u => u.Admin).SingleOrDefault();
+                userRights.Add(user, adminRight);
+            }
+
+            LoadActiveUser();
+
+            ViewBag.UserRights = userRights;
+            ViewBag.allUser = actualUser;
+            ViewBag.ProjectID = projectId;
+            
+            return userRights;
+        }
+
+        public IActionResult EditUserRoles(string userId, int projectId)
+        {
+            IdentityUser user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+
+            userRights.Add(user, 0);
+
+            Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+            ProjectUser pUser = new ProjectUser(projectId, user.Id, 1);
+            _context.ProjectUsers.Add(pUser);
+
+            _context.SaveChanges();
+
+            LoadUserFromProject(projectId);
+            LoadActiveUser();
+
+            return RedirectToAction("CreateEdit", new { id = projectId });
+        }
+
+        public void LoadUserFromProject(int projectId)
+        {
+            var usersHelp = _context.ProjectUsers.Where(u => u.ProjectID == projectId).Select(x => x.UserID).ToList();
+
+            for (int i = 0; i < usersHelp.Count(); i++)
+            {
+                usersFromProject.Add(_context.Users.Where(u => u.Id == usersHelp[i].ToString()).SingleOrDefault());
+            }
+
+        }
+
+        public void LoadActiveUser()
+        {
+            var allUser = _context.Users.FromSqlRaw("SELECT * FROM dbo.AspNetUsers").ToList();
+            userList = allUser;
+
+            actualUser = userList.Except(usersFromProject).ToList();
+
+        }
+
         public IActionResult CreateEdit(int id)
         {
+
+            GetUserRoles(id);
+
             if (id == 0)
             {
                 return View("CreateEditProject");
@@ -51,6 +119,7 @@ namespace ProjectManagementApplication.Controllers
             return View("CreateEditProject", projectInDb);
         }
 
+        
 
 
         [HttpPost]
@@ -64,17 +133,17 @@ namespace ProjectManagementApplication.Controllers
                 int id = project.id;
                 var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var ProjectUser = new ProjectUser(id, userID, 0);
+                var projectUser = new ProjectUser(id, userID, 0);
 
-                _context.ProjectUsers.Add(ProjectUser);
-            }
-            else
+                _context.ProjectUsers.Add(projectUser);
+            } else
             {
                 _context.Projects.Update(project);
             }
 
-
             _context.SaveChanges();
+            GetUserRoles(project.id);
+
 
             return RedirectToAction("Index");
         }
@@ -110,6 +179,16 @@ namespace ProjectManagementApplication.Controllers
             int projectId = Int32.Parse(str_projectId);
 
             return RedirectToAction("CreateEdit", projectId);
+        }
+        public JsonResult ChangeTense(string str_projectId, string tense)
+        {
+            int projectId = Int32.Parse(str_projectId);
+
+            Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+
+            _context.Projects.FromSqlRaw("");
+
+            return Json(project);
         }
     }
 }
