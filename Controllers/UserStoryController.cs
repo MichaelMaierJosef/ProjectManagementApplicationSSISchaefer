@@ -77,10 +77,10 @@ namespace ProjectManagementApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeStateUserStory(string newname, UserStory story, int pid, string pname)
+        public IActionResult ChangeStateUserStory(int storyid, int pid, string pname)
         {
 
-            switch (story.state)
+            /*switch (story.state)
             {
                 case 0:
                     story.state = 1;
@@ -91,12 +91,22 @@ namespace ProjectManagementApplication.Controllers
                 case 2:
                     story.state = 0;
                     break;
+            }*/
+            UserStory story = _context.UserStorys.Where(u => u.id == storyid).FirstOrDefault();
+
+            if (story.state == 0)
+            {
+                story.state = 2;
+            }
+            else
+            {
+                story.state = 0;
             }
 
             _context.UserStorys.Update(story);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", _context.UserStorys);
+            return Index(pid, pname);
         }
 
         [HttpPost]
@@ -122,9 +132,14 @@ namespace ProjectManagementApplication.Controllers
                     }
                 }
             }
-            else
+
+            UserStory us = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
+            foreach(IFormFile file in Files)
             {
+                us.Files.Add(file);
             }
+            _context.UserStorys.Update(us);
+            _context.SaveChanges();
 
             return Index(projectid, projectname);
         }
