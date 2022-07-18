@@ -22,6 +22,22 @@
         border: 0px;
         border-style: none;
     }
+
+    .dropzone {
+        display: none;
+        opacity: 0%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        z-index: -1;
+        transition: all 1s linear;
+    }
+
+    .showDrop {
+        display: flex;
+        opacity: 50%;
+    }
+
 </style>
 
 
@@ -70,47 +86,64 @@
 
 }
 <script>
+    function dragEnter(ev) {
+        document.getElementById(ev.target.id + "Dummy").classList.add("showDrop");
+    @{
+        foreach (Project project1 in activeProjects)
+        {
+
+
+        }
+    }
+
+
+                            }
+    function dragLeave(ev) {
+        document.getElementById(ev.target.id + "Dummy").classList.remove("showDrop");
+    }
+
+
     function allowDrop(ev) {
         ev.preventDefault();
+
     }
 
     function drag(ev, id) {
         ev.dataTransfer.setData("id", id);
+        console.log(ev.target.id);
         ev.dataTransfer.setData("projectItem", ev.target.id);
 
     }
 
-    function drop(ev) {
+    function drop(ev, tense) {
         var id = ev.dataTransfer.getData("id");
-        var divtoMove = ev.dataTransfer.getData("projectItem");
+        var divToMove = ev.dataTransfer.getData("projectItem");
+        console.log(divToMove);
 
         var data = {
-           str_projectId: id
-           tense: "future"
+            str_projectId: id,
+            tense: tense
         };
 
         $.ajax({
             type: "POST",
             url: "/project/ChangeTense",
             data: data,
-            success: function (msg) {
-                // Do something interesting here.
-                console.log(msg);
+            success: function(result) {
+                window.location.href = "../";
             }
         });
 
-        //$.get("/project/")
-
         ev.preventDefault();
-        
-        //ev.target.appendChild(document.getElementById(data));
+
     }
 </script>
 
-<div id="allProjects" class="mt-2 d-grid gap-3">
-    <div id="currentProjects" class="mt-2 d-grid gap-3" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <h3>Aktuelle Projekte</h3>
+<div id="allProjects" class="mt-2 mb-2 d-grid gap-3">
+    <div id="currentProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'active')" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+        <h3 style="z-index:-2;">Aktuelle Projekte</h3>
         @{
+
             foreach (Project project1 in activeProjects)
             {
                 string staticBackdropid = "id" + @project1.id;
@@ -158,363 +191,485 @@
                 if (rangeDaysAll > 0)
                 {
                     finishedTime = rangeDaysStartToFinished / rangeDaysAll * 100;
-                    
+
                     overdueTime = (rangeDaysStartToOverdue / rangeDaysAll * 100);
-                    
+
                     estimatedTime = (rangeDaysStartToCurrent / rangeDaysAll * 100);
-                    
+
 
                     finishedTimePercent = ("" + (finishedTime)).Replace(',', '.');
-                    
+
                     overdueTimePercent = ("" + (overdueTime)).Replace(',', '.');
-                    
+
                     estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
                 }
 
-
-
-            <div class="projectItem rounded-8" style="background-color: #EFEDED; display:flex">
-                <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                    <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
-                    <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                        <div class="progress-bar bg-success"
-                         role="progressbar"
-                         style="width: @(finishedTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                        <div class="progress-bar bg-danger"
-                         role="progressbar"
-                         style="width: @(overdueTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                        <div class="progress-bar bg-warning"
-                         role="progressbar"
-                         style="width: @(estimatedTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                    </div>
-
-                        </a>
-                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                            <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                EDIT
-                            </button>
-                        </form>
-
-                <button type="button" data-mdb-toggle="modal"
-                    data-mdb-target="@staticBackdropTarget"
-                    class="btn btn-link btn-lg h-100 me-3 align-self-end"
-                    data-mdb-ripple-color="dark"
-                    style="color:red">
-                    DELETE
-                </button>
-                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
-            </div>
-            <div class="modal fade"
-             id="@staticBackdropid"
-             data-mdb-backdrop="static"
-             data-mdb-keyboard="false"
-             tabindex="-1"
-             aria-labelledby="staticBackdropLabel"
-             aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                            <h5 class="modal-title">Wirklich Löschen?</h5>
+                <div class="projectItem rounded-8"
+                 id="@("projectItem"+project1.id)"
+                 style="background-color: #EFEDED; display:flex;"
+                 draggable="true" ondragstart="drag(event,@project1.id)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                            <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(finishedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(overdueTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: @(estimatedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
                         </div>
-                        <div class="modal-body d-flex justify-content-center">
-                            <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                        </div>
-                        <div class="modal-footer align-content-between d-flex justify-content-center">
-                            <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                            </form>
-                            <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    }
-    <h3>Zukünftige Projekte</h3>
-    @{
-        foreach (Project project1 in activeProjects)
-            {
-                string staticBackdropid = "id" + @project1.id;
-                string staticBackdropTarget = "#" + @staticBackdropid;
-                DateTime currentD = DateTime.Now;
 
-                double rangeDaysAll = 0;
-
-                double rangeDaysStartToFinished = 0;
-                double finishedTime = 0;
-
-                double rangeDaysStartToOverdue = 0;
-                double overdueTime = 0;
-
-                double rangeDaysStartToCurrent = 0;
-                double estimatedTime = 0;
-
-                foreach (UserStory story in ViewBag.UserStories)
-                {
-                    if (story.project_id == project1.id)
-                    {
-                        double difference = (story.endDate - story.startDate).TotalDays;
-
-                        rangeDaysAll += difference;
-
-                        if (story.state == 2)
-                        {
-                            rangeDaysStartToFinished += difference;
-                        }
-                        else if (story.endDate < currentD)
-                        {
-                            rangeDaysStartToOverdue += difference;
-                        }
-                        else if (story.startDate < currentD)
-                        {
-                            rangeDaysStartToCurrent = (currentD - story.startDate).TotalDays;
-                        }
-                    }
-                }
-
-                string estimatedTimePercent = "0";
-                string overdueTimePercent = "0";
-                string finishedTimePercent = "0";
-
-                if (rangeDaysAll > 0)
-                {
-                    finishedTime = rangeDaysStartToFinished / rangeDaysAll * 100;
-                    
-                    overdueTime = (rangeDaysStartToOverdue / rangeDaysAll * 100);
-                    
-                    estimatedTime = (rangeDaysStartToCurrent / rangeDaysAll * 100);
-                    
-
-                    finishedTimePercent = ("" + (finishedTime)).Replace(',', '.');
-                    
-                    overdueTimePercent = ("" + (overdueTime)).Replace(',', '.');
-                    
-                    estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
-                }
-
-            <div class="projectItem rounded-8" style="background-color: #EFEDED; display:flex">
-                <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                    <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
-                    <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                        <div class="progress-bar bg-success"
-                         role="progressbar"
-                         style="width: @(finishedTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                        <div class="progress-bar bg-danger"
-                         role="progressbar"
-                         style="width: @(overdueTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                        <div class="progress-bar bg-warning"
-                         role="progressbar"
-                         style="width: @(estimatedTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                    </div>
-
-                        </a>
-                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                            <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                EDIT
-                            </button>
-                        </form>
-
-                <button type="button" data-mdb-toggle="modal"
-                    data-mdb-target="@staticBackdropTarget"
-                    class="btn btn-link btn-lg h-100 me-3 align-self-end"
-                    data-mdb-ripple-color="dark"
-                    style="color:red">
-                    DELETE
-                </button>
-                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
-            </div>
-            <div class="modal fade"
-             id="@staticBackdropid"
-             data-mdb-backdrop="static"
-             data-mdb-keyboard="false"
-             tabindex="-1"
-             aria-labelledby="staticBackdropLabel"
-             aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                            <h5 class="modal-title">Wirklich Löschen?</h5>
-                        </div>
-                        <div class="modal-body d-flex justify-content-center">
-                            <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                        </div>
-                        <div class="modal-footer align-content-between d-flex justify-content-center">
-                            <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                            </form>
-                            <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    }
-    <h3>Vergangene Projekte</h3>
-    @{
-        foreach (Project project1 in activeProjects)
-            {
-                string staticBackdropid = "id" + @project1.id;
-                string staticBackdropTarget = "#" + @staticBackdropid;
-                DateTime currentD = DateTime.Now;
-
-                double rangeDaysAll = 0;
-
-                double rangeDaysStartToFinished = 0;
-                double finishedTime = 0;
-
-                double rangeDaysStartToOverdue = 0;
-                double overdueTime = 0;
-
-                double rangeDaysStartToCurrent = 0;
-                double estimatedTime = 0;
-
-                foreach (UserStory story in ViewBag.UserStories)
-                {
-                    if (story.project_id == project1.id)
-                    {
-                        double difference = (story.endDate - story.startDate).TotalDays;
-
-                        rangeDaysAll += difference;
-
-                        if (story.state == 2)
-                        {
-                            rangeDaysStartToFinished += difference;
-                        }
-                        else if (story.endDate < currentD)
-                        {
-                            rangeDaysStartToOverdue += difference;
-                        }
-                        else if (story.startDate < currentD)
-                        {
-                            rangeDaysStartToCurrent = (currentD - story.startDate).TotalDays;
-                        }
-                    }
-                }
-
-                string estimatedTimePercent = "0";
-                string overdueTimePercent = "0";
-                string finishedTimePercent = "0";
-
-                if (rangeDaysAll > 0)
-                {
-                    finishedTime = rangeDaysStartToFinished / rangeDaysAll * 100;
-                    
-                    overdueTime = (rangeDaysStartToOverdue / rangeDaysAll * 100);
-                    
-                    estimatedTime = (rangeDaysStartToCurrent / rangeDaysAll * 100);
-                    
-
-                    finishedTimePercent = ("" + (finishedTime)).Replace(',', '.');
-                    
-                    overdueTimePercent = ("" + (overdueTime)).Replace(',', '.');
-                    
-                    estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
-                }
-
-            <div class="projectItem rounded-8" style="background-color: #EFEDED; display:flex">
-                <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                    <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
-                    <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                        <div class="progress-bar bg-success"
-                         role="progressbar"
-                         style="width: @(finishedTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                        <div class="progress-bar bg-danger"
-                         role="progressbar"
-                         style="width: @(overdueTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                        <div class="progress-bar bg-warning"
-                         role="progressbar"
-                         style="width: @(estimatedTimePercent+"%");"
-                         aria-valuenow="0"
-                         aria-valuemin="0"
-                         aria-valuemax="100"></div>
-                    </div>
-
-                        </a>
-                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                            <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                EDIT
-                            </button>
-                        </form>
-
-                        <button type="button" data-mdb-toggle="modal"
-                            data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                    </a>
+                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                        <button type="submit"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
                             data-mdb-ripple-color="dark"
-                            style="color:red">
-                            DELETE
+                            style="color:#6750A4">
+                            EDIT
                         </button>
-                        <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
-                    </div>
-                    <div class="modal fade"
-                     id="@staticBackdropid"
-                     data-mdb-backdrop="static"
-                     data-mdb-keyboard="false"
-                     tabindex="-1"
-                     aria-labelledby="staticBackdropLabel"
-                     aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                    <h5 class="modal-title">Wirklich Löschen?</h5>
-                                </div>
-                                <div class="modal-body d-flex justify-content-center">
-                                    <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                                </div>
-                                <div class="modal-footer align-content-between d-flex justify-content-center">
-                                    <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                                    </form>
-                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
-                                </div>
+                    </form>
+
+                    <button type="button" data-mdb-toggle="modal"
+                        data-mdb-target="@staticBackdropTarget"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red">
+                        DELETE
+                    </button>
+                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+                </div>
+                <div class="modal fade"
+                 id="@staticBackdropid"
+                 data-mdb-backdrop="static"
+                 data-mdb-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel"
+                 aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            </div>
+                            <div class="modal-footer align-content-between d-flex justify-content-center">
+                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                </form>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
                             </div>
                         </div>
                     </div>
+                </div>
             }
         }
+        <div id="currentProjectsDummy" class="projectItem dropzone rounded-8" style="background-color: #EFEDED;">
+
+            <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%; opacity:0%">Dummy</h4>
+            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-info"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
+            <button type="submit"
+                    class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                    data-mdb-ripple-color="dark"
+                    style="color:#6750A4">
+                EDIT
+            </button>
+
+            <button type="button" data-mdb-toggle="modal"
+                    class="btn btn-link btn-lg h-100 align-self-end"
+                    data-mdb-ripple-color="dark"
+                    style="color:red">
+                DELETE
+            </button>
+            <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+        </div>
+    </div>
+    <div id="futureProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'future')" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+        <h3 style="z-index:-2;">Zukünftige Projekte</h3>
+        @{
+
+            foreach (Project project1 in futureProjects)
+            {
+                string staticBackdropid = "id" + @project1.id;
+                string staticBackdropTarget = "#" + @staticBackdropid;
+                DateTime currentD = DateTime.Now;
+
+                double rangeDaysAll = 0;
+
+                double rangeDaysStartToFinished = 0;
+                double finishedTime = 0;
+
+                double rangeDaysStartToOverdue = 0;
+                double overdueTime = 0;
+
+                double rangeDaysStartToCurrent = 0;
+                double estimatedTime = 0;
+
+                foreach (UserStory story in ViewBag.UserStories)
+                {
+                    if (story.project_id == project1.id)
+                    {
+                        double difference = (story.endDate - story.startDate).TotalDays;
+
+                        rangeDaysAll += difference;
+
+                        if (story.state == 2)
+                        {
+                            rangeDaysStartToFinished += difference;
+                        }
+                        else if (story.endDate < currentD)
+                        {
+                            rangeDaysStartToOverdue += difference;
+                        }
+                        else if (story.startDate < currentD)
+                        {
+                            rangeDaysStartToCurrent = (currentD - story.startDate).TotalDays;
+                        }
+                    }
+                }
+
+                string estimatedTimePercent = "0";
+                string overdueTimePercent = "0";
+                string finishedTimePercent = "0";
+
+                if (rangeDaysAll > 0)
+                {
+                    finishedTime = rangeDaysStartToFinished / rangeDaysAll * 100;
+
+                    overdueTime = (rangeDaysStartToOverdue / rangeDaysAll * 100);
+
+                    estimatedTime = (rangeDaysStartToCurrent / rangeDaysAll * 100);
+
+
+                    finishedTimePercent = ("" + (finishedTime)).Replace(',', '.');
+
+                    overdueTimePercent = ("" + (overdueTime)).Replace(',', '.');
+
+                    estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
+                }
+
+
+                <div class="projectItem rounded-8"
+                 style="background-color: #EFEDED;display:flex"
+                 draggable="true" ondragstart="drag(event,@project1.id)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                            <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(finishedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(overdueTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: @(estimatedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                        </div>
+
+                    </a>
+                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                        <button type="submit"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:#6750A4">
+                            EDIT
+                        </button>
+                    </form>
+
+                    <button type="button" data-mdb-toggle="modal"
+                        data-mdb-target="@staticBackdropTarget"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red">
+                        DELETE
+                    </button>
+                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+                </div>
+                <div class="modal fade"
+                 id="@staticBackdropid"
+                 data-mdb-backdrop="static"
+                 data-mdb-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel"
+                 aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            </div>
+                            <div class="modal-footer align-content-between d-flex justify-content-center">
+                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                </form>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div id="futureProjectsDummy" class="projectItem dropzone rounded-8" style="background-color: #EFEDED">
+
+            <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
+            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-info"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
+            <button type="submit"
+                    class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                    data-mdb-ripple-color="dark"
+                    style="color:#6750A4">
+                EDIT
+            </button>
+
+            <button type="button" data-mdb-toggle="modal"
+                    class="btn btn-link btn-lg h-100 align-self-end"
+                    data-mdb-ripple-color="dark"
+                    style="color:red">
+                DELETE
+            </button>
+            <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+        </div>
+    </div>
+    <div id="pastProjects"
+         class="mt-2 d-grid gap-3"
+         ondrop="drop(event,'past')"
+         ondragover="allowDrop(event)"
+         ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
+        <h3 style="z-index:-3;">Vergangene Projekte</h3>
+        @{
+
+            foreach (Project project1 in pastProjects)
+            {
+                string staticBackdropid = "id" + @project1.id;
+                string staticBackdropTarget = "#" + @staticBackdropid;
+                DateTime currentD = DateTime.Now;
+
+                double rangeDaysAll = 0;
+
+                double rangeDaysStartToFinished = 0;
+                double finishedTime = 0;
+
+                double rangeDaysStartToOverdue = 0;
+                double overdueTime = 0;
+
+                double rangeDaysStartToCurrent = 0;
+                double estimatedTime = 0;
+
+                foreach (UserStory story in ViewBag.UserStories)
+                {
+                    if (story.project_id == project1.id)
+                    {
+                        double difference = (story.endDate - story.startDate).TotalDays;
+
+                        rangeDaysAll += difference;
+
+                        if (story.state == 2)
+                        {
+                            rangeDaysStartToFinished += difference;
+                        }
+                        else if (story.endDate < currentD)
+                        {
+                            rangeDaysStartToOverdue += difference;
+                        }
+                        else if (story.startDate < currentD)
+                        {
+                            rangeDaysStartToCurrent = (currentD - story.startDate).TotalDays;
+                        }
+                    }
+                }
+
+                string estimatedTimePercent = "0";
+                string overdueTimePercent = "0";
+                string finishedTimePercent = "0";
+
+                if (rangeDaysAll > 0)
+                {
+                    finishedTime = rangeDaysStartToFinished / rangeDaysAll * 100;
+
+                    overdueTime = (rangeDaysStartToOverdue / rangeDaysAll * 100);
+
+                    estimatedTime = (rangeDaysStartToCurrent / rangeDaysAll * 100);
+
+
+                    finishedTimePercent = ("" + (finishedTime)).Replace(',', '.');
+
+                    overdueTimePercent = ("" + (overdueTime)).Replace(',', '.');
+
+                    estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
+                }
+
+                <div class="projectItem rounded-8"
+                 style="background-color: #EFEDED;display:flex"
+                 draggable="true"
+                 ondragstart="drag(event,@project1.id)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                            <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(finishedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(overdueTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: @(estimatedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                        </div>
+
+                    </a>
+                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                        <button type="submit"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:#6750A4">
+                            EDIT
+                        </button>
+                    </form>
+
+                    <button type="button" data-mdb-toggle="modal"
+                        data-mdb-target="@staticBackdropTarget"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red">
+                        DELETE
+                    </button>
+                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+                </div>
+                <div class="modal fade"
+                 id="@staticBackdropid"
+                 data-mdb-backdrop="static"
+                 data-mdb-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel"
+                 aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            </div>
+                            <div class="modal-footer align-content-between d-flex justify-content-center">
+                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                </form>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div id="pastProjectsDummy" class="projectItem dropzone rounded-8" style="background-color: #EFEDED">
+
+            <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
+            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+                <div class="progress-bar bg-info"
+                     role="progressbar"
+                     style="width: 0%;"
+                     aria-valuenow="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"></div>
+            </div>
+            <button type="submit"
+                    class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                    data-mdb-ripple-color="dark"
+                    style="color:#6750A4">
+                EDIT
+            </button>
+
+            <button type="button" data-mdb-toggle="modal"
+                    class="btn btn-link btn-lg h-100 align-self-end"
+                    data-mdb-ripple-color="dark"
+                    style="color:red">
+                DELETE
+            </button>
+            <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+        </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
 
 
 <!--
@@ -541,24 +696,24 @@
     foreach (Project project1 in activeProjects)
     {
         <li class="bermia">
-            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
-            <form asp-action="">
-                <a>Mitarbeiter</a>
-            </form>
-            <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                <button onclick="" type="submit" class="projectEditButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                    </svg>
-                </button>
-            </form>
-            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
-                <button type="submit" class="projectDeleteButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                    </svg>
-                 </button>
-            </form>
+                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                                            <form asp-action="">
+                                                                <a>Mitarbeiter</a>
+                                                            </form>
+                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                                                                <button onclick="" type="submit" class="projectEditButton">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </form>
+                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
+                                                                <button type="submit" class="projectDeleteButton">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                    </svg>
+                                                                 </button>
+                                                            </form>
         </li>
     }
 }
@@ -576,21 +731,21 @@
     foreach (Project project1 in futureProjects)
     {
         <li class="bermia">
-                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
-                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                                                                                                                <button type="submit" class="projectEditButton">
-                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                                                                    </svg>
-                                                                                                                </button>
-                                                                                                            </form>
-                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
-                                                                                                                <button type="submit" class="projectDeleteButton">
-                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                                                                    </svg>
-                                                                                                                </button>
-                                                                                                            </form>
+                                                                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                                                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                                                                                                                                                                <button type="submit" class="projectEditButton">
+                                                                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                                                                                                    </svg>
+                                                                                                                                                                </button>
+                                                                                                                                                            </form>
+                                                                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
+                                                                                                                                                                <button type="submit" class="projectDeleteButton">
+                                                                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                                                                                                                    </svg>
+                                                                                                                                                                </button>
+                                                                                                                                                            </form>
         </li>
     }
 }
@@ -610,21 +765,21 @@
     foreach (Project project1 in pastProjects)
     {
         <li class="bermia">
-                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
-                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                                                                                                                <button type="submit" class="projectEditButton">
-                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                                                                    </svg>
-                                                                                                                </button>
-                                                                                                            </form>
-                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
-                                                                                                                <button type="submit" class="projectDeleteButton">
-                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                                                                    </svg>
-                                                                                                                </button>
-                                                                                                            </form>
+                                                                                                                                                            <a class="projectlist" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">@project1.projectName</a>
+                                                                                                                                                            <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                                                                                                                                                                <button type="submit" class="projectEditButton">
+                                                                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                                                                                                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                                                                                                                    </svg>
+                                                                                                                                                                </button>
+                                                                                                                                                            </form>
+                                                                                                                                                            <form asp-action="DeleteProject" asp-route-id="@project1.id" onclick="return confirm('Sind Sie sich sicher, dass sie dieses Projekt löschen möchten?')">
+                                                                                                                                                                <button type="submit" class="projectDeleteButton">
+                                                                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                                                                                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                                                                                                                    </svg>
+                                                                                                                                                                </button>
+                                                                                                                                                            </form>
         </li>
     }
 }

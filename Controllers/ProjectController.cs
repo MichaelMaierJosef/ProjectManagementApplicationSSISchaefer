@@ -118,8 +118,27 @@ namespace ProjectManagementApplication.Controllers
 
             return View("CreateEditProject", projectInDb);
         }
+        public IActionResult Create(int id)
+        {
 
-        
+            GetUserRoles(id);
+
+            if (id == 0)
+            {
+                return View("CreateProject");
+            }
+
+            var projectInDb = _context.Projects.Find(id);
+
+            if (projectInDb == null)
+            {
+                return NotFound();
+            }
+
+            return View("CreateProject", projectInDb);
+        }
+
+
 
 
         [HttpPost]
@@ -186,9 +205,12 @@ namespace ProjectManagementApplication.Controllers
 
             Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
 
-            _context.Projects.FromSqlRaw("");
+            project.tense = tense;
 
-            return Json(project);
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+
+            return Json(new { Url = "../" });
         }
     }
 }
