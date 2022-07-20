@@ -44,6 +44,8 @@
     }
 </style>
 
+<script type="text/javascript" src="~/js/createProject.js"></script>
+
 <nav id="linkState" class="me-auto p-2">
     <span>/</span>
     <a href="../" id="routeLink">Project</a>
@@ -100,7 +102,7 @@
                                         <i class="fas fa-times fa-2x"></i>
                                     </button>
                                     <h5 class="my-auto mx-1">@user.UserName</h5>
-                                    <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                                    <button type="button" onclick="deleteUser('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black bg-transparent btn-floating">
                                         <i class="fas fa-times fa-2x"></i>
                                     </button>
                                 </div>
@@ -113,7 +115,7 @@
                                         <i class="fas fa-times fa-2x"></i>
                                     </button>
                                     <h5 class="my-auto mx-1">@user.UserName</h5>
-                                    <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                                    <button type="button" onclick="deleteUser('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black bg-transparent btn-floating">
                                         <i class="fas fa-times fa-2x"></i>
                                     </button>
                                 </div>

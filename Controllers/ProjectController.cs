@@ -99,6 +99,14 @@ namespace ProjectManagementApplication.Controllers
 
         }
 
+        public void DeleteUser(string userId, int projectId)
+        {
+            ProjectUser pu = _context.ProjectUsers.Where(u => u.UserID == userId && u.ProjectID == projectId).FirstOrDefault();
+            _context.ProjectUsers.Remove(pu);
+            _context.SaveChanges();
+
+        }
+
         public IActionResult CreateEdit(int id)
         {
 
