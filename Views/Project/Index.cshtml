@@ -84,23 +84,24 @@
 
 </div>
 @{
-    List<Project> activeProjects = new List<Project>();
-    List<Project> pastProjects = new List<Project>();
-    List<Project> futureProjects = new List<Project>();
+    Dictionary<Project, int> activeProjects = new Dictionary<Project, int>();
+    Dictionary<Project, int> pastProjects = new Dictionary<Project, int>();
+    Dictionary<Project, int> futureProjects = new Dictionary<Project, int>();
 
-    foreach (Project project in ViewBag.Projects)
+
+    foreach (KeyValuePair<Project, int> entry in ViewBag.rightsProjects)
     {
-        if (project.tense.Equals("active"))
+        if (entry.Key.tense.Equals("active"))
         {
-            activeProjects.Add(project);
+            activeProjects.Add(entry.Key, entry.Value);
         }
-        else if (project.tense.Equals("future"))
+        else if (entry.Key.tense.Equals("future"))
         {
-            futureProjects.Add(project);
+            futureProjects.Add(entry.Key, entry.Value);
         }
         else
         {
-            pastProjects.Add(project);
+            pastProjects.Add(entry.Key, entry.Value);
         }
     }
 
@@ -177,9 +178,9 @@
     <div id="currentProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'active')" ondragover="allowDrop(event)" ondragenter="dragEnter('currentProjects')" ondragleave="dragLeave('currentProjects')">
         <h3 style="z-index:-2;">Aktuelle Projekte</h3>
         @{
-            foreach (Project project1 in activeProjects)
+            foreach (KeyValuePair<Project, int> project in activeProjects)
             {
-                string staticBackdropid = "id" + @project1.id;
+                string staticBackdropid = "id" + @project.Key.id;
                 string staticBackdropTarget = "#" + @staticBackdropid;
                 DateTime currentD = DateTime.Now;
 
@@ -196,7 +197,7 @@
 
                 foreach (UserStory story in ViewBag.UserStories)
                 {
-                    if (story.project_id == project1.id)
+                    if (story.project_id == @project.Key.id)
                     {
                         double difference = (story.endDate - story.startDate).TotalDays;
 
@@ -238,11 +239,11 @@
                 }
 
                 <div class="projectItem rounded-8"
-                 id="@("projectItem"+project1.id)"
+                 id="@("projectItem"+@project.Key.id)"
                  style="background-color: #EFEDED; display:flex;"
-                 draggable="true" ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
-                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                 draggable="true" ondragstart="drag(event,@project.Key.id)" ondragend="endDrag(event)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project.Key.projectName</h4>
                         <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
                             <div class="progress-bar bg-success"
                              role="progressbar"
@@ -265,22 +266,38 @@
                         </div>
 
                     </a>
-                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                        <button type="submit"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                            EDIT
-                        </button>
-                    </form>
+                    @{
+                        if (project.Value == 0)
+                        {
+                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    EDIT
+                                </button>
+                            </form>
 
-                    <button type="button" data-mdb-toggle="modal"
-                        data-mdb-target="@staticBackdropTarget"
-                        class="btn btn-link btn-lg h-100 align-self-end"
-                        data-mdb-ripple-color="dark"
-                        style="color:red">
-                        DELETE
-                    </button>
+                            <button type="button" data-mdb-toggle="modal"
+                            data-mdb-target="@staticBackdropTarget"
+                            class="btn btn-link btn-lg h-100 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:red">
+                                DELETE
+                            </button>
+                        }
+                        else
+                        {
+                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    INFO
+                                </button>
+                            </form>
+                        }
+                    }
                     <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
                 </div>
                 <div class="modal fade"
@@ -299,7 +316,7 @@
                                 <i class="fas fa-trash-alt fa-3x text-primary"></i>
                             </div>
                             <div class="modal-footer align-content-between d-flex justify-content-center">
-                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                <form asp-action="DeleteProject" asp-route-id="@project.Key.id">
                                     <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
                                 </form>
                                 <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
@@ -355,9 +372,9 @@
         <h3 style="z-index:-2;">Zukünftige Projekte</h3>
         @{
 
-            foreach (Project project1 in futureProjects)
+            foreach (KeyValuePair<Project, int> project in futureProjects)
             {
-                string staticBackdropid = "id" + @project1.id;
+                string staticBackdropid = "id" + @project.Key.id;
                 string staticBackdropTarget = "#" + @staticBackdropid;
                 DateTime currentD = DateTime.Now;
 
@@ -374,7 +391,7 @@
 
                 foreach (UserStory story in ViewBag.UserStories)
                 {
-                    if (story.project_id == project1.id)
+                    if (story.project_id == @project.Key.id)
                     {
                         double difference = (story.endDate - story.startDate).TotalDays;
 
@@ -417,11 +434,11 @@
 
 
                 <div class="projectItem rounded-8"
-                 id="@("projectItem"+project1.id)"
+                 id="@("projectItem"+@project.Key.id)"
                  style="background-color: #EFEDED;display:flex"
-                 draggable="true" ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
-                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                 draggable="true" ondragstart="drag(event,@project.Key.id)" ondragend="endDrag(event)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project.Key.projectName</h4>
                         <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
                             <div class="progress-bar bg-success"
                              role="progressbar"
@@ -444,22 +461,38 @@
                         </div>
 
                     </a>
-                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                        <button type="submit"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                            EDIT
-                        </button>
-                    </form>
+                    @{
+                        if (project.Value == 0)
+                        {
+                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    EDIT
+                                </button>
+                            </form>
 
-                    <button type="button" data-mdb-toggle="modal"
-                        data-mdb-target="@staticBackdropTarget"
-                        class="btn btn-link btn-lg h-100 align-self-end"
-                        data-mdb-ripple-color="dark"
-                        style="color:red">
-                        DELETE
-                    </button>
+                            <button type="button" data-mdb-toggle="modal"
+                            data-mdb-target="@staticBackdropTarget"
+                            class="btn btn-link btn-lg h-100 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:red">
+                                DELETE
+                            </button>
+                        }
+                        else
+                        {
+                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    INFO
+                                </button>
+                            </form>
+                        }
+                    }
                     <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
                 </div>
                 <div class="modal fade"
@@ -478,7 +511,7 @@
                                 <i class="fas fa-trash-alt fa-3x text-primary"></i>
                             </div>
                             <div class="modal-footer align-content-between d-flex justify-content-center">
-                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                <form asp-action="DeleteProject" asp-route-id="@project.Key.id">
                                     <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
                                 </form>
                                 <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
@@ -510,6 +543,7 @@
                          aria-valuemin="0"
                          aria-valuemax="100"></div>
                 </div>
+
                 <button type="button"
                         class="btn btn-link btn-lg h-100 ms-2 align-self-end"
                         data-mdb-ripple-color="dark"
@@ -523,22 +557,21 @@
                         style="color:red" disabled>
                     DELETE
                 </button>
+
                 <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
             </div>
         }
 
-
-
-
-
-
     </div>
+
+
+
     <div id="pastProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'past')" ondragover="allowDrop(event)" ondragenter="dragEnter('pastProjects')" ondragleave="dragLeave('pastProjects')">
         <h3 style="z-index:-3;">Vergangene Projekte</h3>
         @{
-            foreach (Project project1 in pastProjects)
+            foreach (KeyValuePair<Project, int> project in pastProjects)
             {
-                string staticBackdropid = "id" + @project1.id;
+                string staticBackdropid = "id" + @project.Key.id;
                 string staticBackdropTarget = "#" + @staticBackdropid;
                 DateTime currentD = DateTime.Now;
 
@@ -555,7 +588,7 @@
 
                 foreach (UserStory story in ViewBag.UserStories)
                 {
-                    if (story.project_id == project1.id)
+                    if (story.project_id == @project.Key.id)
                     {
                         double difference = (story.endDate - story.startDate).TotalDays;
 
@@ -597,12 +630,12 @@
                 }
 
                 <div class="projectItem rounded-8"
-                 id="@("projectItem"+project1.id)"
+                 id="@("projectItem"+@project.Key.id)"
                  style="background-color: #EFEDED;display:flex"
                  draggable="true"
-                 ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
-                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                 ondragstart="drag(event,@project.Key.id)" ondragend="endDrag(event)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project.Key.projectName</h4>
                         <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
                             <div class="progress-bar bg-success"
                              role="progressbar"
@@ -625,22 +658,38 @@
                         </div>
 
                     </a>
-                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                        <button type="submit"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                            EDIT
-                        </button>
-                    </form>
+                    @{
+                        if (project.Value == 0)
+                        {
+                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    EDIT
+                                </button>
+                            </form>
 
-                    <button type="button" data-mdb-toggle="modal"
-                        data-mdb-target="@staticBackdropTarget"
-                        class="btn btn-link btn-lg h-100 align-self-end"
-                        data-mdb-ripple-color="dark"
-                        style="color:red">
-                        DELETE
-                    </button>
+                            <button type="button" data-mdb-toggle="modal"
+                            data-mdb-target="@staticBackdropTarget"
+                            class="btn btn-link btn-lg h-100 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:red">
+                                DELETE
+                            </button>
+                        }
+                        else
+                        {
+                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    INFO
+                                </button>
+                            </form>
+                        }
+                    }
                     <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
                 </div>
                 <div class="modal fade"
@@ -659,7 +708,7 @@
                                 <i class="fas fa-trash-alt fa-3x text-primary"></i>
                             </div>
                             <div class="modal-footer align-content-between d-flex justify-content-center">
-                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                <form asp-action="DeleteProject" asp-route-id="@project.Key.id">
                                     <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
                                 </form>
                                 <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>

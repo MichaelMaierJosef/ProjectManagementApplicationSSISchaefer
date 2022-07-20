@@ -37,16 +37,31 @@ namespace ProjectManagementApplication.Controllers
             ViewBag.Projects = projectList;
             ViewBag.UserStories = storyList;
 
+            Dictionary<Project, int> rightsOfActualUser = new Dictionary<Project, int>();
+
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            foreach (Project project in projectList)
+            {
+                //int test = _context.ProjectUsers.Where(u => u.UserID == loggedInUserId).Select(u => u.Admin).FirstOrDefault();
+                if (_context.ProjectUsers.Any(u => u.UserID == loggedInUserId && u.ProjectID == project.id))
+                {
+                    rightsOfActualUser.Add(project, _context.ProjectUsers.Where(u => u.UserID == loggedInUserId).Select(u => u.Admin).FirstOrDefault());
+                }
+
+                ViewBag.rightsProjects = rightsOfActualUser;
+                
+            }
             return View();
         }
 
         //gets the UserRoles and all User
-        public Dictionary<IdentityUser,int> GetUserRoles(int projectId)
+        public Dictionary<IdentityUser, int> GetUserRoles(int projectId)
         {
 
             LoadUserFromProject(projectId);
 
-            foreach(IdentityUser user in usersFromProject)
+            foreach (IdentityUser user in usersFromProject)
             {
                 int adminRight = _context.ProjectUsers.Where(u => u.UserID == user.Id && u.ProjectID == projectId).Select(u => u.Admin).SingleOrDefault();
                 userRights.Add(user, adminRight);
@@ -57,7 +72,7 @@ namespace ProjectManagementApplication.Controllers
             ViewBag.UserRights = userRights;
             ViewBag.allUser = actualUser;
             ViewBag.ProjectID = projectId;
-            
+
             return userRights;
         }
 
@@ -163,7 +178,8 @@ namespace ProjectManagementApplication.Controllers
                 var projectUser = new ProjectUser(id, userID, 0);
 
                 _context.ProjectUsers.Add(projectUser);
-            } else
+            }
+            else
             {
                 _context.Projects.Update(project);
             }
