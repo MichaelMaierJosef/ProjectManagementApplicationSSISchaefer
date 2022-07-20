@@ -40,13 +40,32 @@
         opacity: 0%;
     }
 
+    #routeLink {
+        color: black;
+    }
+
+        #routeLink:hover {
+            color: blue;
+        }
+
+    #linkState {
+        font-size: 20px;
+    }
+
 </style>
 
 
 
 
-<div id="topNavigation" class="me-2 d-flex justify-content-end">
-    <div class="input-group w-25 rounded-8" style="background-color: #EFEDED;">
+<div id="topNavigation" class="d-flex">
+
+    <nav id="linkState" class="me-auto p-2">
+        <span>/</span>
+        <a class="text-reset">Project</a>
+
+    </nav>
+
+    <div class="input-group w-25 rounded-8 mb-4" style="background-color: #EFEDED;">
         <span class="input-group-text border-0" id="search-addon">
             <i class="fas fa-search"></i>
         </span>
@@ -218,115 +237,115 @@
                     estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
                 }
 
-                    <div class="projectItem rounded-8"
-                     id="@("projectItem"+project1.id)"
-                     style="background-color: #EFEDED; display:flex;"
-                     draggable="true" ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
-                        <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                            <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
-                            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                                <div class="progress-bar bg-success"
-                                 role="progressbar"
-                                 style="width: @(finishedTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                                <div class="progress-bar bg-danger"
-                                 role="progressbar"
-                                 style="width: @(overdueTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                                <div class="progress-bar bg-warning"
-                                 role="progressbar"
-                                 style="width: @(estimatedTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            </div>
+                <div class="projectItem rounded-8"
+                 id="@("projectItem"+project1.id)"
+                 style="background-color: #EFEDED; display:flex;"
+                 draggable="true" ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                            <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(finishedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(overdueTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: @(estimatedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                        </div>
 
-                        </a>
-                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                            <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                EDIT
-                            </button>
-                        </form>
-
-                        <button type="button" data-mdb-toggle="modal"
-                            data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                    </a>
+                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                        <button type="submit"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
                             data-mdb-ripple-color="dark"
-                            style="color:red">
-                            DELETE
+                            style="color:#6750A4">
+                            EDIT
                         </button>
-                        <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
-                    </div>
-                    <div class="modal fade"
-                     id="@staticBackdropid"
-                     data-mdb-backdrop="static"
-                     data-mdb-keyboard="false"
-                     tabindex="-1"
-                     aria-labelledby="staticBackdropLabel"
-                     aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                    <h5 class="modal-title">Wirklich Löschen?</h5>
-                                </div>
-                                <div class="modal-body d-flex justify-content-center">
-                                    <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                                </div>
-                                <div class="modal-footer align-content-between d-flex justify-content-center">
-                                    <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                                    </form>
-                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
-                                </div>
+                    </form>
+
+                    <button type="button" data-mdb-toggle="modal"
+                        data-mdb-target="@staticBackdropTarget"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red">
+                        DELETE
+                    </button>
+                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
+                </div>
+                <div class="modal fade"
+                 id="@staticBackdropid"
+                 data-mdb-backdrop="static"
+                 data-mdb-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel"
+                 aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            </div>
+                            <div class="modal-footer align-content-between d-flex justify-content-center">
+                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                </form>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
                             </div>
                         </div>
                     </div>
-            }
-                <div id="currentProjectsDummy" class="dropzone rounded-8 hideDrop" style="background-color: #EFEDED;display:flex">
-
-                    <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
-                    <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                        <div class="progress-bar"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        <div class="progress-bar bg-info"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                    </div>
-                    <button type="button"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4" disabled>
-                        EDIT
-                    </button>
-
-                    <button type="button"
-                            class="btn btn-link btn-lg h-100 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:red" disabled>
-                        DELETE
-                    </button>
-                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
                 </div>
+            }
+            <div id="currentProjectsDummy" class="dropzone rounded-8 hideDrop" style="background-color: #EFEDED;display:flex">
+
+                <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
+                <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                    <div class="progress-bar"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-info"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                </div>
+                <button type="button"
+                        class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:#6750A4" disabled>
+                    EDIT
+                </button>
+
+                <button type="button"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red" disabled>
+                    DELETE
+                </button>
+                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+            </div>
         }
 
 
@@ -397,115 +416,115 @@
                 }
 
 
-                    <div class="projectItem rounded-8"
-                     id="@("projectItem"+project1.id)"
-                     style="background-color: #EFEDED;display:flex"
-                     draggable="true" ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
-                        <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                            <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
-                            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                                <div class="progress-bar bg-success"
-                                 role="progressbar"
-                                 style="width: @(finishedTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                                <div class="progress-bar bg-danger"
-                                 role="progressbar"
-                                 style="width: @(overdueTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                                <div class="progress-bar bg-warning"
-                                 role="progressbar"
-                                 style="width: @(estimatedTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            </div>
+                <div class="projectItem rounded-8"
+                 id="@("projectItem"+project1.id)"
+                 style="background-color: #EFEDED;display:flex"
+                 draggable="true" ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                            <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(finishedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(overdueTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: @(estimatedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                        </div>
 
-                        </a>
-                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                            <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                EDIT
-                            </button>
-                        </form>
-
-                        <button type="button" data-mdb-toggle="modal"
-                            data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                    </a>
+                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                        <button type="submit"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
                             data-mdb-ripple-color="dark"
-                            style="color:red">
-                            DELETE
+                            style="color:#6750A4">
+                            EDIT
                         </button>
-                        <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
-                    </div>
-                    <div class="modal fade"
-                     id="@staticBackdropid"
-                     data-mdb-backdrop="static"
-                     data-mdb-keyboard="false"
-                     tabindex="-1"
-                     aria-labelledby="staticBackdropLabel"
-                     aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                    <h5 class="modal-title">Wirklich Löschen?</h5>
-                                </div>
-                                <div class="modal-body d-flex justify-content-center">
-                                    <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                                </div>
-                                <div class="modal-footer align-content-between d-flex justify-content-center">
-                                    <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                                    </form>
-                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
-                                </div>
+                    </form>
+
+                    <button type="button" data-mdb-toggle="modal"
+                        data-mdb-target="@staticBackdropTarget"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red">
+                        DELETE
+                    </button>
+                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
+                </div>
+                <div class="modal fade"
+                 id="@staticBackdropid"
+                 data-mdb-backdrop="static"
+                 data-mdb-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel"
+                 aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            </div>
+                            <div class="modal-footer align-content-between d-flex justify-content-center">
+                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                </form>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
                             </div>
                         </div>
                     </div>
-            }
-                <div id="futureProjectsDummy" class="dropzone rounded-8 hideDrop" style="background-color: #EFEDED;display:flex">
-
-                    <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
-                    <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                        <div class="progress-bar"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        <div class="progress-bar bg-info"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                    </div>
-                    <button type="button"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4" disabled>
-                        EDIT
-                    </button>
-
-                    <button type="button"
-                            class="btn btn-link btn-lg h-100 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:red" disabled>
-                        DELETE
-                    </button>
-                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
                 </div>
+            }
+            <div id="futureProjectsDummy" class="dropzone rounded-8 hideDrop" style="background-color: #EFEDED;display:flex">
+
+                <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
+                <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                    <div class="progress-bar"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-info"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                </div>
+                <button type="button"
+                        class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:#6750A4" disabled>
+                    EDIT
+                </button>
+
+                <button type="button"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red" disabled>
+                    DELETE
+                </button>
+                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+            </div>
         }
 
 
@@ -577,116 +596,116 @@
                     estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
                 }
 
-                    <div class="projectItem rounded-8"
-                     id="@("projectItem"+project1.id)"
-                     style="background-color: #EFEDED;display:flex"
-                     draggable="true"
-                     ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
-                        <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
-                            <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
-                            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                                <div class="progress-bar bg-success"
-                                 role="progressbar"
-                                 style="width: @(finishedTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                                <div class="progress-bar bg-danger"
-                                 role="progressbar"
-                                 style="width: @(overdueTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                                <div class="progress-bar bg-warning"
-                                 role="progressbar"
-                                 style="width: @(estimatedTimePercent+"%");"
-                                 aria-valuenow="0"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            </div>
+                <div class="projectItem rounded-8"
+                 id="@("projectItem"+project1.id)"
+                 style="background-color: #EFEDED;display:flex"
+                 draggable="true"
+                 ondragstart="drag(event,@project1.id)" ondragend="endDrag(event)">
+                    <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project1.id" asp-route-projectName="@project1.projectName" asp-controller="UserStory">
+                        <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project1.projectName</h4>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                            <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: @(finishedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger"
+                             role="progressbar"
+                             style="width: @(overdueTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             role="progressbar"
+                             style="width: @(estimatedTimePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                        </div>
 
-                        </a>
-                        <form asp-action="CreateEdit" asp-route-id="@project1.id">
-                            <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                EDIT
-                            </button>
-                        </form>
-
-                        <button type="button" data-mdb-toggle="modal"
-                            data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                    </a>
+                    <form asp-action="CreateEdit" asp-route-id="@project1.id">
+                        <button type="submit"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
                             data-mdb-ripple-color="dark"
-                            style="color:red">
-                            DELETE
+                            style="color:#6750A4">
+                            EDIT
                         </button>
-                        <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
-                    </div>
-                    <div class="modal fade"
-                     id="@staticBackdropid"
-                     data-mdb-backdrop="static"
-                     data-mdb-keyboard="false"
-                     tabindex="-1"
-                     aria-labelledby="staticBackdropLabel"
-                     aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                    <h5 class="modal-title">Wirklich Löschen?</h5>
-                                </div>
-                                <div class="modal-body d-flex justify-content-center">
-                                    <i class="fas fa-trash-alt fa-3x text-primary"></i>
-                                </div>
-                                <div class="modal-footer align-content-between d-flex justify-content-center">
-                                    <form asp-action="DeleteProject" asp-route-id="@project1.id">
-                                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                                    </form>
-                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
-                                </div>
+                    </form>
+
+                    <button type="button" data-mdb-toggle="modal"
+                        data-mdb-target="@staticBackdropTarget"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red">
+                        DELETE
+                    </button>
+                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
+                </div>
+                <div class="modal fade"
+                 id="@staticBackdropid"
+                 data-mdb-backdrop="static"
+                 data-mdb-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel"
+                 aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            </div>
+                            <div class="modal-footer align-content-between d-flex justify-content-center">
+                                <form asp-action="DeleteProject" asp-route-id="@project1.id">
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                </form>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
                             </div>
                         </div>
                     </div>
-            }
-                <div id="pastProjectsDummy" class="dropzone rounded-8 hideDrop" style="background-color: #EFEDED;display:flex">
-
-                    <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
-                    <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                        <div class="progress-bar"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        <div class="progress-bar bg-info"
-                             role="progressbar"
-                             style="width: 0%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                    </div>
-                    <button type="button"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4" disabled>
-                        EDIT
-                    </button>
-
-                    <button type="button"
-                            class="btn btn-link btn-lg h-100 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:red" disabled>
-                        DELETE
-                    </button>
-                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
                 </div>
+            }
+            <div id="pastProjectsDummy" class="dropzone rounded-8 hideDrop" style="background-color: #EFEDED;display:flex">
+
+                <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:17%;opacity:0%">Dummy</h4>
+                <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
+                    <div class="progress-bar"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-info"
+                         role="progressbar"
+                         style="width: 0%;"
+                         aria-valuenow="0"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                </div>
+                <button type="button"
+                        class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:#6750A4" disabled>
+                    EDIT
+                </button>
+
+                <button type="button"
+                        class="btn btn-link btn-lg h-100 align-self-end"
+                        data-mdb-ripple-color="dark"
+                        style="color:red" disabled>
+                    DELETE
+                </button>
+                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
+            </div>
         }
 
     </div>
