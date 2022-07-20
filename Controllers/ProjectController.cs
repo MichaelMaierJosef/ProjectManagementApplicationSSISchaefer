@@ -48,10 +48,9 @@ namespace ProjectManagementApplication.Controllers
                 {
                     rightsOfActualUser.Add(project, _context.ProjectUsers.Where(u => u.UserID == loggedInUserId).Select(u => u.Admin).FirstOrDefault());
                 }
-
-                ViewBag.rightsProjects = rightsOfActualUser;
                 
             }
+            ViewBag.rightsProjects = rightsOfActualUser;
             return View();
         }
 
