@@ -10,7 +10,7 @@ using ProjectManagementApplication.Data;
 namespace ProjectManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220714135558_addedProjectManagementApplicationDbSet")]
+    [Migration("20220721092516_addedProjectManagementApplicationDbSet")]
     partial class addedProjectManagementApplicationDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace ProjectManagementApplication.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.12")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -230,6 +230,9 @@ namespace ProjectManagementApplication.Migrations
 
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("difficulty")
+                        .HasColumnType("int");
 
                     b.Property<string>("projectName")
                         .HasColumnType("nvarchar(max)");

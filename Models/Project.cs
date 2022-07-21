@@ -14,5 +14,7 @@ namespace ProjectManagementApplication.Models
         public String tense { get; set; }
 
         public String description { get; set; }
+
+        public int difficulty { get; set; }
     }
 }
