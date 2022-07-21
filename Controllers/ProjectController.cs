@@ -43,13 +43,12 @@ namespace ProjectManagementApplication.Controllers
 
             foreach (Project project in projectList)
             {
-                //int test = _context.ProjectUsers.Where(u => u.UserID == loggedInUserId).Select(u => u.Admin).FirstOrDefault();
                 if (_context.ProjectUsers.Any(u => u.UserID == loggedInUserId && u.ProjectID == project.id))
                 {
                     rightsOfActualUser.Add(project, _context.ProjectUsers.Where(u => u.UserID == loggedInUserId).Select(u => u.Admin).FirstOrDefault());
                 }
-                
             }
+
             ViewBag.rightsProjects = rightsOfActualUser;
             return View();
         }
@@ -60,16 +59,16 @@ namespace ProjectManagementApplication.Controllers
 
             LoadUserFromProject(projectId);
 
+            LoadActiveUser();
+
             foreach (IdentityUser user in usersFromProject)
             {
                 int adminRight = _context.ProjectUsers.Where(u => u.UserID == user.Id && u.ProjectID == projectId).Select(u => u.Admin).SingleOrDefault();
                 userRights.Add(user, adminRight);
             }
 
-            LoadActiveUser();
 
             ViewBag.UserRights = userRights;
-            ViewBag.allUser = actualUser;
             ViewBag.ProjectID = projectId;
 
             return userRights;
@@ -79,7 +78,7 @@ namespace ProjectManagementApplication.Controllers
         {
             IdentityUser user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
 
-            userRights.Add(user, 0);
+            userRights.Add(user, 1);
 
             Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
             ProjectUser pUser = new ProjectUser(projectId, user.Id, 1);
@@ -91,6 +90,26 @@ namespace ProjectManagementApplication.Controllers
             LoadActiveUser();
 
             return RedirectToAction("CreateEdit", new { id = projectId });
+        }
+
+        public void CreateUserRoles(int projectId, string[] checkedElements)
+        {
+            List<IdentityUser> users = new List<IdentityUser>();
+
+            foreach (string element in checkedElements) {
+                IdentityUser user = _context.Users.Where(u => u.Id == element).FirstOrDefault();
+                users.Add(user);
+                userRights.Add(user, 1);
+                Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+                ProjectUser pUser = new ProjectUser(projectId, user.Id, 1);
+                _context.ProjectUsers.Add(pUser);
+            }
+
+            _context.SaveChanges();
+
+            LoadUserFromProject(projectId);
+            LoadActiveUser();
+
         }
 
         public void LoadUserFromProject(int projectId)
@@ -109,10 +128,15 @@ namespace ProjectManagementApplication.Controllers
             var allUser = _context.Users.FromSqlRaw("SELECT * FROM dbo.AspNetUsers").ToList();
             userList = allUser;
 
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            IdentityUser user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+            userList.Remove(user);
             actualUser = userList.Except(usersFromProject).ToList();
+            ViewBag.allUser = actualUser;
 
         }
 
+        //DeleteUser
         public void DeleteUser(string userId, int projectId)
         {
             ProjectUser pu = _context.ProjectUsers.Where(u => u.UserID == userId && u.ProjectID == projectId).FirstOrDefault();
@@ -121,46 +145,77 @@ namespace ProjectManagementApplication.Controllers
 
         }
 
+        //EditProject
         public IActionResult CreateEdit(int id)
         {
 
             GetUserRoles(id);
 
-            if (id == 0)
-            {
-                return View("CreateEditProject");
-            }
-
             var projectInDb = _context.Projects.Find(id);
-
             if (projectInDb == null)
             {
                 return NotFound();
             }
-
             return View("CreateEditProject", projectInDb);
         }
-        public IActionResult Create(int id)
+
+        //EntityCreate
+        public IActionResult Create()
         {
+            Project project = new Project("", "", "");
+            _context.Projects.Add(project);
+            _context.SaveChanges();
+            ViewBag.projectIdNew = project.id;
 
-            GetUserRoles(id);
-
-            if (id == 0)
-            {
-                return View("CreateProject");
-            }
-
-            var projectInDb = _context.Projects.Find(id);
-
-            if (projectInDb == null)
-            {
-                return NotFound();
-            }
-
-            return View("CreateProject", projectInDb);
+            return View("CreateProject");
         }
+        //CreateNamePage
+        public IActionResult CreateName(int projectId, String projectName)
+        {
+            Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+            project.projectName = projectName;
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+            ViewBag.projectIdNew = project.id;
 
 
+            return View("CreateProjectTime");
+        }
+        //CreateTimePage
+        public IActionResult CreateTime(int projectId, String tense)
+        {
+            Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+            project.tense = tense;
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+            ViewBag.projectIdNew = project.id;
+
+            return View("CreateProjectDescription");
+        }
+        //CreateDescriptionPage
+        public IActionResult CreateDescripiton(int projectId, String description)
+        {
+            IdentityUser user = _context.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+            Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
+            if (project.description == "")
+            {
+                project.description = description;
+                _context.Projects.Update(project);
+            }
+            ProjectUser pu = new ProjectUser(projectId, user.Id, 0);
+            ProjectUser helpUser = _context.ProjectUsers.Where(u => u.ProjectID == projectId && u.UserID == user.Id).FirstOrDefault();
+            if (!_context.ProjectUsers.Contains(helpUser))
+            {
+                _context.ProjectUsers.Add(pu);
+            }
+            _context.SaveChanges();
+            usersFromProject.Remove(user);
+            ViewBag.projectIdNew = project.id;
+
+            GetUserRoles(projectId);
+
+            return View("CreateProjectAddUser");
+        }
 
 
         [HttpPost]
@@ -198,10 +253,14 @@ namespace ProjectManagementApplication.Controllers
             {
                 return NotFound();
             }
-
+            List<ProjectUser> pu = new List<ProjectUser>();
+            foreach(ProjectUser projectUser in _context.ProjectUsers.Where(u => u.ProjectID == id))
+            {
+                pu.Add(projectUser);
+            }
+            _context.ProjectUsers.RemoveRange(pu);
             _context.Projects.Remove(projectInDb);
             _context.SaveChanges();
-
             try
             {
                 var dir = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + id));
@@ -212,7 +271,6 @@ namespace ProjectManagementApplication.Controllers
             {
                 Console.Write(ex);
             }
-
             return RedirectToAction("Index");
         }
 

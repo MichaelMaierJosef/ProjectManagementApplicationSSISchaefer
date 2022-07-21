@@ -1,0 +1,189 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ProjectManagementApplication.Models.Project
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<script type="text/javascript" src="~/js/createProject.js"></script>
+
+<style>
+    .employee i {
+        opacity: 0%;
+        transition: opacity .5s;
+    }
+
+        .employee i:hover {
+            opacity: 100%
+        }
+
+    .employee {
+        background-color: #EFE407;
+    }
+
+    .admin {
+        background-color: firebrick;
+    }
+
+        .admin i {
+            opacity: 0%;
+            transition: opacity .5s;
+        }
+
+            .admin i:hover {
+                opacity: 100%
+            }
+</style>
+
+<div class="container mx-auto mt-5">
+
+
+    <h4 class="my-3">
+        Schritt 4 von 4
+    </h4>
+
+    <div class="progress my-3">
+        <div class="progress-bar" role="progressbar" style="width: 100%; background-color:#3f27ba" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+
+    <h4 class="my-auto me-3 mt-3">Mitarbeiter:</h4>
+    <div id="employeeList" class="d-flex my-2 mx-2">
+        @{
+            List<IdentityUser> projectAdmins = new List<IdentityUser>();
+            List<IdentityUser> projectWorker = new List<IdentityUser>();
+
+            if (ViewBag.UserRights != null)
+            {
+                foreach (KeyValuePair<IdentityUser, int> entry in ViewBag.UserRights)
+                {
+                    if (entry.Value == 0)
+                    {
+                        projectAdmins.Add(entry.Key);
+                    }
+                    if (entry.Value == 1)
+                    {
+                        projectWorker.Add(entry.Key);
+                    }
+                }
+            }
+
+            foreach (IdentityUser user in projectAdmins)
+            {
+                <div id="@user.Id" class="admin d-flex justify-content-around rounded-8 mx-1 my-auto">
+                    <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+                    <h5 class="my-auto mx-1">@user.UserName</h5>
+                    <button type="button" onclick="deleteUser('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black bg-transparent btn-floating" disabled>
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+                </div>
+            }
+
+            foreach (IdentityUser user in projectWorker)
+            {
+                <div id="@user.Id" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
+                    <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+                    <h5 class="my-auto mx-1">@user.UserName</h5>
+                    <button type="button" onclick="deleteUser('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black bg-transparent btn-floating">
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+                </div>
+            }
+
+        }
+        <button type="button" data-mdb-toggle="modal" data-mdb-target="#projectMitarbeiterModal" class="btn btn-link text-black btn-floating">
+            <i class="fas fa-plus fa-2x"></i>
+        </button>
+
+
+    </div>
+
+
+</div>
+
+<div class="d-flex justify-content-center mt-4 mx-auto">
+    <button type="button"
+            onclick="cancelCreate(@ViewBag.projectIdNew)"
+            class="btn btn-lg h-100 mx-5 align-self-end"
+            data-mdb-ripple-color="dark"
+            style="background-color: #EFEDED">
+        ABBRECHEN
+    </button>
+
+    <form asp-action="Index" method="post">
+        <button type="submit"
+                class="btn btn-lg h-100 mx-5 align-self-end"
+                data-mdb-ripple-color="dark"
+                style="background-color: #EFE407">
+            weiter
+        </button>
+    </form>
+</div>
+
+
+<div class="modal fade"
+     id="projectMitarbeiterModal"
+     data-mdb-backdrop="static"
+     data-mdb-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <h4>Mitarbeiter Hinzufügen</h4>
+                    @{
+                        List<IdentityUser> projectAllUser = new List<IdentityUser>();
+                        projectAllUser = ViewBag.allUser;
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Mitarbeiter</th>
+                                    <th>Hinzufügen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (ViewBag.allUser != null)
+                                    {
+                                        foreach (IdentityUser user in projectAllUser)
+                                        {
+                                            <tr>
+                                                <th>@user.UserName</th>
+                                                <th>
+
+                                                    <!--<button type="button" onclick="createRoles('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black btn-floating">
+                                                        <i class="fas fa-plus fa-2x"></i>
+                                                    </button> -->
+                                                    <input class="form-check-input" name="userCheckbox" type="checkbox" id="@user.Id" value="" aria-label="..." />
+                                                </th>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    <button type="button" onclick="checkCheckedUser(@ViewBag.ProjectID)" class="btn btn-dark" data-mdb-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+                <div class="align-self-end d-flex my-2">
+                <h4 class="my-auto me-3">Projektart:</h4>
+                <select id="" class="select form-control form-control-lg me-2" asp-for="tense" checked>
+                    <option value="active">Aktuell</option>
+                    <option value="future">Zukünftig</option>
+                    <option value="past">Vergangen</option>
+                </select>
+            </div>
+-->
