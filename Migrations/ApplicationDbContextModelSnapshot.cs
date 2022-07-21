@@ -232,6 +232,9 @@ namespace ProjectManagementApplication.Migrations
                     b.Property<int>("difficulty")
                         .HasColumnType("int");
 
+                    b.Property<int>("difficultyEstimated")
+                        .HasColumnType("int");
+
                     b.Property<string>("projectName")
                         .HasColumnType("nvarchar(max)");
 

@@ -55,7 +55,8 @@ namespace ProjectManagementApplication.Migrations
                     projectName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     tense = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    difficulty = table.Column<int>(type: "int", nullable: false)
+                    difficulty = table.Column<int>(type: "int", nullable: false),
+                    difficultyEstimated = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -10,7 +10,7 @@ using ProjectManagementApplication.Data;
 namespace ProjectManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220721092516_addedProjectManagementApplicationDbSet")]
+    [Migration("20220721110753_addedProjectManagementApplicationDbSet")]
     partial class addedProjectManagementApplicationDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,6 +232,9 @@ namespace ProjectManagementApplication.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("difficulty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("difficultyEstimated")
                         .HasColumnType("int");
 
                     b.Property<string>("projectName")
