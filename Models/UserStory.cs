@@ -15,8 +15,6 @@ namespace ProjectManagementApplication.Models
         public int storyNumber { get; set; }
         public int project_id { get; set; }
         public String name { get; set; }
-        public String descriptionTitle { get; set; }
-        public String imageURLs { get; set; }
         public String description { get; set; }
         public int state {get; set; }
         public DateTime startDate { get; set; }
