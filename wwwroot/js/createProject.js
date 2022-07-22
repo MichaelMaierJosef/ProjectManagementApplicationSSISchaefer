@@ -9,8 +9,12 @@
         type: "POST",
         url: "/project/DeleteUser",
         data: data,
-        success: function () {
-            window.location.href = window.location.href;
+        success: function (anz) {
+            if (anz == 2) {
+                window.location.href = window.location.href;
+            } else {
+                alert("Es gibt nur einen ProjektLeiter. Mache zuerst jemand anderen zum Leiter");
+            }
         }
     });
 
@@ -31,7 +35,7 @@ function cancelCreate(projectId) {
     });
 }
 
-function createRoles(userId, projectId) {
+/*function createRoles(userId, projectId) {
     var data = {
         userId: userId,
         projectId: projectId
@@ -45,7 +49,7 @@ function createRoles(userId, projectId) {
             window.location.href = window.location.href;
         }
     });
-}
+}*/
 
 function editUserRoles(userId, projectId) {
     var data = {
@@ -57,7 +61,7 @@ function editUserRoles(userId, projectId) {
         type: "POST",
         url: "/project/EditUserRoles",
         data: data,
-        success: function () {     
+        success: function () {
             window.location.href = window.location.href;
 
         }
@@ -90,5 +94,34 @@ function checkCheckedUser(projectId) {
             window.location.href = window.location.href;
         }
     });
+
+}
+
+var uId;
+var pId;
+
+function setValues(userId, projectId) {
+    uId = userId;
+    pId = projectId;
+}
+
+function makeAdmin() {
+
+    var data = {
+        userId: uId,
+        projectId: pId
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/project/MakeAdmin",
+        data: data,
+        success: function () {
+            window.location.href = window.location.href;
+        }
+    });
+}
+
+function userInfo(prId) {
 
 }
