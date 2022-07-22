@@ -50,8 +50,25 @@ namespace ProjectManagementApplication.Controllers
             }
 
             ViewBag.rightsProjects = rightsOfActualUser;
-            return View();
+            return View("Index");
         }
+
+
+
+
+        [HttpPost]
+        public IActionResult ChangeDifficult(int projectid, double DifficultyEstimated)
+        {
+            Project project = _context.Projects.Where(_u => _u.id == projectid).FirstOrDefault();
+            project.DifficultyEstimated = DifficultyEstimated; 
+            _context.Projects.Update(project);
+            _context.SaveChanges();
+            return Index();
+        }
+
+
+
+
 
         //gets the UserRoles and all User
         public Dictionary<IdentityUser, int> GetUserRoles(int projectId)
