@@ -19,6 +19,10 @@
     <!-- flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    <!-- the fileinput plugin styling CSS file -->
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/lib/kartik-v-bootstrap-fileinput/css/fileinput.css"/>
+
     <style>
         h3 {
             margin: 0;
@@ -188,9 +192,20 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <!-- flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         flatpickr(".datePicker", {});
     </script>
+
+    <!-- the fileinput plugin -->
+    <script type="text/javascript" src="~/lib/kartik-v-bootstrap-fileinput/js/plugins/buffer.min.js"></script>
+    <script type="text/javascript" src="~/lib/kartik-v-bootstrap-fileinput/js/plugins/filetype.min.js"></script>
+    <script type="text/javascript" src="~/lib/kartik-v-bootstrap-fileinput/js/plugins/piexif.min.js"></script>
+    <script type="text/javascript" src="~/lib/kartik-v-bootstrap-fileinput/js/plugins/sortable.min.js"></script>
+    <script type="text/javascript" src="~/lib/kartik-v-bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script type="text/javascript" src="~/lib/kartik-v-bootstrap-fileinput/themes/fa4/theme.js"></script>
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

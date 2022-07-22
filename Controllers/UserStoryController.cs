@@ -43,7 +43,7 @@ namespace ProjectManagementApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEditUserStory(UserStory story, int pid, string pname)
+        public IActionResult EditUserStory(UserStory story, int pid, string pname)
         {
             story.project_id = pid;
 
@@ -60,6 +60,25 @@ namespace ProjectManagementApplication.Controllers
 
             return RedirectToAction("Index", new { projectid = pid, projectName = pname });
         }
+
+        public IActionResult CreateUserStory(UserStory story, int pid, string pname)
+        {
+            story.project_id = pid;
+
+            if (story.id == 0)
+            {
+                _context.UserStorys.Add(story);
+            }
+            else
+            {
+                _context.UserStorys.Update(story);
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { projectid = pid, projectName = pname });
+        }
+
 
         public IActionResult DeleteStory(int id, int pid, string pname)
         {

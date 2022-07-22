@@ -33,13 +33,15 @@
                 opacity: 100%
             }
 
-    #routeLink{
-        color:black;
+    #routeLink {
+        color: black;
     }
-    #routeLink:hover{
-        color:blue;
-    }
-    #linkState{
+
+        #routeLink:hover {
+            color: blue;
+        }
+
+    #linkState {
         font-size: 20px;
     }
 </style>
@@ -95,28 +97,28 @@
 
                 foreach (IdentityUser user in projectAdmins)
                 {
-                                <div id="@user.Id" class="admin d-flex justify-content-around rounded-8 mx-1 my-auto">
-                                    <button type="submit" class="btn btn-link text-black btn-floating" disabled>
-                                        <i class="fas fa-times fa-2x"></i>
-                                    </button>
-                                    <h5 class="my-auto mx-1">@user.UserName</h5>
-                                    <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
-                                        <i class="fas fa-times fa-2x"></i>
-                                    </button>
-                                </div>
+                    <div id="@user.Id" class="admin d-flex justify-content-around rounded-8 mx-1 my-auto">
+                        <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                            <i class="fas fa-times fa-2x"></i>
+                        </button>
+                        <h5 class="my-auto mx-1">@user.UserName</h5>
+                        <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                            <i class="fas fa-times fa-2x"></i>
+                        </button>
+                    </div>
                 }
 
                 foreach (IdentityUser user in projectWorker)
                 {
-                                <div id="@user.Id" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
-                                    <button type="submit" class="btn btn-link text-black btn-floating" disabled>
-                                        <i class="fas fa-times fa-2x"></i>
-                                    </button>
-                                    <h5 class="my-auto mx-1">@user.UserName</h5>
-                                    <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
-                                        <i class="fas fa-times fa-2x"></i>
-                                    </button>
-                                </div>
+                    <div id="@user.Id" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
+                        <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                            <i class="fas fa-times fa-2x"></i>
+                        </button>
+                        <h5 class="my-auto mx-1">@user.UserName</h5>
+                        <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                            <i class="fas fa-times fa-2x"></i>
+                        </button>
+                    </div>
                 }
 
             }
@@ -150,10 +152,7 @@
                 SPEICHERN
             </button>
         </div>
-
     </form>
-
-
 </div>
 
 
@@ -172,35 +171,35 @@
                     @{
                         List<IdentityUser> projectAllUser = new List<IdentityUser>();
                         projectAllUser = ViewBag.allUser;
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Mitarbeiter</th>
-                                                <th>Hinzufügen</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Mitarbeiter</th>
+                                    <th>Hinzufügen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
                                     if (ViewBag.allUser != null)
                                     {
                                         foreach (IdentityUser user in projectAllUser)
                                         {
-                                                                    <tr>
-                                                                        <th>@user.UserName</th>
-                                                                        <th>
-                                      
-                                                                            <form method="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID">
-                                                                                <button type="submit" class="btn btn-link text-black btn-floating">
-                                                                                    <i class="fas fa-plus fa-2x"></i>
-                                                                                </button>
-                                                                            </form>
-                                                                        </th>
-                                                                    </tr>
+                                            <tr>
+                                                <th>@user.UserName</th>
+                                                <th>
+
+                                                    <form method="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID">
+                                                        <button type="submit" class="btn btn-link text-black btn-floating">
+                                                            <i class="fas fa-plus fa-2x"></i>
+                                                        </button>
+                                                    </form>
+                                                </th>
+                                            </tr>
                                         }
                                     }
-                                            }
-                                        </tbody>
-                                    </table>
+                                }
+                            </tbody>
+                        </table>
                     }
                     <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">OK</button>
                 </div>
