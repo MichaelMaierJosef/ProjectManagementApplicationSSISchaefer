@@ -56,7 +56,7 @@
                     <!-- Link -->
                     <li class="nav-item">
                         <div class="align-content-center">
-                            <h3 id="indicator">Projekte</h3>
+                            <h3 id="indicator">Projects</h3>
                         </div>
                     </li>
                 </ul>
@@ -72,7 +72,7 @@
                            aria-expanded="false">
                             <div class="d-flex flex-row text-end text-black">
                                 <i class="fas fa-caret-down my-auto me-2"></i>
-                                <h5 class="mb-0 me-2">Willkommen! <p class="mb-0"><strong>@User.Identity.Name</strong></p></h5>
+                                <h5 class="mb-0 me-2">Welcome! <p class="mb-0"><strong>@User.Identity.Name</strong></p></h5>
                                 <i class="fas fa-user-alt fa-3x"></i>
                             </div>
                         </a>
@@ -93,7 +93,7 @@
                                             data-mdb-target="#staticBackdrop"
                                             id="mailFormSubmit"
                                             class="nav-link btn btn-block btn-link text-dark">
-                                            Logout
+                                            Sign Out
                                             <i class="fas fa-sign-out-alt"></i>
                                         </button>
                                     }
@@ -120,10 +120,10 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalLabel">Wirklich Ausloggen?</h5>
+                    <i class="fas fa-sign-out-alt fa-3x"></i>
                 </div>
                 <div class="modal-body d-flex justify-content-center">
-                    <i class="fas fa-sign-out-alt fa-3x text-primary"></i>
+                    <h5 class="modal-title text-center text-black" id="exampleModalLabel">Are you sure you want to<br/> sign out?</h5>
                 </div>
                 <div class="modal-footer align-content-between d-flex justify-content-center">
                     <form id="logiout"
@@ -132,9 +132,9 @@
                           asp-page="/Account/Logout"
                           asp-route-returnUrl="@Url.Page("/", new { area = "" })"
                           method="post">
-                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                        <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Yes</button>
                     </form>
-                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">No</button>
                 </div>
             </div>
         </div>
