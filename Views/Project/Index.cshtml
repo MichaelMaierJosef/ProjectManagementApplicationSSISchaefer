@@ -1,7 +1,11 @@
+@using Microsoft.AspNetCore.Identity
+@model ProjectManagementApplication.Models.Project
+
 
 <script src="~/js/projectlist-script.js"></script>
 <!--<script type="text/javascript" src="~/js/story.js"></script>-->
 <script type="text/javascript" src="~/js/search.js"></script>
+<script type="text/javascript" src="~/js/createProject.js"></script>
 <meta charset="utf-8" />
 
 <style>
@@ -237,7 +241,7 @@
 
                     estimatedTimePercent = ("" + (estimatedTime)).Replace(',', '.');
                 }
-                
+
                 <div class="projectItem rounded-8"
                  id="@("projectItem"+@project.Key.id)"
                  style="background-color: #EFEDED; display:flex;"
@@ -288,14 +292,12 @@
                         }
                         else
                         {
-                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
-                                <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                    INFO
-                                </button>
-                            </form>
+                            <button type="button" onclick="userInfo(@project.Key.id)"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:#6750A4">
+                                INFO
+                            </button>
                         }
                     }
                     <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
@@ -482,14 +484,12 @@
                         }
                         else
                         {
-                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
-                                <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                    INFO
-                                </button>
-                            </form>
+                            <button type="button" onclick="userInfo(@project.Key.id)"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:#6750A4">
+                                INFO
+                            </button>
                         }
                     }
                     <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
@@ -679,14 +679,12 @@
                         }
                         else
                         {
-                            <form asp-action="CreateEdit" asp-route-id="@project.Key.id">
-                                <button type="submit"
-                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                                data-mdb-ripple-color="dark"
-                                style="color:#6750A4">
-                                    INFO
-                                </button>
-                            </form>
+                            <button type="button" onclick="userInfo(@project.Key.id)"
+                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                            data-mdb-ripple-color="dark"
+                            style="color:#6750A4">
+                                INFO
+                            </button>
                         }
                     }
                     <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
@@ -758,5 +756,4 @@
 
     </div>
 </div>
-
 

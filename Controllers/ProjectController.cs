@@ -137,11 +137,29 @@ namespace ProjectManagementApplication.Controllers
         }
 
         //DeleteUser
-        public void DeleteUser(string userId, int projectId)
+        public int DeleteUser(string userId, int projectId)
         {
             ProjectUser pu = _context.ProjectUsers.Where(u => u.UserID == userId && u.ProjectID == projectId).FirstOrDefault();
+
+            if(pu.Admin == 0)
+            {
+                string actualUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                IdentityUser user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+
+                if(pu.UserID == userId)
+                {
+                    int anzAdm = _context.ProjectUsers.Where(u => u.ProjectID == projectId && u.Admin == 0).Count();
+                    if(anzAdm == 1)
+                    {
+                        return 1;
+                    }
+                }
+            }
+
             _context.ProjectUsers.Remove(pu);
             _context.SaveChanges();
+
+            return 2;
 
         }
 
@@ -215,6 +233,14 @@ namespace ProjectManagementApplication.Controllers
             GetUserRoles(projectId);
 
             return View("CreateProjectAddUser");
+        }
+
+        public void MakeAdmin(string userId, int projectId)
+        {
+            ProjectUser pu = _context.ProjectUsers.Where(u => u.UserID == userId && u.ProjectID == projectId).FirstOrDefault();
+            pu.Admin = 0;
+            _context.ProjectUsers.Update(pu);
+            _context.SaveChanges();
         }
 
 
