@@ -48,8 +48,7 @@
                 {
                     <li id="dus0">
                         <div class="nameIcon">
-                            <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                                '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
+                            <div class="usc" onclick="showDetailMore('@userstory.id', '@userstory.description', '@userstory.name')">
                                 <div class="iconDiv">
                                     <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
                                 </div>
@@ -119,7 +118,7 @@
                     <div class="icon">
                         <i class="fas fa-images"></i>
                     </div>
-                    <span id="text" class="header">Drag & Drop</span></br>
+                    <span id="text" class="header">Drag & Drop</span><br>
                     <span class="support">Supports: JPEG, JPG, PNG</span>
                 </div>
             </div>
@@ -130,11 +129,8 @@
                     <input hidden id="storyId" type="text" asp-for="id" />
                     <input hidden id="usnameInp" type="text" asp-for="name" />
                     <input hidden id="storyState" type="text" asp-for="state" />
-                    <input hidden id="imgURLs" type="text" asp-for="imageURLs" />
-                    <input hidden id="storyNumber" type="text" asp-for="storyNumber" />
                     <h3><span id="des" class="material-icons-outlined">post_add</span>Beschreibung</h3>
                     <p id="descriptionP">
-                        <input asp-for="descriptionTitle" type="text" id="title">
                         <textarea asp-for="description" id="userStoryContent" type="text"></textarea>
                     </p>
                 </div>
@@ -149,13 +145,12 @@
         <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
             <div class="allTags">
                 <input hidden asp-for="id" />
-                <input hidden asp-for="descriptionTitle" value="Titel:" />
+               
                 <div onclick="hideDetailAdd()" class="close2">+</div>
                 <h2 id="addProjektTitle"></h2>
                 <h3>Titel: </h3>
                 <input asp-for="name" placeholder=" ... " type="text" />
                 <h3>Story Number: </h3>
-                <input asp-for="storyNumber" placeholder=" ... " type="number" />
                 <div id="addContainerDescription">
                     <h3>Beschreibung: </h3>
                     <textarea id="descriptionContent" asp-for="description" placeholder=" ... "></textarea>

@@ -176,7 +176,7 @@
 
 <div id="allProjects" class="mt-2 mb-2 d-grid gap-3">
     <div id="currentProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'active')" ondragover="allowDrop(event)" ondragenter="dragEnter('currentProjects')" ondragleave="dragLeave('currentProjects')">
-        <h3 style="z-index:-2;">Aktuelle Projekte</h3>
+        <h3 style="z-index:-2;">Current Projects</h3>
         @{
             foreach (KeyValuePair<Project, int> project in activeProjects)
             {
@@ -310,10 +310,10 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                                <i class="fas fa-trash-alt fa-3x"></i>
                             </div>
-                            <div class="modal-body d-flex justify-content-center">
-                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            <div class="modal-body d-flex justify-content-center text-black text-center">
+                                <h5 class="modal-title">Are you sure you want to<br/> delete the project?</h5>
                             </div>
                             <div class="modal-footer align-content-between d-flex justify-content-center">
                                 <form asp-action="DeleteProject" asp-route-id="@project.Key.id">
@@ -369,7 +369,7 @@
 
     </div>
     <div id="futureProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'future')" ondragover="allowDrop(event)" ondragenter="dragEnter('futureProjects')" ondragleave="dragLeave('futureProjects')">
-        <h3 style="z-index:-2;">Zukünftige Projekte</h3>
+        <h3 style="z-index:-2;">Future Projects</h3>
         @{
             foreach (KeyValuePair<Project, int> project in futureProjects)
             {
@@ -504,10 +504,10 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                                <i class="fas fa-trash-alt fa-3x"></i>
                             </div>
-                            <div class="modal-body d-flex justify-content-center">
-                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            <div class="modal-body d-flex justify-content-center text-black text-center">
+                                <h5 class="modal-title">Are you sure you want to<br/> delete the project?</h5>
                             </div>
                             <div class="modal-footer align-content-between d-flex justify-content-center">
                                 <form asp-action="DeleteProject" asp-route-id="@project.Key.id">
@@ -566,7 +566,7 @@
 
 
     <div id="pastProjects" class="mt-2 d-grid gap-3" ondrop="drop(event,'past')" ondragover="allowDrop(event)" ondragenter="dragEnter('pastProjects')" ondragleave="dragLeave('pastProjects')">
-        <h3 style="z-index:-3;">Vergangene Projekte</h3>
+        <h3 style="z-index:-3;">Past Projects</h3>
         @{
             foreach (KeyValuePair<Project, int> project in pastProjects)
             {
@@ -701,16 +701,16 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                <h5 class="modal-title">Wirklich Löschen?</h5>
+                                <i class="fas fa-trash-alt fa-3x"></i>
                             </div>
-                            <div class="modal-body d-flex justify-content-center">
-                                <i class="fas fa-trash-alt fa-3x text-primary"></i>
+                            <div class="modal-body d-flex justify-content-center text-black text-center">
+                                <h5 class="modal-title">Are you sure you want to<br/> delete the project?</h5>
                             </div>
                             <div class="modal-footer align-content-between d-flex justify-content-center">
                                 <form asp-action="DeleteProject" asp-route-id="@project.Key.id">
-                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
+                                    <button type="submit" class="btn btn-outline-black" data-mdb-dismiss="modal">Yes</button>
                                 </form>
-                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>

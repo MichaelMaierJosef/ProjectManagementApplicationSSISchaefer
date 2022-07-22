@@ -19,7 +19,8 @@
     }
 
     .hoverBorder {
-        border: 1px solid white;
+        border: 1px solid;
+        border-color: transparent;
     }
 
         .hoverBorder:hover {
@@ -70,19 +71,15 @@
 
 </style>
 <script>
-    function showDetailView(usname, snumber, desc, startDate, endDate, usid, state, descriptionTitle) {
+    function showDetailView(usname, desc, startDate, endDate, usid, state) {
         // UserStory Popup
 
         document.getElementById("storyTitleInput").value = usname;
-        document.getElementById("storyNumberInput").value = parseInt(snumber, 10);
         document.getElementById("storyDescriptionInput").innerHTML = desc;
         document.getElementById("storyStartDate").value = startDate;
         document.getElementById("storyEndDate").value = endDate;
-
         document.getElementById("storyState").value = state;
-        document.getElementById("descriptionTitle").value = descriptionTitle;
         document.getElementById("storyId").value = usid;
-        document.getElementById("imgURLs").value = "https://cdn.lko.at/lko3/mmedia/image/2022.05.05/1651738187451445.jpg?m=MjczLDM0Nyw1MCUsOTUuMjUlLDI0LjE2NyUsNC43NSUsLCw2MA%3D%3D&_=1651738189";
 
         $('#infoModal').modal('show');
 
@@ -124,16 +121,14 @@
 </div>
 
 <!--Input Data for UserStory-->
-<h2 class="mb-2">@ViewBag.currentProjectName</h2>
+<h2 class="mb-3 text-black">@ViewBag.currentProjectName</h2>
+
 <div class="d-flex mt-2 mb-5">
     <div class="d-flex flex-column me-4">
         <div id="status" class="pb-3">
 
             <div class="d-flex rounded-3" style="background-color: #EFEDED; border-bottom: 5px solid #00EFFF">
                 <h4 class="my-2 mx-3 me-5" id="statusTitle">Product Backlog</h4>
-                <button type="button" class="btn btn-link text-black bg-transparent btn-floating my-auto">
-                    <i style="opacity:50%;" class="fas fa-trash-alt fa-2x"></i>
-                </button>
             </div>
 
 
@@ -142,71 +137,63 @@
             foreach (UserStory userstory in ViewBag.UserStorys)
             {
                 <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED" draggable="true">
-                <div onclick="showDetailView('@userstory.name', '@userstory.storyNumber', '@userstory.description', '@userstory.startDate', '@userstory.endDate', '@userstory.id', '@userstory.state', '@userstory.descriptionTitle')">
-                    <h5 class="mt-3 mx-3" id="taskTitle" >@userstory.name #@userstory.storyNumber</h5>
-                    <div class="d-flex my-2 mx-3">
-                        <div class="d-flex flex-column bg-transparent me-2">
-                            <div class="me-3">
-                                <i class="fas fa-calendar trailing"></i>
-                                <span>Start Date</span>
+                    <div onclick="showDetailView('@userstory.name', '@userstory.description', '@userstory.startDate.ToString().Split(' ')[0]', '@userstory.endDate.ToString().Split(' ')[0]', '@userstory.id', '@userstory.state')">
+                        <h5 class="mt-3 mx-3" id="taskTitle">@userstory.name</h5>
+                        <div class="d-flex my-2 mx-3">
+                            <div class="d-flex flex-column bg-transparent me-2">
+                                <div class="me-3">
+                                    <i class="fas fa-calendar trailing"></i>
+                                    <span>Start Date</span>
+                                </div>
+                                <span>@userstory.startDate.ToString().Split(' ')[0]</span>
                             </div>
-                            <span>@userstory.startDate.ToString().Split(' ')[0]</span>
+                            <div class="bg-transparent d-flex flex-column">
+                                <div>
+                                    <i class="fas fa-calendar trailing"></i>
+                                    <span>Due Date</span>
+                                </div>
+                                <span>@userstory.endDate.ToString().Split(' ')[0]</span>
+                            </div>
                         </div>
-                        <div class="bg-transparent d-flex flex-column">
-                            <div>
-                                <i class="fas fa-calendar trailing"></i>
-                                <span>Due Date</span>
+
+                        <div class="my-2 mb-3">
+
+                            <div class="bg-transparent mx-3">
+                                <i class="fas fa-clipboard-check trailing my-auto"></i>
+                                <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
                             </div>
-                            <span>@userstory.endDate.ToString().Split(' ')[0]</span>
+
+                            <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
+                                <div class="progress-bar"
+                                 role="progressbar"
+                                 style="width: 10%;"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: 10%;"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info"
+                                 role="progressbar"
+                                 style="width: 10%;"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="my-2 mb-3">
-
-                        <div class="bg-transparent mx-3">
-                            <i class="fas fa-clipboard-check trailing my-auto"></i>
-                            <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
-                        </div>
-
-                        <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
-                            <div class="progress-bar"
-                             role="progressbar"
-                             style="width: 10%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: 10%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-info"
-                             role="progressbar"
-                             style="width: 10%;"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
                 </div>
             }
         }
         <div class="my-2 d-flex justify-content-center w-100">
-            <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating">
+            <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating" data-mdb-toggle="modal" data-mdb-target="#createModal">
                 <i class="fas fa-plus fa-2x"></i>
             </button>
         </div>
     </div>
-    <div class="d-flex flex-column me-4">
-        <div class=" mt-1">
-            <button type="button" class="btn btn-link text-black btn-floating">
-                <i class="fas fa-plus fa-2x"></i>
-            </button>
-        </div>
-    </div>
-
 </div>
 
 <input id="input-id" type="file" class="file" data-preview-file-type="text">
@@ -266,20 +253,13 @@
                 <form id="editForm" asp-action="EditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
                     <input asp-for="id" id="storyId" hidden />
                     <input asp-for="state" id="storyState" type="text" hidden />
-                    <input asp-for="imageURLs" id="imgURLs" type="text" hidden />
-                    <input asp-for="descriptionTitle" id="descriptionTitle" type="text" hidden />
                     <div class="container-fluid p-0">
                         <div class="d-flex align-items-start">
-
                             <div class="col d-flex flex-column px-3" style=" border-right: .5px solid #dcdfe4;">
                                 <div class="d-flex my-2 mt-3">
                                     <!--Story Titel-->
-                                    <div class="bg-transparent" style="width:90%">
+                                    <div class="bg-transparent flex-fill">
                                         <input id="storyTitleInput" asp-for="name" style="font-size: 26px;font-weight: 400;line-height: 34px;" type="text" class="form-control form-control-lg text-black hoverBorder px-2" value="" />
-                                    </div>
-                                    <!--Story Number-->
-                                    <div class="bg-transparent">
-                                        <input id="storyNumberInput" asp-for="storyNumber" style="font-size: 26px;font-weight: 400;line-height: 34px;" type="number" min="1" size="2" class="form-control form-control-lg hoverBorder px-2" vvalue="2" />
                                     </div>
                                 </div>
                                 <!--Description-->
@@ -288,27 +268,47 @@
                                 </div>
                             </div>
                             <div class="col d-flex flex-column px-3 h-100" style=" border-left: .5px solid #dcdfe4;">
-                                <div class="d-flex my-2">
-                                    <div class="d-flex p-1 me-2 rounded-5 bg-warning">
+                                <div class="d-flex mt-2">
+                                    <div class="d-flex rounded-5">
                                         <!--Start Date-->
-                                        <div class="d-flex my-1 mx-1 p-1 rounded bg-black bg-opacity-10">
+                                        <div class="d-flex me-2">
                                             <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
-                                            <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDate">Start-Datum</label>
-                                            <input id="storyStartDate" asp-for="startDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent border-0" />
+                                            <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDate">Start-Date</label>
+                                            <input id="storyStartDate" asp-for="startDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent hoverBorder"/>
                                         </div>
                                         <!--End Date-->
-                                        <div class="d-flex my-1 mx-1 p-1 rounded bg-black bg-opacity-10">
+                                        <div class="d-flex me-2">
                                             <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
-                                            <label class="form-label text-nowrap my-auto me-1 text-black" for="storyEndDate">End-Datum</label>
-                                            <input id="storyEndDate" asp-for="endDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent border-0" />
+                                            <label class="form-label text-nowrap my-auto me-1 text-black" for="storyEndDate">End-Date</label>
+                                            <input id="storyEndDate" asp-for="endDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent hoverBorder" />
                                         </div>
                                     </div>
                                     <!--Complete Button-->
-                                    <button type="button" class="btn btn-outline-success btn-lg rounded-5 px-3 ms-auto" data-mdb-ripple-color="dark">FERTIG</button>
+                                    <button type="button" class="btn btn-outline-success btn-lg rounded-5 px-3 ms-auto" data-mdb-ripple-color="dark">DONE</button>
                                 </div>
-                                <div class="d-flex flex-column h-100">
+                                <div class="d-flex flex-column">
+                                    <div class="my-2 mb-3">
+                                        <div class="bg-transparent text-black">
+                                            <i class="fas fa-clipboard-check trailing my-auto"></i>
+                                            <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
+                                        </div>
+                                        <div class="progress my-2 rounded-8" id="progressBar" style="height:15px;background-color: #dcdfe4">
+                                            <div class="progress-bar bg-warning"
+                                                 role="progressbar"
+                                                 style="width: 0%;"
+                                                 aria-valuenow="0"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"></div>
+                                            <div class="progress-bar bg-success"
+                                                 role="progressbar"
+                                                 style="width: 0%;"
+                                                 aria-valuenow="0"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex flex-column  my-2">
+                                <div class="d-flex flex-column  my-2 mt-auto">
                                     <form asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
                                         <label class="form-label">Select Multiple Files</label>
                                         <div class="d-flex">
@@ -327,349 +327,86 @@
                     </div>
                 </form>
             </div>
+            <div class="modal-footer" style=" border-top: 1px solid #dcdfe4;">
+                <button type="button" class="btn btn-link btn-lg text-success" data-mdb-dismiss="modal">SAVE</button>
+            </div>
         </div>
     </div>
 </div>
 
 
 
-<!--
-<script>
-    var myModalEl = document.getElementById('infoModal');
-    myModalEl.addEventListener('hidden.bs.modal', function(event) {
-        console.log("Hey");
-    });
-
-
-
-</script>
-
-
-
-
-
-
-                <div class="modal-footer p-0 px-2">
-
-                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
-
-
-            </div>
-
-
-
-<link rel="stylesheet" href="~/css/UserStory.css" />
-<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
-<script type="text/javascript" src="~/js/story.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
--->
-<!--
-<body onload="loadTaskIndex()">
-</body>
-
-<div>
-    <div class="mt-5" id="projektname">
-@ViewBag.currentProjectName
-    </div>
-</div>
-
-<div>
-    <div id="borderButton">
-        <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
-    </div>
-
-    <div class="scoll" id="userStory">
-        <ul id="listUl">
-@{
-    foreach (UserStory userstory in ViewBag.UserStorys)
-    {
-        <li id="dus0">
-                                                            <div class="nameIcon">
-                                                                <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
-                                                                    <div class="iconDiv">
-                                                                        <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
-                                                                    </div>
-                                                                    <a class="usp">@userstory.name @userstory.id</a>
-                                                                </div>
-                                                            </div>
-                                                            <form asp-action="ChangeStateUserStory" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                                                <button type="submit" class="usState">
-                    @if (userstory.state == 0)
-                    {
-                                                                                    <div style="background-color:white; height: 20px; width: 20px;"></div>
-                    }
-                    else if (userstory.state == 1)
-                    {
-                                                                                    <div style="background-color:red; height: 20px; width: 20px;"></div>
-                    }
-                    else if (userstory.state == 2)
-                    {
-                                                                                    <div style="background-color:green; height: 20px; width: 20px;"></div>
-                    }
-                                                                </button>
-                                                            </form>
-                                                            <label class="control control--checkbox">
-                                                                <input id="c0" type="checkbox" />
-                                                                <div class="control__indicator"></div>
-                                                            </label>
-                                                            <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                                                <button type="submit" class="deleteUS">
-                                                                    <span class="material-icons-outlined">delete</span>
-                                                                    <div class="deletCircle"></div>
-                                                                </button>
-                                                            </form>
-        </li>
-    }
-}
-        </ul>
-    </div>
-</div>
-
-
-<div class="bg-modal">
-    <div class="modal-content">
-        <form asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
-            <div class="row mt-2">
-                <div class="col-12">
-                    <label class="col-form-label">Select Multiple Files</label>
-                    <input asp-for="id" id="userStoryId" hidden />
-                    <input asp-for="Files" class="form-control" multiple />
-                    <span asp-validation-for="Files" class="text-danger"></span>
+<div class="modal fade"
+     id="createModal"
+     data-mdb-backdrop="static"
+     data-mdb-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="createModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <form id="crateForm" asp-action="CreateUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+                <div class="modal-header" style=" border-bottom: 1px solid #dcdfe4;">
+                    <h5 class="modal-title text-black" id="staticBackdropLabel">Create Userstory</h5>
                 </div>
-            </div>
+                <div class="modal-body  p-0">
+                    <input asp-for="id" id="storyId" hidden />
+                    <input asp-for="state" id="storyState" type="text" hidden />
+                    <div class="container-fluid p-0">
+                        <div class="d-flex align-items-start">
 
+                            <div class="col d-flex flex-column px-3">
+                                <div class="d-flex my-2 mt-3">
+                                    <!--Story Titel-->
+                                    <div class="d-flex flex-column flex-fill me-2 mt-auto mb-2">
+                                        <div class="d-flex my-1">
+                                            <label class="form-label flex-fill my-auto text-black" for="storyTitleInputDummy" style="font-size: 20px;">Story Title</label>
+                                        </div>
+                                        <div class="form-outline" style="border-color:#dcdfe4;">
+                                            <input id="storyTitleInputDummy" asp-for="name" type="text" class="form-control form-control-lg text-black px-2" style="font-size: 26px;font-weight: 400;line-height: 34px;" />
+                                        </div>
+                                    </div>
+                                    <!--Date-->
+                                    <div class="d-flex p-1 me-2 rounded-5">
+                                        <!--Start Date-->
+                                        <div class="mx-1 p-1">
+                                            <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
+                                            <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDateDummy" style="font-size: 18px;">Start-Date</label>
+                                            <div class="form-outline" style="border-color:#dcdfe4;">
+                                                <input id="storyStartDateDummy" asp-for="startDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" />
+                                            </div>
+                                        </div>
+                                        <!--End Date-->
+                                        <div class="mx-1 p-1 px-2">
+                                            <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
+                                            <label class="form-label text-nowrap my-auto text-black" for="storyEndDateDummy" style="font-size: 18px;">End-Date</label>
+                                            <div class="form-outline" style="border-color:#dcdfe4;">
+                                                <input id="storyEndDateDummy" asp-for="endDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Description-->
+                                <div class="d-flex flex-column my-2 mt-3">
+                                    <div class="d-flex my-1">
+                                        <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+                                        <label class="form-label flex-fill my-auto text-black" for="storyDescriptionInputDummy" style="font-size: 18px;">Description</label>
+                                    </div>
+                                    <div class="form-outline" style="border-color:#dcdfe4;">
+                                        <textarea id="storyDescriptionInputDummy" asp-for="description" style="font-size: 16px;" class="form-control form-control-lg px-2" rows="8"></textarea>
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="row mt-2">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-success">Upload Files</button>
-                </div>
-            </div>
-        </form>
-
-        <div onclick="hideDetail()" class="close">+</div>
-        <h3 id="usname"></h3>
-        <h3 id="anh"><span id="att" class="material-icons-outlined">attach_file</span>Anhang</h3>
-        <div id="imagecontainer">
-            <div id="1" class="anhang" ondragleave="dragLeave(1)" ondrop="dragDropped(1)" ondragover="dragEnter(1)">
-                <h3>Upload your Image</h3>
-                <div id="drag-area" class="drag-area">
-                    <div class="icon">
-                        <i class="fas fa-images"></i>
+                        </div>
                     </div>
-                    <span id="text" class="header">Drag & Drop</span></br>
-                    <span class="support">Supports: JPEG, JPG, PNG</span>
+
                 </div>
-            </div>
+                <div class="modal-footer" style=" border-top: 1px solid #dcdfe4;">
+                    <button type="button" class="btn btn-link btn-lg text-dark" data-mdb-dismiss="modal">CANCEL</button>
+                    <button type="submit" class="btn btn-link btn-lg text-success">CREATE</button>
+                </div>
+            </form>
         </div>
-        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
-            <div class="scoll" id="description">
-                <div id="descriptionCont">
-                    <input hidden id="storyId" type="text" asp-for="id" />
-                    <input hidden id="usnameInp" type="text" asp-for="name" />
-                    <input hidden id="storyState" type="text" asp-for="state" />
-                    <input hidden id="imgURLs" type="text" asp-for="imageURLs" />
-                    <input hidden id="storyNumber" type="text" asp-for="storyNumber" />
-                    <h3><span id="des" class="material-icons-outlined">post_add</span>Beschreibung</h3>
-                    <p id="descriptionP">
-                        <input asp-for="descriptionTitle" type="text" id="title">
-                        <textarea asp-for="description" id="userStoryContent" type="text"></textarea>
-                    </p>
-                </div>
-            </div>
-            <input type="submit" />
-        </form>
     </div>
 </div>
-
-<div class="add-modal">
-    <div class="add-content">
-        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
-            <div class="allTags">
-                <input hidden asp-for="id" />
-                <input hidden asp-for="descriptionTitle" value="Titel:" />
-                <div onclick="hideDetailAdd()" class="close2">+</div>
-                <h2 id="addProjektTitle"></h2>
-                <h3>Titel: </h3>
-                <br />
-                <input asp-for="name" placeholder=" ... " type="text" />
-                <h3>Story Number: </h3>
-                <br />
-                <input asp-for="storyNumber" placeholder=" ... " type="number" />
-                <div id="addContainerDescription">
-                    <h3>Beschreibung: </h3>
-                    <br />
-                    <textarea id="descriptionContent" asp-for="description" placeholder=" ... "></textarea>
-                </div>
-                <div>
-                    <h3 class="form-label" for="start1">Start Date:</h3>
-                    <br />
-                    <input asp-for="startDate" size="10" value=" " id="start1" class="form-control datePicker" />
-                </div>
-                <div style="position: absolute;left: 20.5em;top: 15em;">
-                    <h3 class="form-label" for="end1">End Date:</h3>
-                    <br />
-                    <input asp-for="endDate" size="10" value=" " id="end1" class="form-control datePicker" />
-                </div>
-                <div class="vl"></div>
-            </div>
-            <button id="btnAddStory">Speichern</button>
-        </form>
-    </div>
-</div>
-
-
-<p id="invIMGid" hidden></p>
-
-
-
-                                                                                            <link rel="stylesheet" href="~/css/UserStory.css" />
-                                                                                            <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
-                                                                                            <script type="text/javascript" src="~/js/story.js"></script>
-                                                                                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-                                                                                            <body onload="loadTaskIndex()"></body>
-
-
-                                                                                                <div>
-                                                                                                    <div id="projektname">
-@ViewBag.currentProjectName
-                                                                                                    </div>
-                                                                                                </div>
-
-                                                                                                <form asp-action="MultiUpload" asp-controller="UserStory" method="post" enctype="multipart/form-data">
-                                                                                                                <div class="row mt-2">
-                                                                                                                    <div class="col-12">
-                                                                                                                        <label class="col-form-label">Select Multiple Files</label>
-                                                                                                                        <input asp-for="Files" class="form-control" multiple/>
-                                                                                                                        <span asp-validation-for="Files" class="text-danger"></span>
-                                                                                                                    </div>
-                                                                                                                </div>
-
-
-                                                                                                                <div class="row mt-2">
-                                                                                                                    <div class="col-12">
-                                                                                                                        <button type="submit" class="btn btn-success">Upload Files</button>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </form>
-
-
-                                                                                                <div>
-                                                                                                    <div id="borderButton">
-                                                                                                        <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
-                                                                                                    </div>
-
-                                                                                                    <div class="scoll" id="userStory">
-                                                                                                        <ul id="listUl">
-@{
-    foreach (UserStory userstory in ViewBag.UserStorys)
-    {
-        <li id="dus0">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="nameIcon">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="usc" onclick="showDetailMore('@userstory.descriptionTitle', '@userstory.id', '@userstory.description', '@userstory.name',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                '@userstory.imageURLs', '@userstory.state', '@userstory.storyNumber')">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="iconDiv">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span style="font-size:30px;" class="material-icons-outlined">chevron_right</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <a class="usp">@userstory.name</a>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button type="submit" class="usState">
-                    @if (userstory.state == 0)
-                    {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <div style="background-color:white"></div>
-                    }
-                    else if (userstory.state == 1)
-                    {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <div style="background-color:red"></div>
-                    }
-                    else if (userstory.state == 2)
-                    {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <div style="background-color:green"></div>
-                    }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </form>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label class="control control--checkbox">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <input id="c0" type="checkbox" />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="control__indicator"></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" >
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button type="submit" class="deleteUS">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="material-icons-outlined">delete</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="deletCircle"></div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </form>
-        </li>
-    }
-}
-                                                                                                        </ul>
-                                                                                                    </div>
-                                                                                                </div>
-
-
-                                                                                            <div class="bg-modal">
-                                                                                                <div class="modal-content">
-                                                                                                    <div onclick="hideDetail()" class="close">+</div>
-                                                                                                    <h3 id="usname"></h3>
-                                                                                                    <h3 id="anh"><span id="att" class="material-icons-outlined">attach_file</span>Anhang</h3>
-                                                                                                    <div id="imagecontainer">
-                                                                                                        <div id="1" class="anhang" ondragleave="dragLeave(1)" ondrop="dragDropped(1)" ondragover="dragEnter(1)">
-                                                                                                            <h3>Upload your Image</h3>
-                                                                                                            <div id="drag-area" class="drag-area">
-                                                                                                                <div class="icon">
-                                                                                                                    <i class="fas fa-images"></i>
-                                                                                                                </div>
-                                                                                                                <span id="text" class="header">Drag & Drop</span></br>
-                                                                                                                <span class="support">Supports: JPEG, JPG, PNG</span>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
-                                                                                                        <div class="scoll" id="description">
-                                                                                                            <div id="descriptionCont">
-                                                                                                                <input hidden id="storyId" type="text" asp-for="id" />
-                                                                                                                <input hidden id="usnameInp" type="text" asp-for="name" />
-                                                                                                                <input hidden id="storyState" type="text" asp-for="state" />
-                                                                                                                <input hidden id="imgURLs" type="text" asp-for="imageURLs" />
-                                                                                                                <input hidden id="storyNumber" type="text" asp-for="storyNumber" />
-                                                                                                                <h3><span id="des" class="material-icons-outlined">post_add</span>Beschreibung</h3>
-                                                                                                                <p id="descriptionP">
-                                                                                                                    <input asp-for="descriptionTitle" type="text" id="title">
-                                                                                                                    <textarea asp-for="description" id="userStoryContent" type="text"></textarea>
-                                                                                                                </p>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <input type="submit" />
-                                                                                                    </form>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <div class="add-modal">
-                                                                                                <div class="add-content">
-                                                                                                    <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
-                                                                                                        <div class="allTags">
-                                                                                                            <input hidden asp-for="id" />
-                                                                                                            <input hidden asp-for="descriptionTitle" value="Titel:" />
-                                                                                                            <div onclick="hideDetailAdd()" class="close2">+</div>
-                                                                                                            <h2 id="addProjektTitle"></h2>
-                                                                                                            <h3>Titel: </h3>
-                                                                                                            <input asp-for="name" placeholder=" ... " type="text" />
-                                                                                                            <h3>Story Number: </h3>
-                                                                                                            <input asp-for="storyNumber" placeholder=" ... " type="number" />
-                                                                                                            <div id="addContainerDescription">
-                                                                                                                <h3>Beschreibung: </h3>
-                                                                                                                <textarea id="descriptionContent" asp-for="description" placeholder=" ... "></textarea>
-                                                                                                            </div>
-                                                                                                            <div class="vl"></div>
-                                                                                                        </div>
-                                                                                                        <button id="btnAddStory">Speichern</button>
-                                                                                                    </form>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            -->
-<!--Tag for the URL of the image
-<p id="invIMGid" hidden></p>-->
