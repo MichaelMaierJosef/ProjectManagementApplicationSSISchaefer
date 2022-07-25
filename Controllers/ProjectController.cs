@@ -208,7 +208,15 @@ namespace ProjectManagementApplication.Controllers
         public IActionResult CreateName(int projectId, String projectName)
         {
             Project project = _context.Projects.Where(u => u.id == projectId).FirstOrDefault();
-            project.projectName = projectName;
+
+            if (projectName == null)
+            {
+                project.projectName = "!!!PleaseEnterName!!!";
+            }
+            else
+            {
+                project.projectName = projectName;
+            }
             _context.Projects.Update(project);
             _context.SaveChanges();
             ViewBag.projectIdNew = project.id;
