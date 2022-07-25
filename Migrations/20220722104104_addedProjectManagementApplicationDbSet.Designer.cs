@@ -10,7 +10,7 @@ using ProjectManagementApplication.Data;
 namespace ProjectManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220722092235_addedProjectManagementApplicationDbSet")]
+    [Migration("20220722104104_addedProjectManagementApplicationDbSet")]
     partial class addedProjectManagementApplicationDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,14 +228,14 @@ namespace ProjectManagementApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("Difficulty")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DifficultyEstimated")
+                        .HasColumnType("float");
+
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("difficulty")
-                        .HasColumnType("int");
-
-                    b.Property<int>("difficultyEstimated")
-                        .HasColumnType("int");
 
                     b.Property<string>("projectName")
                         .HasColumnType("nvarchar(max)");

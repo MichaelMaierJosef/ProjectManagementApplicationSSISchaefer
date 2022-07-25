@@ -96,7 +96,7 @@ namespace ProjectManagementApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangeStateUserStory(int storyid, int pid, string pname)
+        public IActionResult ChangeStateUserStory(int storyid, int pid, string pName)
         {
 
             /*switch (story.state)
@@ -125,7 +125,7 @@ namespace ProjectManagementApplication.Controllers
             _context.UserStorys.Update(story);
             _context.SaveChanges();
 
-            return Index(pid, pname);
+            return Index(pid, pName);
         }
 
         [HttpPost]
