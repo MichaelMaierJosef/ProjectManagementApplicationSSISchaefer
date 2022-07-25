@@ -52,35 +52,40 @@
     <span>/</span>
     <a href="../" id="routeLink">Project</a>
     <span>/</span>
-    <a class="text-reset"><u>CreateProject</u></a>
+    <a class="text-reset"><u>Edit-Project</u></a>
 </nav>
 
 <div class="container text-black">
 
     <script type="text/javascript" src="~/js/createProject.js"></script>
 
-
-    <div class=" my-2 mx-auto">
-        <h3>Neues Projekt</h3>
-    </div>
     <form asp-action="CreateEditProject" method="post">
         <input hidden asp-for="id" placeholder="id" />
-        <div class="d-flex justify-content-between mt-2 mx-auto">
-            <div class="form-outline my-2">
-                <input type="text" id="formControlLg" class="form-control form-control-lg" asp-for="projectName" size="30" />
-                <label class="form-label" for="formControlLg">Projekt Name</label>
+        <div class="d-flex mb-2">
+            <div class="d-flex flex-column flex-fill me-2 mt-auto mb-2">
+                <div class="d-flex my-1">
+                    <label class="form-label flex-fill my-auto text-black" for="projectTitle" style="font-size: 20px;">Project Title</label>
+                </div>
+                <div style="border-color:#dcdfe4;">
+                    <input id="projectTitle" asp-for="projectName" type="text" class="form-control form-control-lg text-black px-2" style="font-size: 26px;font-weight: 400;line-height: 34px;" />
+                </div>
             </div>
-            <div class="align-self-end d-flex my-2">
-                <h4 class="my-auto me-3">Projektart:</h4>
-                <select id="" class="select form-control form-control-lg me-2" asp-for="tense" checked>
-                    <option value="active">Aktuell</option>
-                    <option value="future">Zukünftig</option>
-                    <option value="past">Vergangen</option>
-                </select>
+            <div class="d-flex flex-column my-2 mt-3">
+                <div class="d-flex my-1">
+                    <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+                    <label class="form-label flex-fill my-auto text-black" for="projectState" style="font-size: 18px;">Project-State</label>
+                </div>
+                <div style="border-color:#dcdfe4;">
+                    <select id="projectState" class="select form-control form-control-lg me-2" asp-for="tense" checked>
+                        <option value="active">Active</option>
+                        <option value="future">Future</option>
+                        <option value="past">Past</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <h4 class="my-auto me-3 mt-3">Mitarbeiter:</h4>
+        <h4 class="my-auto me-3 mt-3">Project-Members:</h4>
         <div id="employeeList" class="d-flex my-2 mx-2">
             @{
                 List<IdentityUser> projectAdmins = new List<IdentityUser>();
@@ -141,13 +146,16 @@
 
         </div>
 
-        <h4 class="my-auto me-3 mt-3">Deteils:</h4>
-        <div class="d-flex justify-content-between my-3  mx-auto">
-            <div class="form-outline flex-fill">
-                <textarea class="form-control form-control-lg" asp-for="description" id="textAreaExample" rows="5"></textarea>
-                <label class="form-label" for="textAreaExample">Beschreibung</label>
+        <div class="d-flex flex-column my-2 mt-3">
+            <div class="d-flex my-1">
+                <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+                <label class="form-label flex-fill my-auto text-black" for="projectDescription" style="font-size: 18px;">Description</label>
+            </div>
+            <div style="border-color:#dcdfe4;">
+                <textarea id="projectDescription" asp-for="description" style="font-size: 16px;" class="form-control form-control-lg px-2" rows="8"></textarea>
             </div>
         </div>
+
         <div class="d-flex justify-content-center mt-4 mx-auto">
             <!--<button type="button"
                     onclick="window.location.href = '../'"
@@ -161,7 +169,7 @@
                     class="btn btn-lg h-100 mx-5 align-self-end"
                     data-mdb-ripple-color="dark"
                     style="background-color: #EFE407">
-                SPEICHERN
+                SAVE
             </button>
         </div>
 
