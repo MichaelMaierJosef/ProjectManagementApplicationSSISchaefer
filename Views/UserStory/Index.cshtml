@@ -1,4 +1,6 @@
 @model ProjectManagementApplication.Models.UserStory
+@using Microsoft.AspNetCore.Identity
+
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -65,44 +67,20 @@
             color: blue;
         }
 
-    #linkState {
+    .linkState {
         font-size: 20px;
     }
 
 </style>
-<script>
-    function showDetailView(usname, desc, startDate, endDate, usid, state) {
-        // UserStory Popup
+<script type="text/javascript" src="~/js/userStory.js"></script>
 
-        document.getElementById("storyTitleInput").value = usname;
-        document.getElementById("storyDescriptionInput").innerHTML = desc;
-        document.getElementById("storyStartDate").value = startDate;
-        document.getElementById("storyEndDate").value = endDate;
-        document.getElementById("storyState").value = state;
-        document.getElementById("storyId").value = usid;
-
-        $('#infoModal').modal('show');
-
-    }
-
-    $(document).ready(function() {
-        $('#infoModal').on('hidden.bs.modal', function(e) {
-            $('#editForm').submit();
-        });
-
-    });
-
-
-
-
-
-</script>
+<meta charset="utf-8" />
 
 <div id="topNavigation" class="me-2 d-flex justify-content-end">
 
     <nav id="linkState" class="me-auto p-2">
         <span>/</span>
-        <a href="../" id="routeLink">Projects</a>
+        <a href="../" class="routeLink">Projects</a>
         <span>/</span>
         <a class="text-reset"><u>@ViewBag.currentProjectName</u></a>
     </nav>
@@ -137,7 +115,7 @@
             foreach (UserStory userstory in ViewBag.UserStorys)
             {
                 <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED" draggable="true">
-                    <div onclick="showDetailView('@userstory.name', '@userstory.description', '@userstory.startDate.ToString().Split(' ')[0]', '@userstory.endDate.ToString().Split(' ')[0]', '@userstory.id', '@userstory.state')">
+                    <div onclick="showDetailView('@userstory.id')">
                         <h5 class="mt-3 mx-3" id="taskTitle">@userstory.name</h5>
                         <div class="d-flex my-2 mx-3">
                             <div class="d-flex flex-column bg-transparent me-2">
@@ -215,9 +193,11 @@
                             <!--Path-->
                             <nav id="linkState" class="me-auto">
                                 <span>/</span>
-                                <a href="../" id="routeLink">Projects</a>
+                                <a href="../" class="routeLink">Projects</a>
                                 <span>/</span>
-                                <a class="text-reset"><u>@ViewBag.currentProjectName</u></a>
+                                <a data-mdb-dismiss="modal" class="routeLink">@ViewBag.currentProjectName</a>
+                                <span>/</span>
+                                <a class="text-reset"><u id="userStoryTitle"></u></a>
                             </nav>
                         </div>
                         <!--Close-->
@@ -242,7 +222,7 @@
                         </div>
 
                         <!--Add Mitarbeiter-->
-                        <button type="button" class="btn btn-link text-black btn-floating">
+                        <button type="button" class="btn btn-link text-black btn-floating" data-dismiss="modal" onclick="openAddUserModal();">
                             <i class="fas fa-plus fa-2x"></i>
                         </button>
                     </div>
@@ -274,7 +254,7 @@
                                         <div class="d-flex me-2">
                                             <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
                                             <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDate">Start-Date</label>
-                                            <input id="storyStartDate" asp-for="startDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent hoverBorder"/>
+                                            <input id="storyStartDate" asp-for="startDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent hoverBorder" />
                                         </div>
                                         <!--End Date-->
                                         <div class="d-flex me-2">
@@ -329,6 +309,85 @@
             </div>
             <div class="modal-footer" style=" border-top: 1px solid #dcdfe4;">
                 <button type="button" class="btn btn-link btn-lg text-success" data-mdb-dismiss="modal">SAVE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Info -->
+<div class="modal fade"
+     id="infoModalAddUser"
+     data-mdb-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="infoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header p-0" style="border-bottom: 1px solid #dcdfe4;">
+                <div class="d-flex flex-column justify-content-start w-100">
+                    <div class="d-flex py-2 px-2" style="border-radius:10px 10px 0 0; background-color:#eff0f3; border-bottom: 1px solid #dcdfe4;">
+                        <div class="py-1 px-3 bg-white rounded-6">
+                            <!--Path-->
+                            <nav id="linkState" class="me-auto">
+                                <span>/</span>
+                                <a href="../" class="routeLink">Projects</a>
+                                <span>/</span>
+                                <a href="../" class="routeLink">@ViewBag.currentProjectName</a>
+                                <span>/</span>
+                                <a data-mdb-dismiss="modal" class="routeLink" id="userStoryTitleAdd"></a>
+                                <span>/</span>
+                                <a class="text-reset"><u>Add User</u></a>
+                            </nav>
+                        </div>
+                        <!--Close-->
+                        <button type="button" class="btn btn-link text-black btn-floating bg-white align-self-end ms-auto my-auto" data-mdb-dismiss="modal">
+                            <i class="fas fa-times fa-2x"></i>
+                        </button>
+                    </div>
+
+                    <div class="d-flex my-2">
+                        <i class="fas fa-user-alt text-black fa-2x my-auto mx-2 ms-4"></i>
+                        <h4>Mitarbeiter Hinzufuegen</h4>
+
+                        <div class="modal-body p-0">
+
+                            @{
+                                List<IdentityUser> projectAllUser = new List<IdentityUser>();
+                                projectAllUser = ViewBag.allUser;
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Mitarbeiter</th>
+                                            <th>Hinzufügen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            if (ViewBag.allUser != null)
+                                            {
+                                                foreach (IdentityUser user in projectAllUser)
+                                                {
+                                                    <tr>
+                                                        <th>@user.UserName</th>
+                                                        <th>
+
+                                                            <!-- <form methoyd="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID"> -->
+                                                            <button type="button" onclick="editUserRoles('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black btn-floating">
+                                                                <i class="fas fa-plus fa-2x"></i>
+                                                            </button>
+                                                            <!-- </form> -->
+                                                        </th>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

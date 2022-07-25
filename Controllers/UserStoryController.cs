@@ -42,6 +42,12 @@ namespace ProjectManagementApplication.Controllers
             return View("Index");
         }
 
+        public JsonResult GetUserStory(int userstoryId)
+        {
+            UserStory us = _context.UserStorys.Where(u => u.id == userstoryId).FirstOrDefault();
+            return Json(us);
+        }
+
         [HttpPost]
         public IActionResult EditUserStory(UserStory story, int pid, string pname)
         {
