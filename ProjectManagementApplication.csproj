@@ -40,10 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Files\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\lib\kartik-v-bootstrap-fileinput\.github\CODE_OF_CONDUCT.md" />
     <None Include="wwwroot\lib\kartik-v-bootstrap-fileinput\.github\config.yml" />
     <None Include="wwwroot\lib\kartik-v-bootstrap-fileinput\.github\CONTRIBUTING.md" />
@@ -137,6 +133,10 @@
     <None Include="wwwroot\lib\kartik-v-bootstrap-fileinput\themes\fa6\theme.min.js" />
     <None Include="wwwroot\lib\kartik-v-bootstrap-fileinput\themes\gly\theme.js" />
     <None Include="wwwroot\lib\kartik-v-bootstrap-fileinput\themes\gly\theme.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
 </Project>

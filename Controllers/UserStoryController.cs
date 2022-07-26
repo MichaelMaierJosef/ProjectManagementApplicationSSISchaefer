@@ -159,11 +159,11 @@ namespace ProjectManagementApplication.Controllers
             }
 
             UserStory us = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
-            if(us.Files == null)
+            if (us.Files == null)
             {
                 us.Files = new List<IFormFile>();
             }
-            foreach(IFormFile file in Files)
+            foreach (IFormFile file in Files)
             {
                 us.Files.Add(file);
             }
