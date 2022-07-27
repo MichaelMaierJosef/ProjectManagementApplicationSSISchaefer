@@ -39,9 +39,10 @@ function showDetailView(usid) {
 
             document.getElementById("finishedCheckedInput").value = userStory.state;
             if (userStory.state == 2) {
-                document.getElementById("finishedChecked").checked = true;
-            } else {
-                document.getElementById("finishedChecked").checked = false;
+                document.getElementById("modalCheckIcon").classList.add("text-success");
+                document.getElementById("modalCheckButton").classList.remove("btn-outline-black");
+                document.getElementById("modalCheckButton").classList.add("btn-outline-success");
+                document.getElementById("progressIcon").style.color = "green";
             }
 
             document.getElementById("modal-overdue").style.width = document.getElementById("overdue" + userStory.id).style.width;
@@ -94,10 +95,12 @@ function changeProgressBar(startDDate, endDDate) {
 
     var currentDDate = new Date();
 
-    if (!document.getElementById("finishedChecked").checked) {
+    if (!document.getElementById("modalCheckIcon").classList.contains("text-success")) {
+        console.log("WOW");
         document.getElementById("progressIcon").style.color = "";
         const diffCurrentTime = Math.abs(currentDDate - startDDate);
         const diffTime = Math.abs(endDDate - startDDate);
+        console.log(diffCurrentTime +"");
         if (diffCurrentTime > 0) {
             if (endDDate < currentDDate) {
                 document.getElementById("modal-overdue").style.width = "100%";
@@ -128,10 +131,16 @@ function changeProgressBar(startDDate, endDDate) {
 }
 
 function setAspFinishedChecked() {
-    if (document.getElementById("finishedChecked").checked) {
-        document.getElementById("finishedCheckedInput").value = 2;
-    } else {
+    if (document.getElementById("modalCheckIcon").classList.contains("text-success")) {
         document.getElementById("finishedCheckedInput").value = 0;
+        document.getElementById("modalCheckIcon").classList.remove("text-success");
+        document.getElementById("modalCheckButton").classList.remove("btn-outline-success");
+        document.getElementById("modalCheckButton").classList.add("btn-outline-black");
+    } else {
+        document.getElementById("finishedCheckedInput").value = 2;
+        document.getElementById("modalCheckIcon").classList.add("text-success");
+        document.getElementById("modalCheckButton").classList.remove("btn-outline-black");
+        document.getElementById("modalCheckButton").classList.add("btn-outline-success");
     }
-    changeProgressBar();
+    dateChange();
 }
