@@ -15,7 +15,7 @@ namespace ProjectManagementApplication.Models
         public int project_id { get; set; }
         public String name { get; set; }
         public String description { get; set; }
-        public int state {get; set; }
+        public int state { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
 

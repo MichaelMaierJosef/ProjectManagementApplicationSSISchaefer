@@ -189,7 +189,7 @@
                 {
                     if (story.project_id == @project.Key.id)
                     {
-                        double difference = (story.endDate - story.startDate).TotalDays;
+                        double difference = (story.endDate - story.startDate).TotalDays + 1;
 
                         rangeDaysAll += difference;
 
