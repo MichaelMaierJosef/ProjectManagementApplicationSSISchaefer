@@ -116,7 +116,7 @@
             {
                                     <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED">
                                             <div class="d-flex">                        
-                                            <div class="d-flex py-2 ps-3 pe-auto flex-fill" onclick="showDetailView('@userstory.id')">
+                                            <div class="d-flex py-2 ps-3 pe-auto flex-fill" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
                                             <h4 class="my-auto" id="taskTitle">@userstory.name</h4>
                                             </div>
                                             <form asp-controller="UserStory" asp-action="ChangeStateUserStory" method="post" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
@@ -133,7 +133,7 @@
                                                 </button>
                                             </form> 
                                             </div>
-                                            <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id')">
+                                            <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
                                                 <div class="d-flex flex-column bg-transparent me-2">
                                                     <div class="me-3">
                                                         <i class="fas fa-calendar trailing"></i>
@@ -174,7 +174,7 @@
                                 finishedPercent = "100";
                             }
                                             }
-                                            <div class="py-2 pb-3" onclick="showDetailView('@userstory.id')">
+                                            <div class="py-2 pb-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
 
                                                 <div class="bg-transparent mx-3">
                                                     <i class="fas fa-clipboard-check trailing my-auto" style="color: @(userstory.state != 0 ? "green" : "");"></i>
