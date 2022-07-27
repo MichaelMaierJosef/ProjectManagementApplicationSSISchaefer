@@ -114,42 +114,42 @@
         @{
             foreach (UserStory userstory in ViewBag.UserStorys)
             {
-                    <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED" onclick="showDetailView('@userstory.id')">
-                        <div>
-                            <div class="d-flex my-2 mx-3">
-                            <h4 class="my-auto" id="taskTitle">@userstory.name</h4>
-                            <form class="ms-auto" asp-controller="UserStory" asp-action="ChangeStateUserStory" method="post" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                <button type="submit" class="btn btn-lg btn-floating btn-link" style="z-index:20" data-mdb-ripple-color="dark">
-                                    @if (userstory.state == 0)
-                                {
-                                        <!--<div style="width: 5px; height: 5px; background-color:red" class="btn btn-lg rounded-5 px-3 ms-auto"></div>-->
-                                        <i class="fas fa-check text-black fa-2x"></i>
-                                }
-                                else
-                                {
-                                        <!--<div style="width: 5px; height: 5px; background-color:green" class="btn btn-lg rounded-5 px-3 ms-auto"></div>-->
-                                        <i class="fas fa-check text-success fa-2x"></i>
-                                }
-                                </button>
-                            </form>
-                            </div>
-                            <div class="d-flex my-2 mx-3">
-                                <div class="d-flex flex-column bg-transparent me-2">
-                                    <div class="me-3">
-                                        <i class="fas fa-calendar trailing"></i>
-                                        <span>Start Date</span>
-                                    </div>
-                                    <span>@userstory.startDate.ToString().Split(' ')[0]</span>
-                                </div>
-                                <div class="bg-transparent d-flex flex-column">
-                                    <div>
-                                        <i class="fas fa-calendar trailing"></i>
-                                        <span>Due Date</span>
-                                    </div>
-                                    <span>@userstory.endDate.ToString().Split(' ')[0]</span>
-                                </div>
-                            </div>
-                            @{
+                                    <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED">
+                                            <div class="d-flex">                        
+                                            <div class="d-flex py-2 ps-3 pe-auto flex-fill" onclick="showDetailView('@userstory.id')">
+                                            <h4 class="my-auto" id="taskTitle">@userstory.name</h4>
+                                            </div>
+                                            <form asp-controller="UserStory" asp-action="ChangeStateUserStory" method="post" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                                                <button type="submit" class="btn btn-lg btn-floating btn-link mx-3 my-2" data-mdb-ripple-color="dark">
+                                                    @if (userstory.state == 0)
+                                                    {
+                                                        <i class="fas fa-check text-black fa-2x"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        
+                                                        <i class="fas fa-check text-success fa-2x"></i>
+                                                    }
+                                                </button>
+                                            </form> 
+                                            </div>
+                                            <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id')">
+                                                <div class="d-flex flex-column bg-transparent me-2">
+                                                    <div class="me-3">
+                                                        <i class="fas fa-calendar trailing"></i>
+                                                        <span>Start Date</span>
+                                                    </div>
+                                                    <span>@userstory.startDate.ToString().Split(' ')[0]</span>
+                                                </div>
+                                                <div class="bg-transparent d-flex flex-column">
+                                                    <div>
+                                                        <i class="fas fa-calendar trailing"></i>
+                                                        <span>Due Date</span>
+                                                    </div>
+                                                    <span>@userstory.endDate.ToString().Split(' ')[0]</span>
+                                                </div>
+                                            </div>
+                                            @{
                             string estimatedPercent = "0";
                             string finishedPercent = "0";
                             string overduePercent = "0";
@@ -173,40 +173,39 @@
                             {
                                 finishedPercent = "100";
                             }
-                            }
-                            <div class="my-2 mb-3">
+                                            }
+                                            <div class="py-2 pb-3" onclick="showDetailView('@userstory.id')">
 
-                                <div class="bg-transparent mx-3">
-                                    <i class="fas fa-clipboard-check trailing my-auto" style="color: @(userstory.state != 0 ? "green" : "");"></i>
-                                    <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
-                                </div>
+                                                <div class="bg-transparent mx-3">
+                                                    <i class="fas fa-clipboard-check trailing my-auto" style="color: @(userstory.state != 0 ? "green" : "");"></i>
+                                                    <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
+                                                </div>
 
-                                <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
-                                    <div class="progress-bar bg-danger"
-                                     id="@("overdue" + userstory.id)"
-                                     role="progressbar"
-                                     style="width: @(overduePercent+"%");"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"></div>
-                                    <div class="progress-bar bg-warning"
-                                     id="@("estimated" + userstory.id)"
-                                     role="progressbar"
-                                     style="width: @(estimatedPercent+"%");"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"></div>
-                                    <div class="progress-bar bg-success"
-                                     id="@("finished" + userstory.id)"
-                                     role="progressbar"
-                                     style="width: @(finishedPercent+"%");"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                                <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
+                                                    <div class="progress-bar bg-danger"
+                                                     id="@("overdue" + userstory.id)"
+                                                     role="progressbar"
+                                                     style="width: @(overduePercent+"%");"
+                                                     aria-valuenow="0"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                                    <div class="progress-bar bg-warning"
+                                                     id="@("estimated" + userstory.id)"
+                                                     role="progressbar"
+                                                     style="width: @(estimatedPercent+"%");"
+                                                     aria-valuenow="0"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                                    <div class="progress-bar bg-success"
+                                                     id="@("finished" + userstory.id)"
+                                                     role="progressbar"
+                                                     style="width: @(finishedPercent+"%");"
+                                                     aria-valuenow="0"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                    </div>
             }
         }
         <div class="my-2 d-flex justify-content-center w-100">
@@ -415,35 +414,35 @@
                             @{
                                 List<IdentityUser> projectAllUser = new List<IdentityUser>();
                                 projectAllUser = ViewBag.allUser;
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Mitarbeiter</th>
-                                                <th>Hinzufügen</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Mitarbeiter</th>
+                                                                <th>Hinzufügen</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{
                                             if (ViewBag.allUser != null)
                                             {
                                                 foreach (IdentityUser user in projectAllUser)
                                                 {
-                                                            <tr>
-                                                                <th>@user.UserName</th>
-                                                                <th>
+                                                                                            <tr>
+                                                                                                <th>@user.UserName</th>
+                                                                                                <th>
 
-                                                                    <!-- <form methoyd="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID"> -->
-                                                                    <button type="button" onclick="editUserRoles('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black btn-floating">
-                                                                        <i class="fas fa-plus fa-2x"></i>
-                                                                    </button>
-                                                                    <!-- </form> -->
-                                                                </th>
-                                                            </tr>
+                                                                                                    <!-- <form methoyd="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID"> -->
+                                                                                                    <button type="button" onclick="editUserRoles('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black btn-floating">
+                                                                                                        <i class="fas fa-plus fa-2x"></i>
+                                                                                                    </button>
+                                                                                                    <!-- </form> -->
+                                                                                                </th>
+                                                                                            </tr>
                                                 }
                                             }
-                                            }
-                                        </tbody>
-                                    </table>
+                                                            }
+                                                        </tbody>
+                                                    </table>
                             }
                         </div>
                     </div>
