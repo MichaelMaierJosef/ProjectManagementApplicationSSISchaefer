@@ -12,6 +12,7 @@ namespace ProjectManagementApplication.Data
         public DbSet<UserStory> UserStorys {get; set;}
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectUser> ProjectUsers { get; set; }
+        public DbSet<UserStoryUser> UserStoryUsers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {}

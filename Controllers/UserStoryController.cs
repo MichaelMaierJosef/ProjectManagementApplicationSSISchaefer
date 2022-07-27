@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementApplication.Data;
 using ProjectManagementApplication.Models;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ProjectManagementApplication.Controllers
@@ -16,6 +18,11 @@ namespace ProjectManagementApplication.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+
+        private List<ProjectUser> allProjectUser = new List<ProjectUser>();
+        private List<IdentityUser> allUser = new List<IdentityUser>();
+        private List<IdentityUser> allUserstoryIdentities = new List<IdentityUser>();
+
 
         public UserStoryController(ApplicationDbContext context)
         {
@@ -42,10 +49,66 @@ namespace ProjectManagementApplication.Controllers
             return View("Index");
         }
 
-        public JsonResult GetUserStory(int userstoryId)
+        public void DeleteUserFromStory(string userId, int storyId)
         {
+            UserStoryUser usu = _context.UserStoryUsers.Where(u => u.UserID == userId && u.UserStoryID == storyId).FirstOrDefault();
+            _context.UserStoryUsers.Remove(usu);
+            _context.SaveChanges();
+        }
+
+        public void AddUserToStory(string[] checkboxes, int userstoryId)
+        {
+            foreach(var element in checkboxes)
+            {
+                IdentityUser user = _context.Users.Where(u => u.Id == element).FirstOrDefault();
+
+                UserStoryUser usu = new UserStoryUser(userstoryId, user.Id);
+                _context.UserStoryUsers.Add(usu);
+            }
+
+            _context.SaveChanges();
+
+        }
+
+        public JsonResult GetUserStory(int userstoryId, int projectId)
+        {
+            LoadUsersFromStory(projectId, userstoryId);
             UserStory us = _context.UserStorys.Where(u => u.id == userstoryId).FirstOrDefault();
-            return Json(us);
+            
+            var genericResult = new { us, allUserstoryIdentities, allUser };
+            return Json(genericResult);
+        }
+
+        public void LoadUsersFromStory(int projectId, int userStoryId)
+        {
+            List<UserStoryUser> allUserStoryUser = new List<UserStoryUser>();
+
+            allUserStoryUser = _context.UserStoryUsers.Where(u => u.UserStoryID == userStoryId).ToList();
+
+            foreach (UserStoryUser usu in allUserStoryUser)
+            {
+                allUserstoryIdentities.Add(_context.Users.Where(u => u.Id == usu.UserID).FirstOrDefault());
+            }
+
+            LoadUser(projectId);
+
+            ViewBag.allStoryUser = allUserstoryIdentities;
+        }
+
+        public void LoadUser(int projectId)
+        {
+
+            allProjectUser = _context.ProjectUsers.Where(u => u.ProjectID == projectId).ToList();
+
+            foreach (ProjectUser user in allProjectUser)
+            {
+                allUser.Add(_context.Users.Where(u => u.Id == user.UserID).FirstOrDefault());
+            }
+
+            allUser = allUser.Except(allUserstoryIdentities).ToList();
+
+            ViewBag.allUser = allUser;
+
         }
 
         [HttpPost]
@@ -79,6 +142,8 @@ namespace ProjectManagementApplication.Controllers
             {
                 _context.UserStorys.Update(story);
             }
+
+
 
             _context.SaveChanges();
 

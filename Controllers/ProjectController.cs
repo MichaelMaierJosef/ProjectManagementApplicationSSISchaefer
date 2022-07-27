@@ -45,7 +45,7 @@ namespace ProjectManagementApplication.Controllers
             {
                 if (_context.ProjectUsers.Any(u => u.UserID == loggedInUserId && u.ProjectID == project.id))
                 {
-                    rightsOfActualUser.Add(project, _context.ProjectUsers.Where(u => u.UserID == loggedInUserId).Select(u => u.Admin).FirstOrDefault());
+                    rightsOfActualUser.Add(project, _context.ProjectUsers.Where(u => u.UserID == loggedInUserId && u.ProjectID == project.id).Select(u => u.Admin).FirstOrDefault());
                 }
             }
 
@@ -311,6 +311,18 @@ namespace ProjectManagementApplication.Controllers
             }
             _context.ProjectUsers.RemoveRange(pu);
             _context.Projects.Remove(projectInDb);
+
+            List<UserStory> us = new List<UserStory>();
+            us = _context.UserStorys.Where(u => u.project_id == id).ToList();
+            _context.UserStorys.RemoveRange(us);
+            List<UserStoryUser> usu = new List<UserStoryUser>();
+
+            foreach (UserStory userStory in us)
+            {
+                usu.AddRange(_context.UserStoryUsers.Where(u => u.UserStoryID == userStory.id).ToList());
+            }
+            _context.UserStoryUsers.RemoveRange(usu);
+
             _context.SaveChanges();
             try
             {
