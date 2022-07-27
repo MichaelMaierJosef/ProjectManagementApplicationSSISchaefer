@@ -34,25 +34,23 @@ function showDetailView(usid, pid) {
             document.getElementById("storyDescriptionInput").innerHTML = result.us.description;
             document.getElementById("storyStartDate").value = startD;
             document.getElementById("storyEndDate").value = endD;
-            document.getElementById("storyState").value = userStory.state;
-            document.getElementById("storyId").value = userStory.id;
-            document.getElementById("userStoryId").value = userStory.id;
-            document.getElementById("storyIdDel").value = userStory.id;
+            document.getElementById("storyState").value = result.us.state;
+            document.getElementById("storyId").value = result.us.id;
+            document.getElementById("userStoryId").value = result.us.id;
+            document.getElementById("storyIdDel").value = result.us.id;
 
-            document.getElementById("finishedCheckedInput").value = userStory.state;
-            if (userStory.state == 2) {
+            document.getElementById("finishedCheckedInput").value = result.us.state;
+            if (result.us.state == 2) {
                 document.getElementById("modalCheckIcon").classList.add("text-success");
                 document.getElementById("modalCheckButton").classList.remove("btn-outline-black");
                 document.getElementById("modalCheckButton").classList.add("btn-outline-success");
                 document.getElementById("progressIcon").style.color = "green";
             }
 
-            document.getElementById("modal-overdue").style.width = document.getElementById("overdue" + userStory.id).style.width;
-            document.getElementById("modal-finished").style.width = document.getElementById("finished" + userStory.id).style.width;
-            document.getElementById("modal-estimated").style.width = document.getElementById("estimated" + userStory.id).style.width;
-        }
-            document.getElementById("storyState").value = result.us.state;
-            document.getElementById("storyId").value = result.us.id;
+            document.getElementById("modal-overdue").style.width = document.getElementById("overdue" + result.us.id).style.width;
+            document.getElementById("modal-finished").style.width = document.getElementById("finished" + result.us.id).style.width;
+            document.getElementById("modal-estimated").style.width = document.getElementById("estimated" + result.us.id).style.width;
+        
             storyId = result.us.id;
 
             var text = "";
@@ -170,7 +168,7 @@ function addUserToStory(userId) {
     });
 
 }
-});
+
 
 function dateChange() {
     var help = document.getElementById("storyStartDate").value.split('-');
