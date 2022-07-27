@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectManagementApplication.Migrations
 {
-    public partial class addedProjectManagementApplicationDbSet : Migration
+    public partial class ProjectManagementApplicationDbSet : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -94,6 +94,20 @@ namespace ProjectManagementApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserStorys", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserStoryUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserStoryID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserStoryUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -267,6 +281,9 @@ namespace ProjectManagementApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserStorys");
+
+            migrationBuilder.DropTable(
+                name: "UserStoryUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

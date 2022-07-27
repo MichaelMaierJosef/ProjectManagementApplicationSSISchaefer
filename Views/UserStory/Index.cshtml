@@ -114,66 +114,68 @@
         @{
             foreach (UserStory userstory in ViewBag.UserStorys)
             {
-                        <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED" draggable="true">
-                            <div onclick="showDetailView('@userstory.name', '@userstory.description', '@userstory.startDate.ToString().Split(' ')[0]', '@userstory.endDate.ToString().Split(' ')[0]', '@userstory.id', '@userstory.state')">
-                                <h5 class="mt-3 mx-3" id="taskTitle">@userstory.name</h5>
-                                <form asp-controller="UserStory" asp-action="ChangeStateUserStory" method="post" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
-                                    <button type="submit" style="padding: 0;border: none;background: none;" data-mdb-ripple-color="dark">
-                                    @if(userstory.state == 0)
-                                    {
-                                        <div style="width: 5px; height: 5px; background-color:red" class="btn btn-lg rounded-5 px-3 ms-auto"></div>
-                                    }else{
-                                        <div style="width: 5px; height: 5px; background-color:green" class="btn btn-lg rounded-5 px-3 ms-auto"></div>
-                                    }
-                                    </button>
-                                </form>
-                                <div class="d-flex my-2 mx-3">
-                                    <div class="d-flex flex-column bg-transparent me-2">
-                                        <div class="me-3">
-                                            <i class="fas fa-calendar trailing"></i>
-                                            <span>Start Date</span>
-                                        </div>
-                                        <span>@userstory.startDate.ToString().Split(' ')[0]</span>
-                                    </div>
-                                    <div class="bg-transparent d-flex flex-column">
-                                        <div>
-                                            <i class="fas fa-calendar trailing"></i>
-                                            <span>Due Date</span>
-                                        </div>
-                                        <span>@userstory.endDate.ToString().Split(' ')[0]</span>
-                                    </div>
+                <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED" draggable="true">
+                    <div onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
+                        <h5 class="mt-3 mx-3" id="taskTitle">@userstory.name</h5>
+                        <form asp-controller="UserStory" asp-action="ChangeStateUserStory" method="post" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                            <button type="submit" style="padding: 0;border: none;background: none;" data-mdb-ripple-color="dark">
+                                @if (userstory.state == 0)
+                                {
+                                    <div style="width: 5px; height: 5px; background-color:red" class="btn btn-lg rounded-5 px-3 ms-auto"></div>
+                                }
+                                else
+                                {
+                                    <div style="width: 5px; height: 5px; background-color:green" class="btn btn-lg rounded-5 px-3 ms-auto"></div>
+                                }
+                            </button>
+                        </form>
+                        <div class="d-flex my-2 mx-3">
+                            <div class="d-flex flex-column bg-transparent me-2">
+                                <div class="me-3">
+                                    <i class="fas fa-calendar trailing"></i>
+                                    <span>Start Date</span>
                                 </div>
-
-                                <div class="my-2 mb-3">
-
-                                    <div class="bg-transparent mx-3">
-                                        <i class="fas fa-clipboard-check trailing my-auto"></i>
-                                        <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
-                                    </div>
-
-                                    <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
-                                        <div class="progress-bar"
-                                         role="progressbar"
-                                         style="width: 10%;"
-                                         aria-valuenow="0"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                        <div class="progress-bar bg-success"
-                                         role="progressbar"
-                                         style="width: 10%;"
-                                         aria-valuenow="0"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                        <div class="progress-bar bg-info"
-                                         role="progressbar"
-                                         style="width: 10%;"
-                                         aria-valuenow="0"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                    </div>
+                                <span>@userstory.startDate.ToString().Split(' ')[0]</span>
+                            </div>
+                            <div class="bg-transparent d-flex flex-column">
+                                <div>
+                                    <i class="fas fa-calendar trailing"></i>
+                                    <span>Due Date</span>
                                 </div>
+                                <span>@userstory.endDate.ToString().Split(' ')[0]</span>
                             </div>
                         </div>
+
+                        <div class="my-2 mb-3">
+
+                            <div class="bg-transparent mx-3">
+                                <i class="fas fa-clipboard-check trailing my-auto"></i>
+                                <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
+                            </div>
+
+                            <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
+                                <div class="progress-bar"
+                                 role="progressbar"
+                                 style="width: 10%;"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: 10%;"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info"
+                                 role="progressbar"
+                                 style="width: 10%;"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         }
         <div class="my-2 d-flex justify-content-center w-100">
@@ -219,20 +221,32 @@
                     <!--Mitarbeiter-->
                     <div class="d-flex my-2">
                         <i class="fas fa-user-alt text-black fa-2x my-auto mx-2 ms-4"></i>
+                        <div id="userStoryUser" class="d-flex">
+                            <!--Mitarbeiter Item-->
+                            @{
+                                List<IdentityUser> userList = new List<IdentityUser>();
+                                userList = @ViewBag.allStoryUser;
 
-                        <!--Mitarbeiter Item-->
-                        <div class="admin d-flex justify-content-around rounded-8 mx-1 my-auto">
-                            <button type="submit" class="btn btn-link text-black btn-floating" disabled>
-                                <i class="fas fa-times" style="font-size: 1.5em;"></i>
-                            </button>
-                            <h6 class="my-auto mx-1 text-black">MrKuh</h6>
-                            <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
-                                <i class="fas fa-times" style="font-size: 1.5em;"></i>
-                            </button>
+                                if (userList != null)
+                                {
+                                    foreach (IdentityUser user in userList)
+                                    {
+                                        <div class="admin d-flex justify-content-around rounded-8 mx-1 my-auto">
+                                            <button type="submit" class="btn btn-link text-black btn-floating" disabled>
+                                                <i class="fas fa-times" style="font-size: 1.5em;"></i>
+                                            </button>
+                                            <h6 class="my-auto mx-1 text-black">@user.UserName</h6>
+                                            <button type="button" class="btn btn-link text-black bg-transparent btn-floating">
+                                                <i class="fas fa-times" style="font-size: 1.5em;"></i>
+                                            </button>
+                                        </div>
+                                    }
+                                }
+                            }
                         </div>
 
                         <!--Add Mitarbeiter-->
-                        <button type="button" class="btn btn-link text-black btn-floating" data-dismiss="modal" onclick="openAddUserModal();">
+                        <button type="button" class="btn btn-link text-black btn-floating" data-dismiss="modal" onclick="openAddUserModal(@ViewBag.currentProjectId);">
                             <i class="fas fa-plus fa-2x"></i>
                         </button>
                     </div>
@@ -275,7 +289,7 @@
                                     </div>
                                     <!--Complete Button-->
                                     <form asp-action="DeleteStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pname="@ViewBag.currentProjectName">
-                                    <button type="submit" class="btn btn-outline-success btn-lg rounded-5 px-3 ms-auto" data-mdb-ripple-color="dark"><i class="fas fa-sign-out-alt fa-3x"></i></button>
+                                        <button type="submit" class="btn btn-outline-success btn-lg rounded-5 px-3 ms-auto" data-mdb-ripple-color="dark"><i class="fas fa-sign-out-alt fa-3x"></i></button>
                                     </form>
                                 </div>
                                 <div class="d-flex flex-column">
@@ -330,9 +344,11 @@
 <div class="modal fade"
      id="infoModalAddUser"
      data-mdb-keyboard="false"
+     data-mdb-backdrop="static"
      tabindex="-1"
      aria-labelledby="infoModalLabel"
      aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header p-0" style="border-bottom: 1px solid #dcdfe4;">
@@ -358,33 +374,33 @@
                     </div>
 
                     <div class="d-flex my-2">
-                        <i class="fas fa-user-alt text-black fa-2x my-auto mx-2 ms-4"></i>
-                        <h4>Mitarbeiter Hinzufuegen</h4>
+                        <i class="fas fa-user-alt text-black fa-2x mx-2 ms-4"></i>
+                        <h4>Add Employees</h4>
 
                         <div class="modal-body p-0">
 
                             @{
-                                List<IdentityUser> projectAllUser = new List<IdentityUser>();
-                                projectAllUser = ViewBag.allUser;
+                                List<IdentityUser> usAllUser = new List<IdentityUser>();
+                                usAllUser = ViewBag.allUser;
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Mitarbeiter</th>
-                                            <th>Hinzufügen</th>
+                                            <th>Employee</th>
+                                            <th>Add</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="userTable">
                                         @{
                                             if (ViewBag.allUser != null)
                                             {
-                                                foreach (IdentityUser user in projectAllUser)
+                                                foreach (IdentityUser user in usAllUser)
                                                 {
                                                     <tr>
                                                         <th>@user.UserName</th>
                                                         <th>
 
                                                             <!-- <form methoyd="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID"> -->
-                                                            <button type="button" onclick="editUserRoles('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black btn-floating">
+                                                            <button type="button" onclick="addUserToStory('@user.Id')" class="btn btn-link text-black btn-floating">
                                                                 <i class="fas fa-plus fa-2x"></i>
                                                             </button>
                                                             <!-- </form> -->
@@ -396,6 +412,8 @@
                                     </tbody>
                                 </table>
                             }
+                            <button type="button" onclick="addUserToStory(value)" class="btn btn-dark ms-auto" data-mdb-dismiss="modal">ADD</button>
+
                         </div>
                     </div>
 
