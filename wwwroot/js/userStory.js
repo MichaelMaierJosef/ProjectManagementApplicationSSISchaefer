@@ -75,7 +75,7 @@ function dateChange() {
     var startDDate = new Date(help[0], help[1] - 1, help[2]);
     help = document.getElementById("storyEndDate").value.split('-');
     var endDDate = new Date(help[0], help[1] - 1, help[2]);
-    if (startDDate < endDDate) {
+    if (startDDate <= endDDate) {
         startD = document.getElementById("storyStartDate").value;
         endD = document.getElementById("storyEndDate").value;
         document.getElementById("infoTextDate").hidden = true;
