@@ -46,7 +46,7 @@ function weightChanged(event) {
             weightAmount += parseInt(document.getElementById(element.id + "Weight").value);
             activeAmount++;
         }
-    }
+        }
 
     console.log(document.getElementById("estimatedComplexityWeight").value);
 

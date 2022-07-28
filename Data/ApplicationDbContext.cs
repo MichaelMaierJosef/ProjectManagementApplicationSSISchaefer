@@ -13,6 +13,7 @@ namespace ProjectManagementApplication.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectUser> ProjectUsers { get; set; }
         public DbSet<UserStoryUser> UserStoryUsers { get; set; }
+        public DbSet<Complexity> Complexities { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {}
