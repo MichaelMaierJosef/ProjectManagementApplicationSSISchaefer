@@ -160,6 +160,10 @@ namespace ProjectManagementApplication.Controllers
                 return NotFound();
             }
 
+            List<UserStoryUser> usu = new List<UserStoryUser>();
+            usu = _context.UserStoryUsers.Where(u => u.UserStoryID == id).ToList();
+            _context.UserStoryUsers.RemoveRange(usu);
+
             _context.UserStorys.Remove(storyDB);
             _context.SaveChanges();
 

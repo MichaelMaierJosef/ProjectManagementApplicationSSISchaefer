@@ -173,6 +173,9 @@ namespace ProjectManagementApplication.Controllers
                 }
             }
 
+            List<UserStoryUser> usu = _context.UserStoryUsers.Where(u => u.UserID == userId).ToList();
+            _context.UserStoryUsers.RemoveRange(usu);
+
             _context.ProjectUsers.Remove(pu);
             _context.SaveChanges();
 

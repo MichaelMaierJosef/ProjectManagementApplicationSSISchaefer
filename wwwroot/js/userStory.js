@@ -25,6 +25,10 @@ function showDetailView(usid, pid) {
         data: data,
         success: function (result) {
 
+            if (result.us.Files != null) {
+                result.us.Files.forEach(file => alert(file));
+            }
+
             var startD = result.us.startDate.substring(0, 10);
             var endD = result.us.endDate.substring(0, 10);
 
@@ -55,7 +59,7 @@ function showDetailView(usid, pid) {
 
             var text = "";
 
-            result.allUserstoryIdentities.forEach(user => text += "<div class=\"admin d-flex justify-content-around rounded-8 mx-1 my-auto\">" +
+            result.allUserstoryIdentities.forEach(user => text += "<div class=\"employee d-flex justify-content-around rounded-8 mx-1 my-auto\">" +
                 "<button type=\"submit\" class=\"btn btn-link text-black btn-floating\" disabled>" +
                 "<i class=\"fas fa-times\" style=\"font-size: 1.5em;\"></i>" +
                 "</button>" +
@@ -85,7 +89,10 @@ function showDetailView(usid, pid) {
             $('#infoModal').modal('show');
 
         }
+
     });
+
+
 
 }
 
