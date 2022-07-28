@@ -219,18 +219,57 @@ namespace ProjectManagementApplication.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ProjectManagementApplication.Models.Project", b =>
+            modelBuilder.Entity("ProjectManagementApplication.Models.Complexity", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<short>("CodeCompareChecked")
+                        .HasColumnType("smallint");
+
+                    b.Property<double>("CodeCompareWeighting")
+                        .HasColumnType("float");
+
                     b.Property<double>("Difficulty")
                         .HasColumnType("float");
 
-                    b.Property<double>("DifficultyEstimated")
+                    b.Property<short>("EstimatedChecked")
+                        .HasColumnType("smallint");
+
+                    b.Property<double>("EstimatedDifficulty")
                         .HasColumnType("float");
+
+                    b.Property<double>("EstimatedWeighting")
+                        .HasColumnType("float");
+
+                    b.Property<short>("GerritChecked")
+                        .HasColumnType("smallint");
+
+                    b.Property<double>("GerritWeighting")
+                        .HasColumnType("float");
+
+                    b.Property<short>("JiraChecked")
+                        .HasColumnType("smallint");
+
+                    b.Property<double>("JiraWeighting")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Complexities");
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.Project", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
@@ -295,6 +334,24 @@ namespace ProjectManagementApplication.Migrations
                     b.HasKey("id");
 
                     b.ToTable("UserStorys");
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.UserStoryUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserStoryID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserStoryUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

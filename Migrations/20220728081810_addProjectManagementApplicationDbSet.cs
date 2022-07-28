@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectManagementApplication.Migrations
 {
-    public partial class addedProjectManagementApplicationDbSet : Migration
+    public partial class addProjectManagementApplicationDbSet : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +47,29 @@ namespace ProjectManagementApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Complexities",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    Difficulty = table.Column<double>(type: "float", nullable: false),
+                    EstimatedDifficulty = table.Column<double>(type: "float", nullable: false),
+                    EstimatedWeighting = table.Column<double>(type: "float", nullable: false),
+                    EstimatedChecked = table.Column<short>(type: "smallint", nullable: false),
+                    JiraWeighting = table.Column<double>(type: "float", nullable: false),
+                    JiraChecked = table.Column<short>(type: "smallint", nullable: false),
+                    GerritWeighting = table.Column<double>(type: "float", nullable: false),
+                    GerritChecked = table.Column<short>(type: "smallint", nullable: false),
+                    CodeCompareWeighting = table.Column<double>(type: "float", nullable: false),
+                    CodeCompareChecked = table.Column<short>(type: "smallint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Complexities", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -54,9 +77,7 @@ namespace ProjectManagementApplication.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     projectName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     tense = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Difficulty = table.Column<double>(type: "float", nullable: false),
-                    DifficultyEstimated = table.Column<double>(type: "float", nullable: false)
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,6 +115,20 @@ namespace ProjectManagementApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserStorys", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserStoryUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserStoryID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserStoryUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,6 +295,9 @@ namespace ProjectManagementApplication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Complexities");
+
+            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
@@ -267,6 +305,9 @@ namespace ProjectManagementApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserStorys");
+
+            migrationBuilder.DropTable(
+                name: "UserStoryUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
