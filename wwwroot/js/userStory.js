@@ -130,9 +130,6 @@ function openAddUserModal(projectId) {
             $('#infoModalAddUser').modal('show');
         }
     });*/
-
-    document.getElementById("userStoryTitleAdd").innerHTML = usName;
-
     $('#infoModalAddUser').modal('show');
 
 }

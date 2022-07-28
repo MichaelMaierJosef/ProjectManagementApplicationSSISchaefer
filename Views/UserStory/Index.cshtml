@@ -386,7 +386,7 @@
     </div>
 </div>
 
-<!-- Modal Info -->
+<!-- Modal add User -->
 <div class="modal fade"
      id="infoModalAddUser"
      data-mdb-keyboard="false"
@@ -394,73 +394,65 @@
      tabindex="-1"
      aria-labelledby="infoModalLabel"
      aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header p-0" style="border-bottom: 1px solid #dcdfe4;">
                 <div class="d-flex flex-column justify-content-start w-100">
-                    <div class="d-flex py-2 px-2" style="border-radius:10px 10px 0 0; background-color:#eff0f3; border-bottom: 1px solid #dcdfe4;">
+                    <div class="d-flex py-2 px-2" style="border-radius:10px 10px 0 0; background-color:#eff0f3;">
                         <div class="py-1 px-3 bg-white rounded-6">
                             <!--Path-->
-                            <nav id="linkState" class="me-auto">
-                                <span>/</span>
-                                <a href="../" class="routeLink">Projects</a>
-                                <span>/</span>
-                                <a href="../" class="routeLink">@ViewBag.currentProjectName</a>
-                                <span>/</span>
-                                <a data-mdb-dismiss="modal" class="routeLink" id="userStoryTitleAdd"></a>
-                                <span>/</span>
-                                <a class="text-reset"><u>Add User</u></a>
-                            </nav>
+                            <div class="d-flex">
+                        <i class="fas fa-user-alt text-black fa-2x mx-2 my-auto"></i>
+                        <h4 class="my-auto">Add Employees</h4>
+                    </div>
                         </div>
                         <!--Close-->
                         <button type="button" class="btn btn-link text-black btn-floating bg-white align-self-end ms-auto my-auto" data-mdb-dismiss="modal">
                             <i class="fas fa-times fa-2x"></i>
                         </button>
                     </div>
-
-                    <div class="d-flex my-2">
-                        <i class="fas fa-user-alt text-black fa-2x mx-2 ms-4"></i>
-                        <h4>Add Employees</h4>
-
-                        <div class="modal-body p-0">
-
-                            @{
-                                List<IdentityUser> usAllUser = new List<IdentityUser>();
-                                usAllUser = ViewBag.allUser;
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Employee</th>
-                                            <th>Add</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="userTable">
-                                        @{
-                                            if (ViewBag.allUser != null)
+                </div>
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex flex-column my-2">
+                    
+                    <div>
+                        @{
+                            List<IdentityUser> usAllUser = new List<IdentityUser>();
+                            usAllUser = ViewBag.allUser;
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Add</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTable">
+                                    @{
+                                        if (ViewBag.allUser != null)
+                                        {
+                                            foreach (IdentityUser user in usAllUser)
                                             {
-                                                foreach (IdentityUser user in usAllUser)
-                                                {
-                                                    <tr>
-                                                        <th>@user.UserName</th>
-                                                        <th>
+                                                <tr>
+                                                    <th>@user.UserName</th>
+                                                    <th>
 
-                                                            <!-- <form methoyd="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID"> -->
-                                                            <button type="button" onclick="addUserToStory('@user.Id')" class="btn btn-link text-black btn-floating">
-                                                                <i class="fas fa-plus fa-2x"></i>
-                                                            </button>
-                                                            <!-- </form> -->
-                                                        </th>
-                                                    </tr>
-                                                }
+                                                        <!-- <form methoyd="post" asp-action="EditUserRoles" asp-controller="Project" asp-route-userId="@user.Id" asp-route-ProjectID="@ViewBag.ProjectID"> -->
+                                                        <button type="button" onclick="addUserToStory('@user.Id')" class="btn btn-link text-black btn-floating">
+                                                            <i class="fas fa-plus fa-2x"></i>
+                                                        </button>
+                                                        <!-- </form> -->
+                                                    </th>
+                                                </tr>
                                             }
                                         }
-                                    </tbody>
-                                </table>
-                            }
-                            <button type="button" onclick="addUserToStory(value)" class="btn btn-dark ms-auto" data-mdb-dismiss="modal">ADD</button>
-
-                        </div>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" onclick="addUserToStory(value)" class="btn btn-dark" data-mdb-dismiss="modal">ADD</button>
                     </div>
 
                 </div>
