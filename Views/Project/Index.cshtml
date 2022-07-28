@@ -234,26 +234,27 @@
                  draggable="true" ondragstart="drag(event,@project.Key.id)" ondragend="endDrag(event)">
                     <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="UserStory">
                         <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project.Key.projectName</h4>
-                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                            <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: @(finishedTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger"
-                             role="progressbar"
-                             style="width: @(overdueTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-warning"
-                             role="progressbar"
-                             style="width: @(estimatedTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        </div>
+                            <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:10px">
+                                <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: @(finishedTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger"
+                                 role="progressbar"
+                                 style="width: @(overdueTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-warning"
+                                 role="progressbar"
+                                 style="width: @(estimatedTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            </div>
+
 
                     </a>
                     @{
@@ -267,17 +268,17 @@
                                     EDIT
                                 </button>
                             </form>
-
-                            <button type="button"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                                COMPLEXITY
-                            </button>
-
+                            <form asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="Complexity">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#5069A4">
+                                    COMPLEXITY
+                                </button>
+                            </form>
                             <button type="button" data-mdb-toggle="modal"
                             data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                            class="btn btn-link btn-lg h-100 align-self-end me-3"
                             data-mdb-ripple-color="dark"
                             style="color:red">
                                 DELETE
@@ -286,15 +287,16 @@
                         }
                         else
                         {
-                            <button type="button" onclick="userInfo(@project.Key.id)"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                                INFO
-                            </button>
+                            <form asp-action="Info" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 mx-2 align-self-end me-3"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    INFO
+                                </button>
+                            </form>
                         }
                     }
-                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
                     <br>
                     @{
                         string help = "" + project.Key.DifficultyEstimated;
@@ -306,7 +308,7 @@
                         {
                             int id = project.Key.id;
                             <form asp-controller="Project" asp-action="ChangeDifficult" asp-route-projectid="@id" method="post">
-                                <input asp-for="DifficultyEstimated" />
+
                                 <input type="submit" hidden />
                             </form>
                         }
@@ -373,7 +375,6 @@
                         style="color:red" disabled>
                     DELETE
                 </button>
-                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
             </div>
         }
 
@@ -450,26 +451,26 @@
                  draggable="true" ondragstart="drag(event,@project.Key.id)" ondragend="endDrag(event)">
                     <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="UserStory">
                         <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project.Key.projectName</h4>
-                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                            <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: @(finishedTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger"
-                             role="progressbar"
-                             style="width: @(overdueTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-warning"
-                             role="progressbar"
-                             style="width: @(estimatedTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        </div>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:10px">
+                                <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: @(finishedTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger"
+                                 role="progressbar"
+                                 style="width: @(overdueTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-warning"
+                                 role="progressbar"
+                                 style="width: @(estimatedTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            </div>
 
                     </a>
                     @{
@@ -484,16 +485,18 @@
                                 </button>
                             </form>
 
-                            <button type="button"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                                COMPLEXITY
-                            </button>
+                            <form asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="Complexity">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    COMPLEXITY
+                                </button>
+                            </form>
 
                             <button type="button" data-mdb-toggle="modal"
                             data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                            class="btn btn-link btn-lg h-100 align-self-end me-3"
                             data-mdb-ripple-color="dark"
                             style="color:red">
                                 DELETE
@@ -501,15 +504,16 @@
                         }
                         else
                         {
-                            <button type="button" onclick="userInfo(@project.Key.id)"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                                INFO
-                            </button>
+                            <form asp-action="Info" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 mx-2 align-self-end me-3"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    INFO
+                                </button>
+                            </form>
                         }
                     }
-                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
                 </div>
                 <div class="modal fade"
                  id="@staticBackdropid"
@@ -574,7 +578,6 @@
                     DELETE
                 </button>
 
-                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
             </div>
         }
 
@@ -652,26 +655,26 @@
                  ondragstart="drag(event,@project.Key.id)" ondragend="endDrag(event)">
                     <a class="projectlist d-flex flex-fill" asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="UserStory">
                         <h4 class="m-3 ms-4 text-black align-self-start" style="max-width:20%; min-width:20%">@project.Key.projectName</h4>
-                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:15%">
-                            <div class="progress-bar bg-success"
-                             role="progressbar"
-                             style="width: @(finishedTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger"
-                             role="progressbar"
-                             style="width: @(overdueTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                            <div class="progress-bar bg-warning"
-                             role="progressbar"
-                             style="width: @(estimatedTimePercent+"%");"
-                             aria-valuenow="0"
-                             aria-valuemin="0"
-                             aria-valuemax="100"></div>
-                        </div>
+                        <div class="progress mx-2 my-auto bg-white rounded-8 flex-fill" style="height:10px">
+                                <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: @(finishedTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger"
+                                 role="progressbar"
+                                 style="width: @(overdueTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                                <div class="progress-bar bg-warning"
+                                 role="progressbar"
+                                 style="width: @(estimatedTimePercent+"%");"
+                                 aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            </div>
 
                     </a>
                     @{
@@ -686,16 +689,18 @@
                                 </button>
                             </form>
 
-                            <button type="button"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                                COMPLEXITY
-                            </button>
+                            <form asp-action="Index" asp-route-projectid="@project.Key.id" asp-route-projectName="@project.Key.projectName" asp-controller="Complexity">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 ms-2 align-self-end"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    COMPLEXITY
+                                </button>
+                            </form>
 
                             <button type="button" data-mdb-toggle="modal"
                             data-mdb-target="@staticBackdropTarget"
-                            class="btn btn-link btn-lg h-100 align-self-end"
+                            class="btn btn-link btn-lg h-100 align-self-end me-3"
                             data-mdb-ripple-color="dark"
                             style="color:red">
                                 DELETE
@@ -703,15 +708,17 @@
                         }
                         else
                         {
-                            <button type="button" onclick="userInfo(@project.Key.id)"
-                            class="btn btn-link btn-lg h-100 ms-2 align-self-end"
-                            data-mdb-ripple-color="dark"
-                            style="color:#6750A4">
-                                INFO
-                            </button>
+                            <form asp-action="Info" asp-route-id="@project.Key.id">
+                                <button type="submit"
+                                class="btn btn-link btn-lg h-100 mx-2 align-self-end me-3"
+                                data-mdb-ripple-color="dark"
+                                style="color:#6750A4">
+                                    INFO
+                                </button>
+                            </form>
+
                         }
                     }
-                    <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3" style="cursor: grab;"></i>
                 </div>
                 <div class="modal fade"
                  id="@staticBackdropid"
@@ -774,7 +781,6 @@
                         style="color:red" disabled>
                     DELETE
                 </button>
-                <i class="fas fa-arrows-alt-v fa-2x my-auto mx-2 me-3"></i>
             </div>
         }
 

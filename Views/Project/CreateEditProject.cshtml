@@ -85,7 +85,10 @@
             </div>
         </div>
 
-        <h4 class="my-auto me-3 mt-3">Project-Members:</h4>
+        <div class="d-flex my-1">
+            <i class="fas fa-user-alt trailing my-auto me-2 text-black "></i>
+            <label class="form-label flex-fill my-auto text-black" style="font-size: 18px;">Project-Members</label>
+        </div>
         <div id="employeeList" class="d-flex my-2 mx-2">
             @{
                 List<IdentityUser> projectAdmins = new List<IdentityUser>();

@@ -197,6 +197,19 @@ namespace ProjectManagementApplication.Controllers
             return View("CreateEditProject", projectInDb);
         }
 
+        //Project Info
+        public IActionResult Info(int id)
+        {
+            GetUserRoles(id);
+
+            var projectInDb = _context.Projects.Find(id);
+            if (projectInDb == null)
+            {
+                return NotFound();
+            }
+            return View("InfoProject", projectInDb);
+        }
+
         //EntityCreate
         public IActionResult Create()
         {
