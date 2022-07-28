@@ -1,0 +1,168 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ProjectManagementApplication.Models.Project
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .employee {
+        background-color: #EFE407;
+    }
+
+        .employee i {
+            opacity: 0%;
+            transition: opacity .5s;
+        }
+
+    .admin {
+        background-color: firebrick;
+    }
+
+        .admin i {
+            opacity: 0%;
+            transition: opacity .5s;
+        }
+
+    #routeLink {
+        color: black;
+    }
+
+        #routeLink:hover {
+            color: blue;
+        }
+
+    #linkState {
+        font-size: 20px;
+    }
+</style>
+
+
+<div id="topNavigation" class="me-2 d-flex justify-content-end">
+<nav id="linkState" class="me-auto p-2">
+    <span>/</span>
+    <a href="../" id="routeLink">Project</a>
+    <span>/</span>
+    <a class="text-reset"><u>Info</u></a>
+</nav>
+</div>
+
+
+<div class="container text-black">
+    <script type="text/javascript" src="~/js/createProject.js"></script>
+
+    <input hidden asp-for="id" placeholder="id" />
+    <div class="d-flex mb-2">
+        <div class="d-flex flex-column flex-fill me-2 mt-auto mb-2">
+            <div class="d-flex my-1">
+                <label class="form-label flex-fill my-auto text-black" for="projectTitle" style="font-size: 20px;">Project Title</label>
+            </div>
+            <div style="border-color:#dcdfe4;">
+                <input id="projectTitle" asp-for="projectName" type="text" class="form-control form-control-lg text-black px-2" style="font-size: 26px;font-weight: 400;line-height: 34px;" disabled />
+            </div>
+        </div>
+        <div class="d-flex flex-column my-2 mt-3">
+            <div class="d-flex my-1">
+                <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+                <label class="form-label flex-fill my-auto text-black" for="projectState" style="font-size: 18px;">Project-State</label>
+            </div>
+            <div style="border-color:#dcdfe4;">
+                <select id="projectState" class="select form-control form-control-lg me-2" asp-for="tense" checked disabled>
+                    <option value="active">Active</option>
+                    <option value="future">Future</option>
+                    <option value="past">Past</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="d-flex my-1">
+            <i class="fas fa-user-alt trailing my-auto me-2 text-black "></i>
+            <label class="form-label flex-fill my-auto text-black" style="font-size: 18px;">Project-Members</label>
+     </div>
+    <div id="employeeList" class="d-flex my-2 mx-2">
+        @{
+            List<IdentityUser> projectAdmins = new List<IdentityUser>();
+            List<IdentityUser> projectWorker = new List<IdentityUser>();
+
+            if (ViewBag.UserRights != null)
+            {
+                foreach (KeyValuePair<IdentityUser, int> entry in ViewBag.UserRights)
+                {
+                    if (entry.Value == 0)
+                    {
+                        projectAdmins.Add(entry.Key);
+                    }
+                    if (entry.Value == 1)
+                    {
+                        projectWorker.Add(entry.Key);
+                    }
+                }
+            }
+
+            foreach (IdentityUser user in projectAdmins)
+            {
+                <div id="@user.Id" class="admin d-flex justify-content-around rounded-8 mx-1 my-auto">
+                    <button type="button" class="btn btn-link text-black bg-transparent btn-floating" disabled>
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+
+
+                    <h5 class="my-auto mx-1">@user.UserName</h5>
+                    <button type="button" onclick="deleteUser('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black bg-transparent btn-floating" disabled>
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+                </div>
+            }
+
+            foreach (IdentityUser user in projectWorker)
+            {
+                <div id="@user.Id" class="employee d-flex justify-content-around rounded-8 mx-1 my-auto">
+                    <button type="button" onclick="setValues('@user.Id', @ViewBag.ProjectID)" data-mdb-toggle="modal" data-mdb-target="#makeAdmin" class="btn btn-link text-black bg-transparent btn-floating" disabled>
+                        <i class="fas fa-circle-user fa-2x"></i>
+                    </button>
+
+
+
+                    <h5 class="my-auto mx-1">@user.UserName</h5>
+                    <button type="button" onclick="deleteUser('@user.Id', @ViewBag.ProjectID)" class="btn btn-link text-black bg-transparent btn-floating" disabled>
+                        <i class="fas fa-times fa-2x"></i>
+                    </button>
+                </div>
+
+            }
+
+        }
+    </div>
+
+    <div class="d-flex flex-column my-2 mt-3">
+        <div class="d-flex my-1">
+            <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+            <label class="form-label flex-fill my-auto text-black" for="projectDescription" style="font-size: 18px;">Description</label>
+        </div>
+        <div style="border-color:#dcdfe4;">
+            <textarea id="projectDescription" asp-for="description" style="font-size: 16px;" class="form-control form-control-lg px-2" rows="8" disabled></textarea>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column my-2 mt-3">
+        <div class="d-flex my-1">
+            <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+            <label class="form-label flex-fill my-auto text-black" for="projectDescription" style="font-size: 18px;">Calculated Complexity</label>
+        </div>
+        <div class="progress rounded-6 mx-3" style="height: 20px;">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center mt-4 mx-auto">
+        <a class="btn btn-lg" style="background-color: #EFE407;" href="../" role="button">
+            RETURN
+        </a>
+    </div>
+
+
+</div>
