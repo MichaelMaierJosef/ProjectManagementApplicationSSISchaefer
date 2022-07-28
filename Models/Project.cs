@@ -23,8 +23,5 @@ namespace ProjectManagementApplication.Models
 
         public String description { get; set; }
 
-        public double Difficulty { get; set; }
-
-        public double DifficultyEstimated { get; set; }
     }
 }

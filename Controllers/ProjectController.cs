@@ -56,7 +56,7 @@ namespace ProjectManagementApplication.Controllers
 
 
 
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult ChangeDifficult(int projectid, double DifficultyEstimated)
         {
             Project project = _context.Projects.Where(_u => _u.id == projectid).FirstOrDefault();
@@ -64,7 +64,7 @@ namespace ProjectManagementApplication.Controllers
             _context.Projects.Update(project);
             _context.SaveChanges();
             return Index();
-        }
+        }*/
 
 
 

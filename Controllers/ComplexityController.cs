@@ -9,5 +9,11 @@ namespace ProjectManagementApplication.Controllers
         {
             return View("Index");
         }
+
+
+        public void KomplexitätBerechnen()
+        {
+
+        }
     }
 }
