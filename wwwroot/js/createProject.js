@@ -13,7 +13,7 @@
             if (anz == 2) {
                 window.location.href = window.location.href;
             } else {
-                alert("Es gibt nur einen ProjektLeiter. Mache zuerst jemand anderen zum Leiter");
+                alert("There is only one projectleader. Make someone else the leader first");
             }
         }
     });

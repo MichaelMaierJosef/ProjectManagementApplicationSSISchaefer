@@ -193,15 +193,15 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="container-fluid">
-                    <h4>Mitarbeiter Hinzufügen</h4>
+                    <h4>Add Members</h4>
                     @{
                         List<IdentityUser> projectAllUser = new List<IdentityUser>();
                         projectAllUser = ViewBag.allUser;
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Mitarbeiter</th>
-                                    <th>Hinzufügen</th>
+                                    <th>Member</th>
+                                    <th>Add</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -227,7 +227,7 @@
                             </tbody>
                         </table>
                     }
-                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Add</button>
                 </div>
             </div>
         </div>
@@ -244,14 +244,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white d-flex justify-content-center">
-                <h5 class="modal-title" id="exampleModalLabel">Wirklich zum Admin machen?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Make Admin?</h5>
             </div>
             <div class="modal-body d-flex justify-content-center">
                 <i class="fa-solid fa-id-card-clip fa-4x icon-cog text-black"></i>
             </div>
             <div class="modal-footer align-content-between d-flex justify-content-center">
                 <button type="button" onclick="makeAdmin()" class="btn btn-outline-black" data-mdb-dismiss="modal">Ja</button>
-                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
