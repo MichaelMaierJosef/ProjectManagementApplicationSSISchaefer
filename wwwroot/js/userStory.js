@@ -201,12 +201,10 @@ function changeProgressBar(startDDate, endDDate) {
     var currentDDate = new Date();
 
     if (!document.getElementById("modalCheckIcon").classList.contains("text-success")) {
-        console.log("WOW");
         document.getElementById("progressIcon").style.color = "";
-        const diffCurrentTime = Math.abs(currentDDate - startDDate);
-        const diffTime = Math.abs(endDDate - startDDate);
-        console.log(diffCurrentTime +"");
-        if (diffCurrentTime > 0) {
+        if (currentDDate > startDDate) {
+            const diffCurrentTime = Math.abs(currentDDate - startDDate);
+            const diffTime = Math.abs(endDDate - startDDate);
             if (endDDate < currentDDate) {
                 document.getElementById("modal-overdue").style.width = "100%";
             } else {
@@ -248,4 +246,23 @@ function setAspFinishedChecked() {
         document.getElementById("modalCheckButton").classList.add("btn-outline-success");
     }
     dateChange();
+}
+
+function validateCreateUserStory() {
+    var titel = document.getElementById("storyTitleInputDummy").value;
+    var start = document.getElementById("storyStartDateDummy").value;
+    var end = document.getElementById("storyEndDateDummy").value;
+
+    var submitBtn = document.getElementById("storySubmitInputDummy");
+
+    var defaultD = new Date(1, 1, 1);
+
+    alert(defaultD);
+    alert(start);
+
+    if (titel == "" || start == defaultD || end == defaultD) {
+        submitBtn.disabled = true;
+    } else {
+        submitBtn.disabled = false;
+    }
 }

@@ -490,7 +490,7 @@
                                             <label class="form-label flex-fill my-auto text-black" for="storyTitleInputDummy" style="font-size: 20px;">Story Title</label>
                                         </div>
                                         <div class="form-outline" style="border-color:#dcdfe4;">
-                                            <input id="storyTitleInputDummy" asp-for="name" type="text" class="form-control form-control-lg text-black px-2" style="font-size: 26px;font-weight: 400;line-height: 34px;" required />
+                                            <input id="storyTitleInputDummy" asp-for="name" type="text" class="form-control form-control-lg text-black px-2" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
                                         </div>
                                     </div>
                                     <!--Date-->
@@ -500,7 +500,7 @@
                                             <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
                                             <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDateDummy" style="font-size: 18px;">Start-Date</label>
                                             <div class="form-outline" style="border-color:#dcdfe4;">
-                                                <input id="storyStartDateDummy" asp-for="startDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required />
+                                                <input id="storyStartDateDummy" asp-for="startDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
                                             </div>
                                         </div>
                                         <!--End Date-->
@@ -508,7 +508,7 @@
                                             <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
                                             <label class="form-label text-nowrap my-auto text-black" for="storyEndDateDummy" style="font-size: 18px;">End-Date</label>
                                             <div class="form-outline" style="border-color:#dcdfe4;">
-                                                <input id="storyEndDateDummy" asp-for="endDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required />
+                                                <input id="storyEndDateDummy" asp-for="endDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
                                             </div>
                                         </div>
                                     </div>
@@ -531,7 +531,7 @@
                 </div>
                 <div class="modal-footer" style=" border-top: 1px solid #dcdfe4;">
                     <button type="button" class="btn btn-link btn-lg text-dark" data-mdb-dismiss="modal">CANCEL</button>
-                    <button type="submit" class="btn btn-link btn-lg text-success">CREATE</button>
+                    <button id="storySubmitInputDummy" type="submit" class="btn btn-link btn-lg text-success">CREATE</button>
                 </div>
             </form>
         </div>
