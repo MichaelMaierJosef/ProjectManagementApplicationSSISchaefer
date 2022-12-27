@@ -4,70 +4,58 @@
     ViewData["Title"] = "Register";
 }
 
-<style>
-    #loginBox {
-        border: 4px solid #000000;
-        border-radius: 20px;
-        max-width: 30%;
-        max-height: 90%;
-    }
+<link rel="stylesheet" href="~/css/loginRegister.css" />
 
-    section {
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        height: 100%;
-        width: 100%;
-    }
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mt-2 d-flex align-items-center justify-content-center">
+                            <img src="~/pictures/SSI_Schäfer_Logo.png" alt="SSI Schäfer" width="90%" class="logoLogin" />
+                        </div>
+                        <h3 class="text-center mt-4">Registrieren</h3>
+                        <div class="mt-4 d-flex align-items-center justify-content-center">
+                            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                <!-- Email input -->
+                                <div class="form-outline mt-3 mb-1">
+                                    <i class="fas fa-user-alt trailing"></i>
+                                    <input asp-for="Input.Email" type="email" id="formUser" class="form-control form-control-lg form-icon-trailing" size="25" />
+                                    <label class="form-label" asp-for="Input.Email"></label>
+                                </div>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
 
-</style>
+                                <!-- Password input -->
+                                <div class="form-outline mt-3 mb-1">
+                                    <i class="fas fa-key trailing"></i>
+                                    <input asp-for="Input.Password" type="password" id="formPassword" class="form-control form-control-lg form-icon-trailing" />
+                                    <label class="form-label" asp-for="Input.Password"></label>
+                                </div>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
 
+                                <div class="form-outline mt-3 mb-1">
+                                    <i class="fas fa-key trailing"></i>
+                                    <input asp-for="Input.ConfirmPassword" type="password" id="formPassword" class="form-control form-control-lg form-icon-trailing" />
+                                    <label class="form-label" asp-for="Input.ConfirmPassword"></label>
+                                </div>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
 
+                                <!-- all Errors -->
+                                <div asp-validation-summary="All" class="text-danger"></div>
 
+                                <!-- Submit button -->
+                                <div class="mt-5 d-grid gap-2 col-10 mx-auto">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-rounded">Register</button>
+                                </div>
 
-<section>
-    <div class="h-100 mw-100 d-flex align-items-center justify-content-center">
-        <div class="align-items-center justify-content-center" id="loginBox">
-            <div class="mt-5 d-flex align-items-center justify-content-center">
-                <img src="~/pictures/SSI_Schäfer_Logo.png" alt="SSI Schäfer" width="90%" class="logoLogin" />
-            </div>
-            <div class="mt-5 mb-5 d-flex align-items-center justify-content-center">
-                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <i class="fas fa-user-alt trailing"></i>
-                        <input asp-for="Input.Email" type="email" id="formUser" class="form-control form-control-lg form-icon-trailing" size="25" />
-                        <label class="form-label" asp-for="Input.Email"></label>
+                                <div class="text-center mt-5">
+                                    <p>Schon registriert? <a href="Login">Login</a></p>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-
-                    <!-- Password input -->
-                    <div class="form-outline mb-4">
-                        <i class="fas fa-key trailing"></i>
-                        <input asp-for="Input.Password" type="password" id="formPassword" class="form-control form-control-lg form-icon-trailing" />
-                        <label class="form-label" asp-for="Input.Password"></label>
-                    </div>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-
-                    <div class="form-outline mb-4">
-                        <i class="fas fa-key trailing"></i>
-                        <input asp-for="Input.ConfirmPassword" type="password" id="formPassword" class="form-control form-control-lg form-icon-trailing" />
-                        <label class="form-label" asp-for="Input.ConfirmPassword"></label>
-                    </div>
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-
-                    <!-- all Errors -->
-                    <div asp-validation-summary="All" class="text-danger"></div>
-
-                    <!-- Submit button -->
-                    <div class="mb-4 mt-4 d-grid gap-2 col-10 mx-auto">
-                        <button type="submit" class="btn btn-blue-gray-50 btn-lg btn-rounded">Register</button>
-                    </div>
-
-                    <div style="text-align:center">
-                        <a class="mt-2" href="Login">Login?</a>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -103,35 +91,34 @@
         <section>
             <h4>Use another service to register.</h4>
             <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
+@{
+    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+    {
+        <div>
+                                <p>
+                                    There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                    for details on setting up this ASP.NET application to support logging in via external services.
+                                </p>
+        </div>
+    }
+    else
+    {
+        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    }
+                                    </p>
+                                </div>
+        </form>
+    }
+}
         </section>
     </div>
 </div>
 -->
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
