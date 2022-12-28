@@ -101,6 +101,7 @@
 <!--Input Data for UserStory-->
 <h2 class="mb-3 text-black">@ViewBag.currentProjectName</h2>
 
+<!--Product Backlog-->
 <div class="d-flex mt-2 mb-5">
     <div class="d-flex flex-column me-4">
         <div id="status" class="pb-3">
@@ -109,6 +110,118 @@
                 <h4 class="my-2 mx-3 me-5" id="statusTitle">Product Backlog</h4>
             </div>
 
+        </div>
+        @{
+            foreach (UserStory userstory in ViewBag.UserStorys)
+            {
+                <div class="userstoryItem my-2 rounded-6" style="background-color:#EFEDED">
+                    <div class="d-flex">
+                        <div class="d-flex py-2 ps-3 pe-auto flex-fill" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
+                            <h4 class="my-auto" id="taskTitle">@userstory.name</h4>
+                        </div>
+                        <form asp-controller="UserStory" asp-action="ChangeStateUserStory" method="post" asp-route-storyid="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                            <button type="submit" class="btn btn-lg btn-floating btn-link mx-3 my-2" data-mdb-ripple-color="dark">
+                                @if (userstory.state == 0)
+                                {
+                                    <i class="fas fa-check text-black fa-2x"></i>
+                                }
+                                else
+                                {
+
+                                    <i class="fas fa-check text-success fa-2x"></i>
+                                }
+                            </button>
+                        </form>
+                    </div>
+                    <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
+                        <div class="d-flex flex-column bg-transparent me-2">
+                            <div class="me-3">
+                                <i class="fas fa-calendar trailing"></i>
+                                <span>Start Date</span>
+                            </div>
+                            <span>@userstory.startDate.ToString().Split(' ')[0]</span>
+                        </div>
+                        <div class="bg-transparent d-flex flex-column">
+                            <div>
+                                <i class="fas fa-calendar trailing"></i>
+                                <span>Due Date</span>
+                            </div>
+                            <span>@userstory.endDate.ToString().Split(' ')[0]</span>
+                        </div>
+                    </div>
+                    @{
+                        string estimatedPercent = "0";
+                        string finishedPercent = "0";
+                        string overduePercent = "0";
+                        if (userstory.state == 0)
+                        {
+                            double diffDays = (DateTime.Now - userstory.startDate).TotalDays;
+                            if (diffDays > 0)
+                            {
+                                double percent = diffDays / (userstory.endDate - userstory.startDate).TotalDays * 100;
+                                if (percent >= 100)
+                                {
+                                    overduePercent = "100";
+                                }
+                                else
+                                {
+                                    estimatedPercent = ("" + (percent)).Replace(',', '.');
+                                }
+                            }
+                        }
+                        else
+                        {
+                            finishedPercent = "100";
+                        }
+                    }
+                    <div class="py-2 pb-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
+
+                        <div class="bg-transparent mx-3">
+                            <i class="fas fa-clipboard-check trailing my-auto" style="color: @(userstory.state != 0 ? "green" : "");"></i>
+                            <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
+                        </div>
+
+                        <div class="progress my-2 mx-3 bg-white rounded-8" id="progressBar" style="height:15px">
+                            <div class="progress-bar bg-danger"
+                             id="@("overdue" + userstory.id)"
+                             role="progressbar"
+                             style="width: @(overduePercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning"
+                             id="@("estimated" + userstory.id)"
+                             role="progressbar"
+                             style="width: @(estimatedPercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success"
+                             id="@("finished" + userstory.id)"
+                             role="progressbar"
+                             style="width: @(finishedPercent+"%");"
+                             aria-valuenow="0"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="my-2 d-flex justify-content-center w-100">
+            <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating" data-mdb-toggle="modal" data-mdb-target="#createModal">
+                <i class="fas fa-plus fa-2x"></i>
+            </button>
+        </div>
+    </div>
+
+    <!--In Progress-->
+    <div class="d-flex flex-column me-4">
+        <div id="status" class="pb-3">
+
+            <div class="d-flex rounded-3" style="background-color: #EFEDED; border-bottom: 5px solid #00EFFF">
+                <h4 class="my-2 mx-3 me-5" id="statusTitle">Product Backlog</h4>
+            </div>
 
         </div>
         @{
@@ -305,13 +418,13 @@
                                             <div class="d-flex me-2">
                                                 <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
                                                 <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDate">Start-Date</label>
-                                                <input id="storyStartDate" asp-for="startDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent hoverBorder" onchange="dateChange()" />
+                                                <input id="storyStartDate" asp-for="startDate" type="date" class="form-control px-2 bg-transparent" onchange="dateChange()" />
                                             </div>
                                             <!--End Date-->
                                             <div class="d-flex me-2">
                                                 <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
                                                 <label class="form-label text-nowrap my-auto me-1 text-black" for="storyEndDate">End-Date</label>
-                                                <input id="storyEndDate" asp-for="endDate" type="text" size="8" class="form-control datePicker px-2 bg-transparent hoverBorder" onchange="dateChange()" />
+                                                <input id="storyEndDate" asp-for="endDate" type="date" class="form-control px-2 bg-transparent" onchange="dateChange()" />
                                             </div>
                                         </div>
                                         <a hidden class="text-danger" id="infoTextDate">Start-Date must be before End-Date!</a>
@@ -402,9 +515,9 @@
                         <div class="py-1 px-3 bg-white rounded-6">
                             <!--Path-->
                             <div class="d-flex">
-                        <i class="fas fa-user-alt text-black fa-2x mx-2 my-auto"></i>
-                        <h4 class="my-auto">Add Employees</h4>
-                    </div>
+                                <i class="fas fa-user-alt text-black fa-2x mx-2 my-auto"></i>
+                                <h4 class="my-auto">Add Employees</h4>
+                            </div>
                         </div>
                         <!--Close-->
                         <button type="button" class="btn btn-link text-black btn-floating bg-white align-self-end ms-auto my-auto" data-mdb-dismiss="modal">
@@ -415,7 +528,7 @@
             </div>
             <div class="modal-body p-0">
                 <div class="d-flex flex-column my-2">
-                    
+
                     <div>
                         @{
                             List<IdentityUser> usAllUser = new List<IdentityUser>();
@@ -500,7 +613,7 @@
                                             <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
                                             <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDateDummy" style="font-size: 18px;">Start-Date</label>
                                             <div class="form-outline" style="border-color:#dcdfe4;">
-                                                <input id="storyStartDateDummy" asp-for="startDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
+                                                <input id="storyStartDateDummy" asp-for="startDate" type="date" size="8" class="form-control form-control-lg px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
                                             </div>
                                         </div>
                                         <!--End Date-->
@@ -508,7 +621,7 @@
                                             <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
                                             <label class="form-label text-nowrap my-auto text-black" for="storyEndDateDummy" style="font-size: 18px;">End-Date</label>
                                             <div class="form-outline" style="border-color:#dcdfe4;">
-                                                <input id="storyEndDateDummy" asp-for="endDate" type="text" size="8" class="form-control form-control-lg datePicker px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
+                                                <input id="storyEndDateDummy" asp-for="endDate" type="date" size="8" class="form-control form-control-lg px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
                                             </div>
                                         </div>
                                     </div>
@@ -537,3 +650,6 @@
         </div>
     </div>
 </div>
+
+
+

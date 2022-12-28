@@ -186,8 +186,9 @@ function dateChange() {
         document.getElementById("infoTextDate").hidden = true;
         changeProgressBar(startDDate, endDDate);
     } else {
-        document.getElementById("storyStartDate").value = startD;
-        document.getElementById("storyEndDate").value = endD;
+        //neuer bzw allter DatePicker hatte Probleme damit
+        //document.getElementById("storyStartDate").value = startD;
+        //document.getElementById("storyEndDate").value = endD;
         document.getElementById("infoTextDate").hidden = false;
     }
 }
@@ -257,8 +258,8 @@ function validateCreateUserStory() {
 
     var defaultD = new Date(1, 1, 1);
 
-    alert(defaultD);
-    alert(start);
+    //alert(defaultD);
+    //alert(start);
 
     if (titel == "" || start == defaultD || end == defaultD) {
         submitBtn.disabled = true;
