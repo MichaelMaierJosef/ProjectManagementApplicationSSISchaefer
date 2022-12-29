@@ -49,13 +49,13 @@
 
 <div id="topNavigation" class="d-flex">
 
-    <nav id="linkState" class="me-auto p-2">
+    <nav id="linkState" class="me-auto p-2 my-auto">
         <span>/</span>
         <a class="text-reset">Project</a>
 
     </nav>
 
-    <div class="input-group w-25 rounded-8 mb-4" style="background-color: #EFEDED;">
+    <div class="input-group w-25 rounded-8 my-auto" style="background-color: #EFEDED;">
         <span class="input-group-text border-0" id="search-addon">
             <i class="fas fa-search"></i>
         </span>
@@ -66,11 +66,14 @@
                id="keyWordInput" oninput="filterPrjectlist()"
                style="border-radius: 20px" />
     </div>
-    <form asp-action="Create">
-        <button type="submit" class="btn btn-link text-black btn-floating ms-2">
-            <i class="fas fa-plus fa-2x"></i>
-        </button>
-    </form>
+    <div class="d-flex my-auto">
+        <form asp-action="Create">
+                <button type="submit" class="btn btn-link text-black btn-floating ms-2">
+                    <i class="fas fa-plus fa-2x"></i>
+                </button>
+            </form>
+    </div>
+    
 
 </div>
 @{

@@ -8,11 +8,29 @@
 }
 
 <style>
+    
     body {
         background: white;
     }
 
+    .modallabel {
+        font-size: 26px !important;
+        font-weight: 400 !important;
+        line-height: 34px !important;
+    }
+
+    .userstoryItem {
+        box-shadow: 0;
+        transition: box-shadow 0.5s;
+    }
+
     .userstoryItem:hover {
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075),
+        0 16px 16px hsl(0deg 0% 0% / 0.075);
+        transition: box-shadow 1s ease;
         cursor: pointer;
     }
 
@@ -72,20 +90,21 @@
     }
 
 </style>
+
 <script type="text/javascript" src="~/js/userStory.js"></script>
 
 <meta charset="utf-8" />
 
 <div id="topNavigation" class="me-2 d-flex justify-content-end">
 
-    <nav id="linkState" class="me-auto p-2">
+    <nav id="linkState" class="me-auto p-2 my-auto">
         <span>/</span>
         <a href="../" id="routeLink">Projects</a>
         <span>/</span>
         <a class="text-reset"><u>@ViewBag.currentProjectName</u></a>
     </nav>
 
-    <div class="input-group border-0 w-25 rounded-8 mb-4" style="background-color: #EFEDED">
+    <div class="input-group border-0 w-25 rounded-8 my-auto" style="background-color: #EFEDED">
         <span class="input-group-text border-0" id="search-addon">
             <i class="fas fa-search"></i>
         </span>
@@ -99,11 +118,12 @@
 </div>
 
 <!--Input Data for UserStory-->
-<h2 class="mb-3 text-black">@ViewBag.currentProjectName</h2>
+<h2 class="my-4 text-black">@ViewBag.currentProjectName</h2>
 
-<!--Product Backlog-->
-<div class="d-flex mt-2 mb-5">
-    <div class="d-flex flex-column me-4">
+<!--User-Story-Board-->
+<div class="d-flex flex-wrap mt-2 mb-5">
+    <!--Product Backlog-->
+    <div class="d-flex flex-column mx-auto px-3">
         <div id="status" class="pb-3">
 
             <div class="d-flex rounded-3" style="background-color: #EFEDED; border-bottom: 5px solid #00EFFF">
@@ -137,7 +157,7 @@
                             </form>
                         </div>
                         <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
-                            <div class="d-flex flex-column bg-transparent me-2">
+                            <div class="d-flex flex-column bg-transparent me-3">
                                 <div class="me-3">
                                     <i class="fas fa-calendar trailing"></i>
                                     <span>Start Date</span>
@@ -212,7 +232,7 @@
                 }
             }
         }
-        <div class="my-2 d-flex justify-content-center w-100">
+        <div class="my-2 mb-4 d-flex justify-content-center w-100">
             <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating" data-mdb-toggle="modal" data-mdb-target="#createModal">
                 <i class="fas fa-plus fa-2x"></i>
             </button>
@@ -220,7 +240,7 @@
     </div>
 
     <!--In Progress-->
-    <div class="d-flex flex-column me-4">
+    <div class="d-flex flex-column mx-auto px-3">
         <div id="status" class="pb-3">
 
             <div class="d-flex rounded-3" style="background-color: #EFEDED; border-bottom: 5px solid #ffa900">
@@ -254,7 +274,7 @@
                             </form>
                         </div>
                         <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
-                            <div class="d-flex flex-column bg-transparent me-2">
+                            <div class="d-flex flex-column bg-transparent me-3">
                                 <div class="me-3">
                                     <i class="fas fa-calendar trailing"></i>
                                     <span class="text-nowrap">Start Date</span>
@@ -329,14 +349,14 @@
                 }
             }
         }
-        <div class="my-2 d-flex justify-content-center w-100">
+        <div class="my-2 mb-4 d-flex justify-content-center w-100">
             <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating" data-mdb-toggle="modal" data-mdb-target="#createModal">
                 <i class="fas fa-plus fa-2x"></i>
             </button>
         </div>
     </div>
     <!--Done-->
-    <div class="d-flex flex-column me-4">
+    <div class="d-flex flex-column mx-auto px-3">
         <div id="status" class="pb-3">
 
             <div class="d-flex rounded-3" style="background-color: #EFEDED; border-bottom: 5px solid #00b74a">
@@ -372,7 +392,7 @@
                             </form>
                         </div>
                         <div class="d-flex py-1 px-3" onclick="showDetailView('@userstory.id', @ViewBag.currentProjectId)">
-                            <div class="d-flex flex-column bg-transparent me-2">
+                            <div class="d-flex flex-column bg-transparent me-3">
                                 <div class="me-3">
                                     <i class="fas fa-calendar trailing"></i>
                                     <span>Start Date</span>
@@ -447,15 +467,17 @@
                 }
             }
         }
-        <div class="my-2 d-flex justify-content-center w-100">
+        <div class="my-2 mb-4 d-flex justify-content-center w-100">
             <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating" data-mdb-toggle="modal" data-mdb-target="#createModal">
                 <i class="fas fa-plus fa-2x"></i>
             </button>
         </div>
     </div>
-    <div class="d-flex me-4 flex-fill">
+
+    <!--Graph-->
+    <div class="d-flex flex-column flex-grow-1 mx-auto px-3">
         <div class="d-flex mx-auto">
-            <canvas width="400" id="myChart"></canvas>
+            <canvas width="600" id="myChart"></canvas>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -600,7 +622,7 @@
                                 <div class="d-flex my-2 mt-3">
                                     <!--Story Titel-->
                                     <div class="bg-transparent flex-fill">
-                                        <input id="storyTitleInput" asp-for="name" style="font-size: 26px;font-weight: 400;line-height: 34px;" type="text" class="form-control form-control-lg text-black hoverBorder px-2" value="" />
+                                        <input id="storyTitleInput" asp-for="name" type="text" class="form-control form-control-lg text-black hoverBorder modallabel px-2" value="" />
                                     </div>
                                 </div>
                                 <!--Description-->
@@ -625,7 +647,7 @@
                                                 <input id="storyEndDate" asp-for="endDate" type="date" class="form-control px-2 bg-transparent" onchange="dateChange()" />
                                             </div>
                                         </div>
-                                        <a hidden class="text-danger" id="infoTextDate">Start-Date must be before End-Date!</a>
+                                        <a hidden class="text-danger" id="infoTextDate">The end-date can not be befor the start-date!</a>
                                     </div>
                                     <!--Checkbox Completed / Delete Button-->
                                     <button id="modalCheckButton" type="button" class="btn btn-lg rounded-5 px-2 ms-auto mx-2 btn-outline-black" data-mdb-ripple-color="dark" onclick="setAspFinishedChecked()">
@@ -773,7 +795,7 @@
 </div>
 
 
-
+<!-- Modal add Userstory -->
 <div class="modal fade"
      id="createModal"
      data-mdb-backdrop="static"
@@ -792,56 +814,65 @@
                     <input asp-for="state" id="storyState" type="text" hidden />
                     <div class="container-fluid p-0">
                         <div class="d-flex align-items-start">
-
-                            <div class="col d-flex flex-column px-3">
-                                <div class="d-flex my-2 mt-3">
+                            <div class="d-flex flex-column flex-fill px-3">
+                                <!--Top-->
+                                <div class="d-flex flex-wrap my-2 mt-3">
                                     <!--Story Titel-->
-                                    <div class="d-flex flex-column flex-fill me-2 mt-auto mb-2">
+                                    <div class="d-flex flex-column flex-grow-1 mb-auto me-2">
                                         <div class="d-flex my-1">
-                                            <label class="form-label flex-fill my-auto text-black" for="storyTitleInputDummy" style="font-size: 20px;">Story Title</label>
+                                            <label class="form-label text-black my-auto flex-fill" for="storyTitleInputDummy">Story Title</label>
                                         </div>
                                         <div class="form-outline" style="border-color:#dcdfe4;">
-                                            <input id="storyTitleInputDummy" asp-for="name" type="text" class="form-control form-control-lg text-black px-2" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
+                                            <input id="storyTitleInputDummy" asp-for="name" type="text" class=" form-control form-control-lg text-black px-2" required onchange="validateCreateUserStory()" />
                                         </div>
                                     </div>
                                     <!--Date-->
-                                    <div class="d-flex p-1 me-2 rounded-5">
-                                        <!--Start Date-->
-                                        <div class="mx-1 p-1">
-                                            <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
-                                            <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDateDummy" style="font-size: 18px;">Start-Date</label>
-                                            <div class="form-outline" style="border-color:#dcdfe4;">
-                                                <input id="storyStartDateDummy" asp-for="startDate" type="date" size="8" class="form-control form-control-lg px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
+                                    <div class="d-flex flex-column flex-fill mb-auto">
+                                        <div id="date-group" class="d-flex">
+                                            <!--Start Date-->
+                                            <div class="me-2 flex-fill">
+                                                <div class="d-flex my-1">
+                                                    <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
+                                                    <label class="form-label my-auto me-1 text-black" for="storyStartDateDummy">Start-Date</label>
+                                                </div>
+                                                <div class="form-outline " style="border-color:#dcdfe4;">
+                                                    <input id="storyStartDateDummy" asp-for="startDate" type="date" class="form-control form-control-lg px-2 bg-transparent" required onchange="validateCreateUserStory()" />
+                                                </div>
+                                            </div>
+                                            <!--End Date-->
+                                            <div class="flex-fill">
+                                                <div class="d-flex my-1">
+                                                    <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
+                                                    <label class="form-label  text-black my-auto" for="storyEndDateDummy">End-Date</label>
+                                                </div>
+                                                <div class="form-outline" style="border-color:#dcdfe4;">
+                                                    <input id="storyEndDateDummy" asp-for="endDate" type="date" class="form-control form-control-lg px-2 bg-transparent" required onchange="validateCreateUserStory()" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <!--End Date-->
-                                        <div class="mx-1 p-1 px-2">
-                                            <i class="fas fa-calendar trailing my-auto me-2 text-black"></i>
-                                            <label class="form-label text-nowrap my-auto text-black" for="storyEndDateDummy" style="font-size: 18px;">End-Date</label>
-                                            <div class="form-outline" style="border-color:#dcdfe4;">
-                                                <input id="storyEndDateDummy" asp-for="endDate" type="date" size="8" class="form-control form-control-lg px-2 bg-transparent" style="font-size: 26px;font-weight: 400;line-height: 34px;" required onchange="validateCreateUserStory()" />
-                                            </div>
-                                        </div>
+                                        <!--Error Message-->
+                                        <a class="text-danger my-1" id="infoTextDateDummy" style="visibility:hidden;">The end-date can not be befor the start-date!</a>
                                     </div>
                                 </div>
-                                <!--Description-->
+
+                                <!--Bottom-->
                                 <div class="d-flex flex-column my-2 mt-3">
+                                    <!--Description-->
                                     <div class="d-flex my-1">
                                         <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
-                                        <label class="form-label flex-fill my-auto text-black" for="storyDescriptionInputDummy" style="font-size: 18px;">Description</label>
+                                        <label class="form-label flex-fill my-auto text-black" for="storyDescriptionInputDummy">Description</label>
                                     </div>
                                     <div class="form-outline" style="border-color:#dcdfe4;">
-                                        <textarea id="storyDescriptionInputDummy" asp-for="description" style="font-size: 16px;" class="form-control form-control-lg px-2" rows="8"></textarea>
+                                        <textarea id="storyDescriptionInputDummy" asp-for="description" class="form-control form-control-lg px-2" rows="8"></textarea>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer" style=" border-top: 1px solid #dcdfe4;">
-                    <button type="button" class="btn btn-link btn-lg text-dark" data-mdb-dismiss="modal">CANCEL</button>
+                    <button type="button" onclick="resetCreateModal()" class="btn btn-link btn-lg text-dark" data-mdb-dismiss="modal">CANCEL</button>
                     <button id="storySubmitInputDummy" type="submit" class="btn btn-link btn-lg text-success">CREATE</button>
                 </div>
             </form>
