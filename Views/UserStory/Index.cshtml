@@ -694,19 +694,35 @@
                                     <label class="form-label">Select Multiple Files</label>
                                     <div class="d-flex">
                                         <input form="filesForm" asp-for="id" id="userStoryId" hidden />
-                                        <input form="filesForm" type="file" asp-for="Files" class="form-control" multiple />
-                                        <span form="filesForm" asp-validation-for="Files" class="text-danger"></span>
+                                        <input form="filesForm" type="file" asp-for="files" class="form-control" multiple />
+                                        <span form="filesForm" asp-validation-for="files" class="text-danger"></span>
                                     </div>
                                     <div class="d-flex my-2">
                                         <button form="filesForm" type="submit" class="btn btn-primary">Upload Files</button>
                                     </div>
                                 </div>
+                                <table id="filesToDownloadTable" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <th style="width:50px">Content Type</th>
+                                        <th style="width:120px">File Name</th>
+                                        <th style="width:80px">Download</th>
+                                    </tr>
+                                        <tr>
+                                            <td>file.ContentType</td>
+                                            <td>file.Name</td>
+                                            <td><a onclick="">Download</a></td>
+                                        </tr>
+                                </table>
                             </div>
 
                         </div>
                     </div>
                 </form>
                 <form hidden id="filesForm" asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
+                </form>
+                <form hidden id="fileDownloadForm" asp-controller="UserStory" asp-action="DownloadFile" method="post">
+                    <input form="fileDownloadForm" id="hfFileId" name="FileId" hidden />
+                    <input form="fileDownloadForm" type="submit" id="btnFileDownload" value="Download" hidden />
                 </form>
                 <form hidden id="delForm" asp-controller="UserStory" asp-action="DeleteStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pname="@ViewBag.currentProjectName">
                     <input asp-for="id" id="storyIdDel" hidden />

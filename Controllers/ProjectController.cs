@@ -342,7 +342,7 @@ namespace ProjectManagementApplication.Controllers
             _context.SaveChanges();
             try
             {
-                var dir = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + id));
+                var dir = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files/" + id));
                 dir.Attributes = dir.Attributes & ~FileAttributes.ReadOnly;
                 dir.Delete(true);
             }

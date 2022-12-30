@@ -25,10 +25,6 @@ function showDetailView(usid, pid) {
         data: data,
         success: function (result) {
 
-            if (result.us.Files != null) {
-                result.us.Files.forEach(file => alert(file));
-            }
-
             var startD = result.us.startDate.substring(0, 10);
             var endD = result.us.endDate.substring(0, 10);
 
@@ -83,10 +79,9 @@ function showDetailView(usid, pid) {
                 "</tr>"
             );
 
+            
             document.getElementById("userStoryUser").innerHTML = text;
             document.getElementById("userTable").innerHTML = text2;
-
-            $('#infoModal').modal('show');
 
         }
 
@@ -94,6 +89,38 @@ function showDetailView(usid, pid) {
 
 
 
+    $.ajax({
+        type: "POST",
+        url: "/userstory/GetFiles",
+        data: data,
+        success: function (uploadfiles) {
+
+            //To show the Files in a table
+            var textFiles = "<tr>" +
+                "<th style='width:50px'>File Name</th>" +
+                "<th style='width:120px'>Content Type</th>" +
+                "<th style='width:80px'>Download</th>" +
+                "</tr>";
+
+            uploadfiles.forEach(file => textFiles += "<tr>" +
+                "<td>" + file.name + "</td>" +
+                "<td>" + file.contentType + "</td>" +
+                "<td><a href='javascript:;' onclick='downloadFile(" + file.id + ")'>Download</a></td>" +
+                "</tr>");
+
+            document.getElementById("filesToDownloadTable").innerHTML = textFiles;
+
+        }
+
+    });
+
+    $('#infoModal').modal('show');
+
+}
+
+function downloadFile(fileId) {
+    $("#hfFileId").val(fileId);
+    $("#btnFileDownload")[0].click();
 }
 
 function deleteUserStoryUser(userId, usId) {
