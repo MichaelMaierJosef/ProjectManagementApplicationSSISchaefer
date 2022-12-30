@@ -434,13 +434,13 @@ namespace ProjectManagementApplication.Migrations
             modelBuilder.Entity("ProjectManagementApplication.Models.UploadFile", b =>
                 {
                     b.HasOne("ProjectManagementApplication.Models.UserStory", null)
-                        .WithMany("Files")
+                        .WithMany("files")
                         .HasForeignKey("UserStoryid");
                 });
 
             modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>
                 {
-                    b.Navigation("Files");
+                    b.Navigation("files");
                 });
 #pragma warning restore 612, 618
         }

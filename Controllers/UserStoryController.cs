@@ -207,37 +207,37 @@ namespace ProjectManagementApplication.Controllers
 
         /* Old File Upload | Hopefully not necessary anymore
         [HttpPost]
-        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> Files, int projectid, string projectname)
+        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> files, int projectid, string projectname)
         {
-            if (Files.Count > 0)
+            if (files.Count > 0)
             {
-                foreach (var file in Files)
+                foreach (var userstory in files)
                 {
 
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectid + "/" + id);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files/" + projectid + "/" + id);
 
                     //create folder if not exist
                     if (!Directory.Exists(path))
                         Directory.CreateDirectory(path);
 
 
-                    string fileNameWithPath = Path.Combine(path, file.FileName);
+                    string fileNameWithPath = Path.Combine(path, userstory.FileName);
 
                     using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                     {
-                        file.CopyTo(stream);
+                        userstory.CopyTo(stream);
                     }
                 }
             }
 
             UserStory us = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
-            if (us.Files == null)
+            if (us.files == null)
             {
-                us.Files = new List<IFormFile>();
+                us.files = new List<IFormFile>();
             }
-            foreach (IFormFile file in Files)
+            foreach (IFormFile userstory in files)
             {
-                us.Files.Add(file);
+                us.files.Add(userstory);
             }
             _context.UserStorys.Update(us);
             _context.SaveChanges();
@@ -262,12 +262,6 @@ namespace ProjectManagementApplication.Controllers
                         UploadFile uploadFile = new UploadFile(fileName, contentType, ms.ToArray());
                         UserStory story = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
 
-                        if(story.Files == null)
-                        {
-                            story.Files = new List<UploadFile>();
-                        }
-                        story.Files.Add(uploadFile);
-
                         _context.UserStorys.Update(story);
                         _context.SaveChanges();
                     }
@@ -277,19 +271,15 @@ namespace ProjectManagementApplication.Controllers
             return Index(projectid, projectName);
         }
 
-        /*[HttpPost]
-        public List<IFormFile> GetFiles(int id/*UserStoryId, int projectid, string projectName)
+        [HttpPost]
+        public List<UploadFile> GetFiles(int userstoryId, int projectId)
         {
-            UserStory file = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
-            List<IFormFile> files = new List<IFormFile>();
-            foreach (UploadFile file in file.Files)
-            {
-                var stream = new MemoryStream(file.Data);
-                files.Add(new FormFile(stream, 0, file.Data.Length, file.Name, file.ContentType));
-            }
+            //UploadFile[] uploadfiles = _context.UserStorys.Where(u => u.id == userstoryId).FirstOrDefault().files.ToArray();
 
-            return files;
-        }*/
+            List<UploadFile> uploadfiles = _context.UploadFiles.FromSqlRaw("SELECT * FROM dbo.UploadFiles WHERE UserStoryid = " + userstoryId).ToList();
+
+            return uploadfiles;
+        }
 
         [HttpPost]
         public IActionResult DownloadFile(int fileId)

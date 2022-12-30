@@ -23,8 +23,8 @@
     <div class="row mt-2">
         <div class="col-12">
             <label class="col-form-label">Select Multiple Files</label>
-            <input asp-for="Files" class="form-control" multiple />
-            <span asp-validation-for="Files" class="text-danger"></span>
+            <input asp-for="files" class="form-control" multiple />
+            <span asp-validation-for="files" class="text-danger"></span>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
                                 <a class="usp">@userstory.name</a>
                             </div>
                         </div>
-                        <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                        <form asp-action="ChangeStateUserStory" asp-route-id="@userstory.id" asp-route-userstory="@userstory" asp-route-pid="@ViewBag.currentProjectId" asp-route-projectName="@ViewBag.currentProjectName">
                             <button type="submit" class="usState">
                                 @if (userstory.state == 0)
                                 {
@@ -75,7 +75,7 @@
                             <input id="c0" type="checkbox" />
                             <div class="control__indicator"></div>
                         </label>
-                        <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName">
+                        <form asp-action="DeleteStory" asp-route-id="@userstory.id" asp-route-pid="@ViewBag.currentProjectId" asp-route-projectName="@ViewBag.currentProjectName">
                             <button type="submit" class="deleteUS">
                                 <span class="material-icons-outlined">delete</span>
                                 <div class="deletCircle"></div>
@@ -95,8 +95,8 @@
             <div class="row mt-2">
                 <div class="col-12">
                     <label class="col-form-label">Select Multiple Files</label>
-                    <input asp-for="Files" class="form-control" multiple />
-                    <span asp-validation-for="Files" class="text-danger"></span>
+                    <input asp-for="files" class="form-control" multiple />
+                    <span asp-validation-for="files" class="text-danger"></span>
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-projectName="@ViewBag.currentProjectName" method="post">
             <div class="scoll" id="description">
                 <div id="descriptionCont">
                     <input hidden id="storyId" type="text" asp-for="id" />
@@ -142,7 +142,7 @@
 
 <div class="add-modal">
     <div class="add-content">
-        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+        <form asp-action="CreateEditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-projectName="@ViewBag.currentProjectName" method="post">
             <div class="allTags">
                 <input hidden asp-for="id" />
                
