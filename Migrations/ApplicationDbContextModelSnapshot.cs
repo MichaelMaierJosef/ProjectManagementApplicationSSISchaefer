@@ -322,12 +322,12 @@ namespace ProjectManagementApplication.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserStoryid")
+                    b.Property<int?>("userStoryid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserStoryid");
+                    b.HasIndex("userStoryid");
 
                     b.ToTable("UploadFiles");
                 });
@@ -433,14 +433,11 @@ namespace ProjectManagementApplication.Migrations
 
             modelBuilder.Entity("ProjectManagementApplication.Models.UploadFile", b =>
                 {
-                    b.HasOne("ProjectManagementApplication.Models.UserStory", null)
-                        .WithMany("files")
-                        .HasForeignKey("UserStoryid");
-                });
+                    b.HasOne("ProjectManagementApplication.Models.UserStory", "userStory")
+                        .WithMany()
+                        .HasForeignKey("userStoryid");
 
-            modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>
-                {
-                    b.Navigation("files");
+                    b.Navigation("userStory");
                 });
 #pragma warning restore 612, 618
         }

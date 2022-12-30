@@ -207,14 +207,14 @@ namespace ProjectManagementApplication.Controllers
 
         /* Old File Upload | Hopefully not necessary anymore
         [HttpPost]
-        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> files, int projectid, string projectname)
+        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> Files, int projectid, string projectname)
         {
-            if (files.Count > 0)
+            if (Files.Count > 0)
             {
-                foreach (var userstory in files)
+                foreach (var userstory in Files)
                 {
 
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files/" + projectid + "/" + id);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectid + "/" + id);
 
                     //create folder if not exist
                     if (!Directory.Exists(path))
@@ -231,13 +231,13 @@ namespace ProjectManagementApplication.Controllers
             }
 
             UserStory us = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
-            if (us.files == null)
+            if (us.Files == null)
             {
-                us.files = new List<IFormFile>();
+                us.Files = new List<IFormFile>();
             }
-            foreach (IFormFile userstory in files)
+            foreach (IFormFile userstory in Files)
             {
-                us.files.Add(userstory);
+                us.Files.Add(userstory);
             }
             _context.UserStorys.Update(us);
             _context.SaveChanges();
@@ -262,7 +262,9 @@ namespace ProjectManagementApplication.Controllers
                         UploadFile uploadFile = new UploadFile(fileName, contentType, ms.ToArray());
                         UserStory story = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
 
-                        _context.UserStorys.Update(story);
+                        uploadFile.userStory = story;
+
+                        _context.UploadFiles.Add(uploadFile);
                         _context.SaveChanges();
                     }
                 }
@@ -274,7 +276,7 @@ namespace ProjectManagementApplication.Controllers
         [HttpPost]
         public List<UploadFile> GetFiles(int userstoryId, int projectId)
         {
-            //UploadFile[] uploadfiles = _context.UserStorys.Where(u => u.id == userstoryId).FirstOrDefault().files.ToArray();
+            //UploadFile[] uploadfiles = _context.UserStorys.Where(u => u.id == userstoryId).FirstOrDefault().Files.ToArray();
 
             List<UploadFile> uploadfiles = _context.UploadFiles.FromSqlRaw("SELECT * FROM dbo.UploadFiles WHERE UserStoryid = " + userstoryId).ToList();
 

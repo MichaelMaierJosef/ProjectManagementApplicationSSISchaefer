@@ -19,23 +19,6 @@
     </div>
 </div>
 
-<form asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
-    <div class="row mt-2">
-        <div class="col-12">
-            <label class="col-form-label">Select Multiple Files</label>
-            <input asp-for="files" class="form-control" multiple />
-            <span asp-validation-for="files" class="text-danger"></span>
-        </div>
-    </div>
-
-
-    <div class="row mt-2">
-        <div class="col-12">
-            <button type="submit" class="btn btn-success">Upload Files</button>
-        </div>
-    </div>
-</form>
-
 <div>
     <div id="borderButton">
         <button class="bt" onclick="showDetailAdd()">Hinzufügen + </button>
@@ -91,23 +74,6 @@
 
 <div class="bg-modal">
     <div class="modal-content">
-        <form asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
-            <div class="row mt-2">
-                <div class="col-12">
-                    <label class="col-form-label">Select Multiple Files</label>
-                    <input asp-for="files" class="form-control" multiple />
-                    <span asp-validation-for="files" class="text-danger"></span>
-                </div>
-            </div>
-
-
-            <div class="row mt-2">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-success">Upload Files</button>
-                </div>
-            </div>
-        </form>
-
         <div onclick="hideDetail()" class="close">+</div>
         <h3 id="usname"></h3>
         <h3 id="anh"><span id="att" class="material-icons-outlined">attach_file</span>Anhang</h3>
