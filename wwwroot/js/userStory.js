@@ -54,7 +54,7 @@ function showDetailView(usid, pid) {
             document.getElementById("modal-overdue").style.width = document.getElementById("overdue" + result.us.id).style.width;
             document.getElementById("modal-finished").style.width = document.getElementById("finished" + result.us.id).style.width;
             document.getElementById("modal-estimated").style.width = document.getElementById("estimated" + result.us.id).style.width;
-        
+
             storyId = result.us.id;
 
             var text = "";
@@ -73,13 +73,13 @@ function showDetailView(usid, pid) {
             var text2 = "";
 
             result.allUser.forEach(user => text2 +=
-                "<tr>"+
-                    "<th>" + user.userName + "</th>" +
+                "<tr>" +
+                "<th>" + user.userName + "</th>" +
                 "<th>" +
-                        
-                        "<input class=\"form-check-input\" name=\"userCheckbox\" type=\"checkbox\" value=\"" + user.id + "\" aria-label=\"...\" />" +
 
-                    "</th>" +
+                "<input class=\"form-check-input\" name=\"userCheckbox\" type=\"checkbox\" value=\"" + user.id + "\" aria-label=\"...\" />" +
+
+                "</th>" +
                 "</tr>"
             );
 
@@ -250,20 +250,35 @@ function setAspFinishedChecked() {
 }
 
 function validateCreateUserStory() {
-    var titel = document.getElementById("storyTitleInputDummy").value;
-    var start = document.getElementById("storyStartDateDummy").value;
-    var end = document.getElementById("storyEndDateDummy").value;
-
     var submitBtn = document.getElementById("storySubmitInputDummy");
+    var infoTextDateDummy = document.getElementById("infoTextDateDummy");
 
-    var defaultD = new Date(1, 1, 1);
+    const start = document.getElementById("storyStartDateDummy").value;
+    const end = document.getElementById("storyEndDateDummy").value;
+    const startDate = new Date(start);
+    const endDate = new Date(end);
 
-    //alert(defaultD);
-    //alert(start);
+    //alert(startDate);
+    //alert(!isNaN(endDate));
 
-    if (titel == "" || start == defaultD || end == defaultD) {
-        submitBtn.disabled = true;
+    if (!isNaN(startDate) && !isNaN(endDate)) {
+        if (startDate > endDate) {
+            submitBtn.disabled = true;
+            infoTextDateDummy.style.visibility = "visible";
+        } else {
+            submitBtn.disabled = false;
+            infoTextDateDummy.style.visibility = "hidden";
+        }
     } else {
-        submitBtn.disabled = false;
+        submitBtn.disabled = true;
+        //infoTextDateDummy.style.visibility = "visible";
     }
+}
+
+function resetCreateModal() {
+    document.getElementById("storyTitleInputDummy").value = "";
+    document.getElementById("storyStartDateDummy").value = "";
+    document.getElementById("storyEndDateDummy").value = "";
+    document.getElementById("storyDescriptionInputDummy").value = "";
+    var infoTextDateDummy = document.getElementById("infoTextDateDummy").style.visibility = "hidden";;
 }
