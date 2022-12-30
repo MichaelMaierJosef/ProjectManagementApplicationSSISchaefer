@@ -19,9 +19,6 @@ namespace ProjectManagementApplication.Models
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
 
-        //[Required(ErrorMessage = "Please select files")]
-        [NotMapped]
-        public List<IFormFile> Files { get; set; }
-
+        public ICollection<UploadFile> Files { get; set; }
     }
 }

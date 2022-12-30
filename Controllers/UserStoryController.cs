@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagementApplication.Data;
 using ProjectManagementApplication.Models;
 using System;
@@ -203,8 +205,9 @@ namespace ProjectManagementApplication.Controllers
             return Index(pid, pName);
         }
 
+        /* Old File Upload | Hopefully not necessary anymore
         [HttpPost]
-        public IActionResult MultiUpload(int id/*UserStoryId*/, List<IFormFile> Files, int projectid, string projectname)
+        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> Files, int projectid, string projectname)
         {
             if (Files.Count > 0)
             {
@@ -240,6 +243,60 @@ namespace ProjectManagementApplication.Controllers
             _context.SaveChanges();
 
             return Index(projectid, projectname);
+        }*/
+
+
+        [HttpPost]
+        public IActionResult MultiUpload(int id/*UserStoryId*/, List<IFormFile> Files, int projectid, string projectName)
+        {
+            if (Files.Count > 0)
+            {
+                foreach (var file in Files)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string contentType = file.ContentType;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.CopyTo(ms);
+
+                        UploadFile uploadFile = new UploadFile(fileName, contentType, ms.ToArray());
+                        UserStory story = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
+
+                        if(story.Files == null)
+                        {
+                            story.Files = new List<UploadFile>();
+                        }
+                        story.Files.Add(uploadFile);
+
+                        _context.UserStorys.Update(story);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+
+            return Index(projectid, projectName);
+        }
+
+        [HttpPost]
+        public List<IFormFile> GetFiles(int id/*UserStoryId*/, int projectid, string projectName)
+        {
+            UserStory story = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
+            List<IFormFile> files = new List<IFormFile>();
+            foreach (UploadFile file in story.Files)
+            {
+                var stream = new MemoryStream(file.Data);
+                files.Add(new FormFile(stream, 0, file.Data.Length, file.Name, file.ContentType));
+            }
+
+            return files;
+        }
+
+        [HttpPost]
+        public IActionResult DownloadFile(int fileId)
+        {
+            UploadFile story = _context.UploadFiles.Where(u => u.Id == fileId).FirstOrDefault();
+
+            return File(story.Data, story.ContentType, story.Name);
         }
 
     }

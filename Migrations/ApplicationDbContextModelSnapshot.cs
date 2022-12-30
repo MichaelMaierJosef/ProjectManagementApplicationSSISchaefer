@@ -306,6 +306,32 @@ namespace ProjectManagementApplication.Migrations
                     b.ToTable("ProjectUsers");
                 });
 
+            modelBuilder.Entity("ProjectManagementApplication.Models.UploadFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserStoryid")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserStoryid");
+
+                    b.ToTable("UploadFiles");
+                });
+
             modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>
                 {
                     b.Property<int>("id")
@@ -403,6 +429,18 @@ namespace ProjectManagementApplication.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.UploadFile", b =>
+                {
+                    b.HasOne("ProjectManagementApplication.Models.UserStory", null)
+                        .WithMany("Files")
+                        .HasForeignKey("UserStoryid");
+                });
+
+            modelBuilder.Entity("ProjectManagementApplication.Models.UserStory", b =>
+                {
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }
