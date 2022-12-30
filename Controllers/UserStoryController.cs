@@ -176,16 +176,16 @@ namespace ProjectManagementApplication.Controllers
         public IActionResult ChangeStateUserStory(int storyid, int pid, string pName)
         {
 
-            /*switch (story.state)
+            /*switch (file.state)
             {
                 case 0:
-                    story.state = 1;
+                    file.state = 1;
                     break;
                 case 1:
-                    story.state = 2;
+                    file.state = 2;
                     break;
                 case 2:
-                    story.state = 0;
+                    file.state = 0;
                     break;
             }*/
             UserStory story = _context.UserStorys.Where(u => u.id == storyid).FirstOrDefault();
@@ -277,26 +277,26 @@ namespace ProjectManagementApplication.Controllers
             return Index(projectid, projectName);
         }
 
-        [HttpPost]
-        public List<IFormFile> GetFiles(int id/*UserStoryId*/, int projectid, string projectName)
+        /*[HttpPost]
+        public List<IFormFile> GetFiles(int id/*UserStoryId, int projectid, string projectName)
         {
-            UserStory story = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
+            UserStory file = _context.UserStorys.Where(u => u.id == id).FirstOrDefault();
             List<IFormFile> files = new List<IFormFile>();
-            foreach (UploadFile file in story.Files)
+            foreach (UploadFile file in file.Files)
             {
                 var stream = new MemoryStream(file.Data);
                 files.Add(new FormFile(stream, 0, file.Data.Length, file.Name, file.ContentType));
             }
 
             return files;
-        }
+        }*/
 
         [HttpPost]
         public IActionResult DownloadFile(int fileId)
         {
-            UploadFile story = _context.UploadFiles.Where(u => u.Id == fileId).FirstOrDefault();
+            UploadFile file = _context.UploadFiles.Where(u => u.Id == fileId).FirstOrDefault();
 
-            return File(story.Data, story.ContentType, story.Name);
+            return File(file.Data, file.ContentType, file.Name);
         }
 
     }
