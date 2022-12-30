@@ -8,7 +8,7 @@
 }
 
 <style>
-    
+
     body {
         background: white;
     }
@@ -24,15 +24,11 @@
         transition: box-shadow 0.5s;
     }
 
-    .userstoryItem:hover {
-        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075),
-        0 8px 8px hsl(0deg 0% 0% / 0.075),
-        0 16px 16px hsl(0deg 0% 0% / 0.075);
-        transition: box-shadow 1s ease;
-        cursor: pointer;
-    }
+        .userstoryItem:hover {
+            box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+            transition: box-shadow 1s ease;
+            cursor: pointer;
+        }
 
     .sendtoback {
         z-index: -3;
@@ -548,7 +544,6 @@
 
 
 
-
 <!-- Modal Info -->
 <div class="modal fade"
      id="infoModal"
@@ -581,7 +576,7 @@
                     <!--Mitarbeiter-->
                     <div class="d-flex my-2">
                         <i class="fas fa-user-alt text-black fa-2x my-auto mx-2 ms-4"></i>
-                        <div id="userStoryUser" class="d-flex">
+                        <div id="userStoryUser" class="d-flex my-auto">
                             <!--Mitarbeiter Item-->
                             @{
                                 List<IdentityUser> userList = new List<IdentityUser>();
@@ -606,9 +601,19 @@
                         </div>
 
                         <!--Add Mitarbeiter-->
-                        <button type="button" class="btn btn-link text-black btn-floating" data-dismiss="modal" onclick="openAddUserModal(@ViewBag.currentProjectId);">
+                        <button type="button" class="btn btn-link text-black btn-floating my-auto" data-dismiss="modal" onclick="openAddUserModal(@ViewBag.currentProjectId);">
                             <i class="fas fa-plus fa-2x"></i>
                         </button>
+                        <div class="d-flex ms-auto me-2">
+                            <!--Checkbox Completed / Delete Button-->
+                            <button id="modalCheckButton" type="button" class="btn btn-lg rounded-5 px-2 ms-auto mx-2 btn-outline-black" data-mdb-ripple-color="dark" onclick="setAspFinishedChecked()">
+                                <i id="modalCheckIcon" class="fas fa-check fa-2x"></i>
+                            </button>
+                            <input id="finishedCheckedInput" hidden asp-for="state" value="" />
+                            <button type="submit" form="delForm" class="btn btn-outline-danger btn-lg rounded-5 px-2 ms-auto" data-mdb-ripple-color="dark">
+                                <i class="fas fa-trash-alt fa-2x"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -617,49 +622,53 @@
                 <form id="editForm" disabled asp-action="EditUserStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
                     <input asp-for="id" id="storyId" hidden />
                     <div class="container-fluid p-0">
-                        <div class="d-flex align-items-start">
-                            <div class="col d-flex flex-column px-3" style=" border-right: .5px solid #dcdfe4;">
-                                <div class="d-flex my-2 mt-3">
+                        <div class="d-flex flex-xl-wrap">
+                            <!--Left-->
+                            <div class="col d-flex flex-column" style=" border-right: 0.5px solid #dcdfe4;">
+                                <div class="d-flex m-3 mb-1">
                                     <!--Story Titel-->
                                     <div class="bg-transparent flex-fill">
                                         <input id="storyTitleInput" asp-for="name" type="text" class="form-control form-control-lg text-black hoverBorder modallabel px-2" value="" />
                                     </div>
                                 </div>
                                 <!--Description-->
-                                <div class="bg-transparent mb-2">
+                                <div class="bg-transparent m-3 mt-1">
                                     <textarea id="storyDescriptionInput" asp-for="description" style="font-size: 16px;" class="form-control form-control-lg hoverBorder px-2" rows="8"></textarea>
                                 </div>
                             </div>
-                            <div class="col d-flex flex-column px-3 h-100" style=" border-left: .5px solid #dcdfe4;">
-                                <div class="d-flex mt-2">
-                                    <div class="d-flex flex-column mt-2">
-                                        <div class="d-flex rounded-5">
-                                            <!--Start Date-->
-                                            <div class="d-flex me-2">
-                                                <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
-                                                <label class="form-label text-nowrap my-auto me-1 text-black" for="storyStartDate">Start-Date</label>
-                                                <input id="storyStartDate" asp-for="startDate" type="date" class="form-control px-2 bg-transparent" onchange="dateChange()" />
+                            <!--Right-->
+                            <div class="col d-flex flex-column" style=" border-left: 0.5px solid #dcdfe4;">
+                                <!--Date-->
+                                <div class="d-flex flex-column px-3 pt-3">
+                                    <!--Date group-->
+                                    <div class="d-flex flex-column">
+                                        <!--Start Date-->
+                                        <div class="d-flex pb-2">
+                                            <div class="d-flex col-lg-4 me-1">
+                                                <i class="fas fa-calendar trailing text-black my-auto me-2"></i>
+                                                <label class="col-8 form-label text-nowrap text-black my-auto" for="storyStartDate">Start-Date</label>
                                             </div>
-                                            <!--End Date-->
-                                            <div class="d-flex me-2">
-                                                <i class="fas fa-calendar trailing my-auto me-1 text-black"></i>
-                                                <label class="form-label text-nowrap my-auto me-1 text-black" for="storyEndDate">End-Date</label>
-                                                <input id="storyEndDate" asp-for="endDate" type="date" class="form-control px-2 bg-transparent" onchange="dateChange()" />
+                                            <div class="col-lg-8 ms-auto">
+                                                <input id="storyStartDate" asp-for="startDate" type="date" class="form-control bg-transparent" onchange="dateChange()" />
+                                            </div>
+                                        </div>
+                                        <!--End Date-->
+                                        <div class="d-flex pb-2">
+                                            <div class="d-flex col-lg-4 me-1">
+                                                <i class="fas fa-calendar trailing text-black my-auto me-2"></i>
+                                                <label class="col-8 form-label text-nowrap text-black my-auto" for="storyEndDate">End-Date</label>
+                                            </div>
+                                            <div class="col-lg-8 ms-auto">
+                                                <input id="storyEndDate" asp-for="endDate" type="date" class="form-control bg-transparent" onchange="dateChange()" />
                                             </div>
                                         </div>
                                         <a hidden class="text-danger" id="infoTextDate">The end-date can not be befor the start-date!</a>
                                     </div>
-                                    <!--Checkbox Completed / Delete Button-->
-                                    <button id="modalCheckButton" type="button" class="btn btn-lg rounded-5 px-2 ms-auto mx-2 btn-outline-black" data-mdb-ripple-color="dark" onclick="setAspFinishedChecked()">
-                                        <i id="modalCheckIcon" class="fas fa-check fa-3x"></i>
-                                    </button>
-                                    <input id="finishedCheckedInput" hidden asp-for="state" value="" />
-                                    <button type="submit" form="delForm" class="btn btn-outline-danger btn-lg rounded-5 px-2 ms-auto" data-mdb-ripple-color="dark">
-                                        <i class="fas fa-trash-alt fa-3x"></i>
-                                    </button>
+
                                 </div>
-                                <div class="d-flex flex-column">
-                                    <div class="my-2 mb-3">
+                                <!--Progress-->
+                                <div class="d-flex flex-column px-3 pt-2" style="border-bottom: 1px solid #dcdfe4;">
+                                    <div class="mb-3">
                                         <div class="bg-transparent text-black">
                                             <i class="fas fa-clipboard-check trailing my-auto" id="progressIcon"></i>
                                             <label class="form-labelbCreateEdit my-auto" for="progressBar">Progress</label>
@@ -689,16 +698,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-column  my-2 mt-auto">
+                                <!--File List-->
+                                <div class="d-flex px-3 pt-3">
+                                    <label class="form-label text-black">Attachments</label>
 
-                                    <label class="form-label">Select Multiple Files</label>
-                                    <div class="d-flex">
+                                </div>
+                                <!--File Upload-->
+                                <div class="d-flex flex-column px-3 pt-3">
+                                    <label class="form-label text-black">Add Attachments</label>
+                                    <div class="d-flex flex-wrap">
+                                    <div class="d-flex flex-grow-1 mx-2 my-auto">
                                         <input form="filesForm" asp-for="id" id="userStoryId" hidden />
                                         <input form="filesForm" type="file" asp-for="files" class="form-control" multiple />
                                         <span form="filesForm" asp-validation-for="files" class="text-danger"></span>
                                     </div>
-                                    <div class="d-flex my-2">
-                                        <button form="filesForm" type="submit" class="btn btn-primary">Upload Files</button>
+                                    <div class="d-flex ms-auto me-2 my-1">
+                                        <button form="filesForm" type="submit" class="btn btn-primary text-nowrap">Upload Files</button>
+                                    </div>
                                     </div>
                                 </div>
                                 <table id="filesToDownloadTable" cellpadding="0" cellspacing="0">
