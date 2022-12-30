@@ -6,7 +6,8 @@ var storyId;
 function showDetailView(usid, pid) {
     // UserStory Popup
 
-    /*document.getElementById("storyTitleInput").value = usname;
+    /*
+     * document.getElementById("storyTitleInput").value = usname;
     document.getElementById("storyDescriptionInput").innerHTML = desc;
     document.getElementById("storyStartDate").value = startDate;
     document.getElementById("storyEndDate").value = endDate;
