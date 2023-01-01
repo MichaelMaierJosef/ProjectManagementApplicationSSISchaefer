@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagementApplication.Data;
@@ -289,6 +290,14 @@ namespace ProjectManagementApplication.Controllers
             UploadFile file = _context.UploadFiles.Where(u => u.Id == fileId).FirstOrDefault();
 
             return File(file.Data, file.ContentType, file.Name);
+        }
+
+        public void DeleteFile(int fileid)
+        {
+            UploadFile file = _context.UploadFiles.Where(u => u.Id == fileid).FirstOrDefault();
+
+            _context.UploadFiles.Remove(file);
+            _context.SaveChanges();
         }
 
     }
