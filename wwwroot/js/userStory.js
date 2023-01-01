@@ -1,4 +1,6 @@
-﻿var usName;
+﻿//const { default: Backdrop } = require("../lib/MDB5/src/js/bootstrap/src/util/backdrop");
+
+var usName;
 var endD;
 var startD;
 var storyId;
@@ -35,6 +37,7 @@ function showDetailView(usid, pid) {
             document.getElementById("storyDescriptionInput").innerHTML = result.us.description;
             document.getElementById("storyStartDate").value = startD;
             document.getElementById("storyEndDate").value = endD;
+            dateChange();
             document.getElementById("storyState").value = result.us.state;
             document.getElementById("storyId").value = result.us.id;
             document.getElementById("userStoryId").value = result.us.id;
@@ -115,6 +118,7 @@ function showDetailView(usid, pid) {
 
     });
 
+    
     $('#infoModal').modal('show');
 
 }
@@ -161,6 +165,10 @@ function openAddUserModal(projectId) {
     $('#infoModalAddUser').modal('show');
 
 }
+function openDelUserStoryModal(projectId) {
+    $('#delUserStoryModal').modal('show'); 
+}
+
 
 $(document).ready(function () {
     $('#infoModal').on('hidden.bs.modal', function (e) {
@@ -203,21 +211,22 @@ function addUserToStory(userId) {
 
 
 function dateChange() {
+    var infoModalCloseBtn = document.getElementById("infoModalCloseBtn");
     var help = document.getElementById("storyStartDate").value.split('-');
-
     var startDDate = new Date(help[0], help[1] - 1, help[2]);
     help = document.getElementById("storyEndDate").value.split('-');
     var endDDate = new Date(help[0], help[1] - 1, help[2]);
+
     if (startDDate <= endDDate) {
         startD = document.getElementById("storyStartDate").value;
         endD = document.getElementById("storyEndDate").value;
-        document.getElementById("infoTextDate").hidden = true;
         changeProgressBar(startDDate, endDDate);
+        infoModalCloseBtn.disabled = false;
+        document.getElementById("infoTextDate").hidden = true;
     } else {
-        //neuer bzw allter DatePicker hatte Probleme damit
-        //document.getElementById("storyStartDate").value = startD;
-        //document.getElementById("storyEndDate").value = endD;
+        infoModalCloseBtn.disabled = true;
         document.getElementById("infoTextDate").hidden = false;
+        
     }
 }
 
@@ -308,5 +317,5 @@ function resetCreateModal() {
     document.getElementById("storyStartDateDummy").value = "";
     document.getElementById("storyEndDateDummy").value = "";
     document.getElementById("storyDescriptionInputDummy").value = "";
-    var infoTextDateDummy = document.getElementById("infoTextDateDummy").style.visibility = "hidden";;
+    document.getElementById("infoTextDateDummy").style.visibility = "hidden";;
 }
