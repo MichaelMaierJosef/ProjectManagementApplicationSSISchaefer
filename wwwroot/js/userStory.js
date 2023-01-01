@@ -106,11 +106,14 @@ function showDetailView(usid, pid) {
                 "<th style='width:80px'>Download</th>" +
                 "</tr>";
 
-            uploadfiles.forEach(file => textFiles += "<tr>" +
-                "<td>" + file.name + "</td>" +
-                "<td>" + file.contentType + "</td>" +
-                "<td><a href='javascript:;' onclick='downloadFile(" + file.id + ")'>Download</a></td>" +
-                "</tr>");
+            uploadfiles.forEach(file => {
+                textFiles += "<tr>" +
+                    "<td>" + file.name + "</td>" +
+                    "<td>" + file.contentType + "</td>" +
+                    "<td><a href='javascript:;' onclick='downloadFile(" + file.id + ")'>Download</a></td>" +
+                    "<td><button onclick=\"deleteFileOfUserStory(" + file.id + ")\">X</button></td>" +
+                    "</tr>";
+            });
 
             document.getElementById("filesToDownloadTable").innerHTML = textFiles;
 
@@ -141,6 +144,25 @@ function deleteUserStoryUser(userId, usId) {
         data: data,
         success: function () {
             window.location.href = window.location.href;
+        }
+    });
+}
+
+function deleteFileOfUserStory(fileid) {
+
+    //console.log("ja ich bin hier");
+
+    var data = {
+        fileid: fileid,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/userstory/DeleteFile",
+        data: data,
+        success: function () {
+            window.location.href = window.location.href;
+
         }
     });
 }
