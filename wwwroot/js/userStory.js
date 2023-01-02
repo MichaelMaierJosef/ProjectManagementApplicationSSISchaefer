@@ -99,6 +99,31 @@ function showDetailView(usid, pid) {
         data: data,
         success: function (uploadfiles) {
 
+            var textFiles = "";
+
+            uploadfiles.forEach(file => {
+                textFiles +=
+                    "<div class='d-flex flex-column rounded-5 m-2 p-3 filebox'>" +
+                        "<div class='d-flex justify-content-center'>" +
+                            "<i class='fas fa-file text-black fa-4x'></i>" +
+                        "</div>" +
+                "<span class='text-center my-3 text-nowrap overflow-hidden' style='width: 6rem' title='" + file.name + "'>" + file.name + "</span>" +
+                        "<div class='d-flex justify-content-end mt-auto'>" +
+                            "<a class='btn btn-dark btn-floating' href='javascript:;' onclick='downloadFile(" + file.id + ")' role='button'>" +
+                                "<i class='fas fa-download'></i>" +
+                            "</a>" +
+                            "<button type='button' class='btn btn-dark btn-floating mx-2' onclick=\"deleteFileOfUserStory(" + file.id + ")\">" +
+                                "<i class='fas fa-trash-alt'></i>" +
+                            "</button>" +
+                        "</div>" +
+                    "</div>";
+            });
+
+            document.getElementById("fileDisplay").innerHTML = textFiles;
+
+
+            /*
+            //OLD FILE 
             //To show the Files in a table
             var textFiles = "<tr>" +
                 "<th style='width:50px'>File Name</th>" +
@@ -116,6 +141,7 @@ function showDetailView(usid, pid) {
             });
 
             document.getElementById("filesToDownloadTable").innerHTML = textFiles;
+            */
 
         }
 
