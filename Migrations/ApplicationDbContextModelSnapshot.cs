@@ -226,35 +226,20 @@ namespace ProjectManagementApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<short>("CodeCompareChecked")
-                        .HasColumnType("smallint");
+                    b.Property<string>("ComplexityDescription")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("CodeCompareWeighting")
-                        .HasColumnType("float");
+                    b.Property<string>("ComplexityName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Difficulty")
-                        .HasColumnType("float");
+                    b.Property<bool>("ComplexityOn")
+                        .HasColumnType("bit");
 
-                    b.Property<short>("EstimatedChecked")
-                        .HasColumnType("smallint");
+                    b.Property<int>("ComplexityScale")
+                        .HasColumnType("int");
 
-                    b.Property<double>("EstimatedDifficulty")
-                        .HasColumnType("float");
-
-                    b.Property<double>("EstimatedWeighting")
-                        .HasColumnType("float");
-
-                    b.Property<short>("GerritChecked")
-                        .HasColumnType("smallint");
-
-                    b.Property<double>("GerritWeighting")
-                        .HasColumnType("float");
-
-                    b.Property<short>("JiraChecked")
-                        .HasColumnType("smallint");
-
-                    b.Property<double>("JiraWeighting")
-                        .HasColumnType("float");
+                    b.Property<int>("ComplexityWeight")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
