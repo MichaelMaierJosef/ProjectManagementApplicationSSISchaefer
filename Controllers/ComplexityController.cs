@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagementApplication.Data;
 using ProjectManagementApplication.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectManagementApplication.Controllers
 {
@@ -12,8 +14,23 @@ namespace ProjectManagementApplication.Controllers
         private readonly ApplicationDbContext _context;
 
 
-        public IActionResult Index()
+        public IActionResult Index(int projectid, string projectName)
         {
+            var complexityList = _context.Complexities.ToList();
+            List<Complexity> complexityProjectList = new List<Complexity>();
+
+            foreach (Complexity complexity in complexityList)
+            {
+                if (complexity.ProjectId == projectid)
+                {
+                    complexityProjectList.Add(complexity);
+                }
+            }
+
+            ViewBag.currentProjectId = projectid;
+            ViewBag.currentProjectName = projectName;
+            ViewBag.Complexities = complexityProjectList;
+
             return View("Index");
         }
 
