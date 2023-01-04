@@ -14,6 +14,12 @@ namespace ProjectManagementApplication.Controllers
         private readonly ApplicationDbContext _context;
 
 
+        public ComplexityController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+
         public IActionResult Index(int projectid, string projectName)
         {
             var complexityList = _context.Complexities.ToList();
@@ -39,7 +45,7 @@ namespace ProjectManagementApplication.Controllers
         {
         }
 
-        public IActionResult CreateEditComplexity(Complexity complexity, int pid)
+        public IActionResult CreateEditComplexity(Complexity complexity, int pid, string pname)
         {
             complexity.ProjectId = pid;
             
@@ -55,10 +61,10 @@ namespace ProjectManagementApplication.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { projectid = pid, projectName = pname });
         }
 
-        public IActionResult DeleteComplexity(int id, int pid)
+        public IActionResult DeleteComplexity(int id, int pid, string pname)
         {
             var complexityDb = _context.Complexities.Find(id);
 
@@ -70,7 +76,7 @@ namespace ProjectManagementApplication.Controllers
             _context.Complexities.Remove(complexityDb);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { projectid = pid, projectName = pname });
         }
 
 
