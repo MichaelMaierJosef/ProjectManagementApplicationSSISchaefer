@@ -1,4 +1,5 @@
-﻿@*
+﻿@model ProjectManagementApplication.Models.Complexity
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -111,39 +112,59 @@
     </div>
     <hr />
     <!--Added criteria-->
+    @{
+        foreach (Complexity complexity in ViewBag.Complexities)
+        {
+            <div id="@("addedComplexity" + complexity.id)" class="criteria py-4 px-3">
+                <div class="d-flex">
+                    <h3 class="text-black my-auto">@(complexity.ComplexityName)</h3>
 
-    <div id="addedComplexity" class="criteria py-4 px-3">
-        <div class="d-flex">
-            <h3 class="text-black my-auto">Added Complexity</h3>
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
-                <label class="form-label" for="typeNumber">Weight</label>
+                    <div class="form-check form-switch my-auto ms-auto">
+                        @if (complexity.ComplexityOn == true){
+                            <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
+                        }else{
+                            <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
+                        }
+                    </div>
+
+                    <button type="button" class="btn btn-danger btn-floating mx-2">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+
+
+                </div>
+
+                <div class="d-flex mt-2">
+                    <h5 class="text-black my-auto">@(complexity.ComplexityDescription)</h5>
+                </div>
+
+                <div class="d-flex mt-3">
+                    <h4 class="text-black my-auto">Weight</h4>
+
+                    <div class="form-outline my-auto mx-3 ms-auto">
+                        <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="@(complexity.ComplexityWeight + "%")" />
+                        <label class="form-label" for="typeNumber">Weight</label>
+                    </div>
+                </div>
+
+
+                <div class="d-flex mt-3">
+                    <h4 class="text-black my-auto">Range</h4>
+
+                    <div class="form-outline my-auto mx-3 ms-auto">
+                        <input type="number" id="addedComplexityRangeDisplay" class="form-control ms-auto" onchange="rangeDisplayChanged(2)" min="0" max="100" value="@(complexity.ComplexityScale)" />
+                        <label class="form-label" for="rangeDisplay">Range</label>
+                    </div>
+                </div>
+
+                <div class="range mx-3 mt-2" style="height: 20px">
+                    <input type="range" class="form-range form-range-lg" id="addedComplexityRange" onchange="rangeChanged(2)" min="0" max="100" value="@(complexity.ComplexityScale)" />
+                </div>
+
             </div>
+        }
+    }
 
-            <div class="form-check form-switch my-auto">
-                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
-            </div>
-        </div>
-        <div class="d-flex mt-2">
-            <h5 class="text-black my-auto">This is a Added Complexity that is used to say how difficult it is to add a complexity</h5>
-        </div>
-
-
-
-        <div class="d-flex mt-3">
-            <h4 class="text-black my-auto">Scale</h4>
-            
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="number" id="addedComplexityRangeDisplay" class="form-control ms-auto" onchange="rangeDisplayChanged(2)" min="0" max="100" value="0" />
-                <label class="form-label" for="rangeDisplay">Range</label>
-            </div>
-        </div>
-
-        <div class="range mx-3 mt-2" style="height: 20px">
-                <input type="range" class="form-range form-range-lg" id="addedComplexityRange" onchange="rangeChanged(2)" min="0" max="100" value="0" />
-        </div>
-
-    </div>
     <hr />
     <div class="d-flex my-5">
         <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating my-auto mx-auto" data-mdb-toggle="modal" data-mdb-target="#createComplexityModal">
@@ -169,7 +190,9 @@
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-            <form id="crateForm" method="post">
+            <form id="crateComplexityForm" asp-action="CreateEditComplexity" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+                <input asp-for="ComplexityWeight" id="storyId" value="0" hidden />
+
                 <div class="modal-header" style=" border-bottom: 1px solid #dcdfe4;">
                     <h5 class="modal-title text-black" id="staticBackdropLabel">Create Complexity</h5>
                 </div>
@@ -183,7 +206,7 @@
                                         <label class="form-label text-black" for="createComplexityTitle">Name</label>
                                     </div>
                                     <div class="form-outline" style="border-color:#dcdfe4;">
-                                        <input id="complexityName" type="text" class=" form-control form-control-lg text-black px-2" required />
+                                        <input id="complexityName" asp-for="ComplexityName" type="text" class="form-control form-control-lg text-black px-2" required />
                                     </div>
                                 </div>
 
@@ -194,7 +217,7 @@
                                         <label class="form-label flex-fill my-auto text-black" for="createComplexityRange">Complexity Scale</label>
                                     </div>
                                     <div class="range mt-2" style="height: 20px">
-                                        <input type="range" class="form-range form-range-lg" id="createComplexityRange" min="0" max="100" value="0" />
+                                        <input type="range" asp-for="ComplexityScale" class="form-range form-range-lg" id="createComplexityRange" min="0" max="100" value="0" />
                                     </div>
                                 </div>
 
@@ -205,7 +228,7 @@
                                         <label class="form-label flex-fill my-auto text-black" for="createComplexityDescription">Description</label>
                                     </div>
                                     <div class="form-outline" style="border-color:#dcdfe4;">
-                                        <textarea id="createComplexityDescription" class="form-control form-control-lg px-2" rows="2"></textarea>
+                                        <textarea id="createComplexityDescription" asp-for="ComplexityDescription" class="form-control form-control-lg px-2" rows="2"></textarea>
                                     </div>
                                 </div>
                             </div>

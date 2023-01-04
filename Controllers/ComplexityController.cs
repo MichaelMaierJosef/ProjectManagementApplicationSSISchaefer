@@ -12,6 +12,7 @@ namespace ProjectManagementApplication.Controllers
     public class ComplexityController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public ComplexityController(ApplicationDbContext context) { _context = context; }
 
 
         public ComplexityController(ApplicationDbContext context)
