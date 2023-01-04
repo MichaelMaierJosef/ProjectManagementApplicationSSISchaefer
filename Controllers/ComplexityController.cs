@@ -16,20 +16,20 @@ namespace ProjectManagementApplication.Controllers
 
         public IActionResult Index(int projectid, string projectName)
         {
-            var ComplexityList = _context.Complexities.ToList();
-            List<Complexity> complexityList = new List<Complexity>();
+            var complexityList = _context.Complexities.ToList();
+            List<Complexity> complexityProjectList = new List<Complexity>();
 
             foreach (Complexity complexity in complexityList)
             {
                 if (complexity.ProjectId == projectid)
                 {
-                    complexityList.Add(complexity);
+                    complexityProjectList.Add(complexity);
                 }
             }
 
             ViewBag.currentProjectId = projectid;
             ViewBag.currentProjectName = projectName;
-            ViewBag.Complexities = complexityList;
+            ViewBag.Complexities = complexityProjectList;
 
             return View("Index");
         }
