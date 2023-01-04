@@ -116,15 +116,12 @@
     <div id="addedComplexity" class="criteria py-4 px-3">
         <div class="d-flex">
             <h3 class="text-black my-auto">Added Complexity</h3>
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
-                <label class="form-label" for="typeNumber">Weight</label>
-            </div>
 
             <div class="form-check form-switch my-auto">
                 <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
             </div>
         </div>
+
         <div class="d-flex mt-2">
             <h5 class="text-black my-auto">This is a Added Complexity that is used to say how difficult it is to add a complexity</h5>
         </div>
@@ -139,6 +136,16 @@
                 <label class="form-label" for="rangeDisplay">Range</label>
             </div>
         </div>
+        <div class="d-flex mt-3">
+            <h4 class="text-black my-auto">Scale</h4>
+            
+            <div class="form-outline my-auto mx-3 ms-auto">
+                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
+                <label class="form-label" for="typeNumber">Weight</label>
+            </div>
+        </div>
+
+
 
         <div class="range mx-3 mt-2" style="height: 20px">
                 <input type="range" class="form-range form-range-lg" id="addedComplexityRange" onchange="rangeChanged(2)" min="0" max="100" value="0" />
