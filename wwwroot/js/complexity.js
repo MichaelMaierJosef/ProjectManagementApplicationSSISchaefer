@@ -45,4 +45,19 @@ weightInputs.forEach(weightInput => {
 });
 
 
+function rangeDisplayChanged(id) {
+    console.log(id);
+    var amount = document.getElementById("addedComplexityRangeDisplay").value;
+    document.getElementById("addedComplexityRange").value = amount;
+}
+
+function rangeChanged(id) {
+    console.log(id);
+
+    var amount = document.getElementById("addedComplexityRange").value;
+    document.getElementById("addedComplexityRangeDisplay").value = amount;
+
+}
+
+
 

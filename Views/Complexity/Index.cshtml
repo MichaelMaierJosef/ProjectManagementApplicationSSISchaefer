@@ -51,17 +51,17 @@
         <div class="d-flex mb-5">
             <h3 class="text-black my-auto">Estimated Complexity</h3>
             <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput"  onchange="weightChanged(event)" min="0" max="100" value="0%"/>
+                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
                 <label class="form-label" for="typeNumber">Weight</label>
             </div>
 
             <div class="form-check form-switch my-auto">
-                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked  />
+                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
             </div>
         </div>
 
         <div class="range mx-3" style="height: 20px">
-            <input type="range" class="form-range form-range-lg" id="customRange1"  min="0" max="100" value="0"/>
+            <input type="range" class="form-range form-range-lg" id="customRange1" min="0" max="100" value="0" />
         </div>
     </div>
     <hr />
@@ -70,7 +70,7 @@
         <div class="d-flex mb-5">
             <h3 class="text-black my-auto">Code Comparison</h3>
             <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="codeComparisonWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%"/>
+                <input type="text" id="codeComparisonWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
                 <label class="form-label" for="typeNumber">Weight</label>
             </div>
 
@@ -85,7 +85,7 @@
         <div class="d-flex mb-5">
             <h3 class="text-black my-auto">Gerrit Analysis</h3>
             <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="gerritAnalysisWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%"/>
+                <input type="text" id="gerritAnalysisWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
                 <label class="form-label" for="typeNumber">Weight</label>
             </div>
 
@@ -100,7 +100,7 @@
         <div class="d-flex mb-5">
             <h3 class="text-black my-auto">Jira Analysis</h3>
             <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="jiraAnalysisWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%"/>
+                <input type="text" id="jiraAnalysisWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
                 <label class="form-label" for="typeNumber">Weight</label>
             </div>
 
@@ -111,11 +111,12 @@
     </div>
     <hr />
     <!--Added criteria-->
-    <div id="estimatedComplexity" class="criteria py-4 px-3">
-        <div class="d-flex mb-5">
-            <h3 class="text-black my-auto">Estimated Complexity</h3>
+
+    <div id="addedComplexity" class="criteria py-4 px-3">
+        <div class="d-flex">
+            <h3 class="text-black my-auto">Added Complexity</h3>
             <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%"/>
+                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
                 <label class="form-label" for="typeNumber">Weight</label>
             </div>
 
@@ -123,25 +124,102 @@
                 <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
             </div>
         </div>
-
-        <div class="range mx-3" style="height: 20px">
-            <input type="range" class="form-range form-range-lg" id="customRange1"  min="0" max="100" value="0" />
+        <div class="d-flex mt-2">
+            <h5 class="text-black my-auto">This is a Added Complexity that is used to say how difficult it is to add a complexity</h5>
         </div>
+
+
+
+        <div class="d-flex mt-3">
+            <h4 class="text-black my-auto">Scale</h4>
+            
+            <div class="form-outline my-auto mx-3 ms-auto">
+                <input type="number" id="addedComplexityRangeDisplay" class="form-control ms-auto" onchange="rangeDisplayChanged(2)" min="0" max="100" value="0" />
+                <label class="form-label" for="rangeDisplay">Range</label>
+            </div>
+        </div>
+
+        <div class="range mx-3 mt-2" style="height: 20px">
+                <input type="range" class="form-range form-range-lg" id="addedComplexityRange" onchange="rangeChanged(2)" min="0" max="100" value="0" />
+        </div>
+
     </div>
     <hr />
     <div class="d-flex my-5">
-            <form asp-action="CreateCriteria" class="mx-auto my-auto">
-        <button type="submit" class="btn btn-link text-black btn-floating my-auto mx-auto">
+        <button id="btnAddUserstory" type="button" class="btn btn-link text-black btn-floating my-auto mx-auto" data-mdb-toggle="modal" data-mdb-target="#createComplexityModal">
             <i class="fas fa-plus fa-2x"></i>
         </button>
-    </form>
     </div>
 </div>
+
+
 
 <div class="d-flex justify-content-center mx-auto my-5 py-5">
     <a class="btn btn-lg" style="background-color: #EFE407;" href="../" role="button">
         RETURN
     </a>
+</div>
+
+<div class="modal fade"
+     id="createComplexityModal"
+     data-mdb-backdrop="static"
+     data-mdb-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="createComplexityModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <form id="crateForm" method="post">
+                <div class="modal-header" style=" border-bottom: 1px solid #dcdfe4;">
+                    <h5 class="modal-title text-black" id="staticBackdropLabel">Create Complexity</h5>
+                </div>
+                <div class="modal-body  p-0">
+                    <div class="container-fluid p-0">
+                        <div class="d-flex align-items-start">
+                            <div class="d-flex flex-column flex-fill px-3">
+                                <!--Complexity Name-->
+                                <div class="d-flex flex-column my-2">
+                                    <div class="d-flex my-1">
+                                        <label class="form-label text-black" for="createComplexityTitle">Name</label>
+                                    </div>
+                                    <div class="form-outline" style="border-color:#dcdfe4;">
+                                        <input id="complexityName" type="text" class=" form-control form-control-lg text-black px-2" required />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-column my-2 mt-3">
+                                    <!--Complexity Scale-->
+                                    <div class="d-flex my-1">
+                                        <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+                                        <label class="form-label flex-fill my-auto text-black" for="createComplexityRange">Complexity Scale</label>
+                                    </div>
+                                    <div class="range mt-2" style="height: 20px">
+                                        <input type="range" class="form-range form-range-lg" id="createComplexityRange" min="0" max="100" value="0" />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-column my-2 mt-3">
+                                    <!--Complexity Description-->
+                                    <div class="d-flex my-1">
+                                        <i class="fas fa-info-circle trailing my-auto me-2 text-black"></i>
+                                        <label class="form-label flex-fill my-auto text-black" for="createComplexityDescription">Description</label>
+                                    </div>
+                                    <div class="form-outline" style="border-color:#dcdfe4;">
+                                        <textarea id="createComplexityDescription" class="form-control form-control-lg px-2" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style=" border-top: 1px solid #dcdfe4;">
+                    <button type="button" onclick="resetCreateModal()" class="btn btn-link btn-lg text-dark" data-mdb-dismiss="modal">CANCEL</button>
+                    <button id="storySubmitInputDummy" type="submit" class="btn btn-link btn-lg text-success">CREATE</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script src="~/js/complexity.js" type="text/javascript"></script>
