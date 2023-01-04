@@ -15,11 +15,6 @@ namespace ProjectManagementApplication.Controllers
         public ComplexityController(ApplicationDbContext context) { _context = context; }
 
 
-        public ComplexityController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
 
         public IActionResult Index(int projectid, string projectName)
         {
