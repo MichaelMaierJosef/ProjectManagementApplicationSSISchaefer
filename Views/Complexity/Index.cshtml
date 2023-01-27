@@ -111,57 +111,98 @@
         </div>
     </div>
     <hr />
+    <h3>Custom Complexities:</h3>
+
     <!--Added criteria-->
     @{
         foreach (Complexity complexity in ViewBag.Complexities)
         {
-            <div id="@("addedComplexity" + complexity.id)" class="criteria py-4 px-3">
-                <div class="d-flex">
-                    <h3 class="text-black my-auto">@(complexity.ComplexityName)</h3>
+                            <hr />
+                            <div id="@("addedComplexity" + complexity.id)" class="criteria py-4 px-3">
+                                <div class="d-flex">
+                                    <h3 class="text-black my-auto">@(complexity.ComplexityName)</h3>
 
-                    <div class="form-check form-switch my-auto ms-auto">
-                        @if (complexity.ComplexityOn == true){
-                            <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
-                        }else{
-                            <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-                        }
-                    </div>
+                                    <div class="form-check form-switch my-auto ms-auto">
+                                        @if (complexity.ComplexityOn == true){
+                                            <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="@("flexSwitchCheckDefault" + complexity.id)" 
+                                            onclick="@("switchComplexity("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"')")" checked />
+                                        }
+                                        else
+                                        {
+                                            <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="@("flexSwitchCheckDefault" + complexity.id)" 
+                                            onclick="@("switchComplexity("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"')")" />
+                                        }
+                                    </div>
 
-                    <button type="button" class="btn btn-danger btn-floating mx-2">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                                    <form hidden id="@("delForm"+complexity.id)" asp-action="DeleteComplexity" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
+                                        <input asp-for="id" id="coplexityIdDel" value="@(complexity.id)" hidden />
+                                    </form>
+
+                                    <button type="button" class="btn btn-danger btn-floating mx-2" onclick="openDelComplexityModal('@("#delComplexityModal"+complexity.id)');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    
+
+                                    <!-- Modal delete Userstory-->
+                                    <div class="modal fade"
+                                     id="@("delComplexityModal"+complexity.id)"
+                                     data-mdb-backdrop="static"
+                                     data-mdb-keyboard="false"
+                                     tabindex="-1"
+                                     aria-labelledby="@("delComplexityModal"+complexity.id+"Label")"
+                                     aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
+                                                    <i class="fas fa-trash-alt fa-3x"></i>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-center text-black text-center">
+                                                    <h5 class="modal-title">Are you sure you want to<br /> delete this User-Story?</h5>
+                                                </div>
+                                                <div class="modal-footer align-content-between d-flex justify-content-center">
+                                                    <button type="submit" form="@("delForm"+complexity.id)" class="btn btn-outline-black" data-mdb-dismiss="modal">Yes</button>
+                                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-                </div>
 
-                <div class="d-flex mt-2">
-                    <h5 class="text-black my-auto">@(complexity.ComplexityDescription)</h5>
-                </div>
+                                </div>
 
-                <div class="d-flex mt-3">
-                    <h4 class="text-black my-auto">Weight</h4>
+                                <div class="d-flex mt-2">
+                                    <h5 class="text-black my-auto">@(complexity.ComplexityDescription)</h5>
+                                </div>
 
-                    <div class="form-outline my-auto mx-3 ms-auto">
-                        <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="@(complexity.ComplexityWeight + "%")" />
-                        <label class="form-label" for="typeNumber">Weight</label>
-                    </div>
-                </div>
+                                <div class="d-flex mt-3">
+                                    <h5 class="text-black my-auto">Weight</h5>
+
+                                    <div class="form-outline my-auto mx-3 ms-auto">
+                                        <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onkeyup="@("updateWeight("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"',this)")" min="0" max="100" value="@(complexity.ComplexityWeight + "%")" />
+                                        <label class="form-label" for="typeNumber">Weight</label>
+                                    </div>
+                                </div>
 
 
-                <div class="d-flex mt-3">
-                    <h4 class="text-black my-auto">Range</h4>
+                                <div class="d-flex mt-3">
+                                    <h5 class="text-black my-auto">Scale</h5>
 
-                    <div class="form-outline my-auto mx-3 ms-auto">
-                        <input type="number" id="addedComplexityRangeDisplay" class="form-control ms-auto" onchange="rangeDisplayChanged(2)" min="0" max="100" value="@(complexity.ComplexityScale)" />
-                        <label class="form-label" for="rangeDisplay">Range</label>
-                    </div>
-                </div>
+                                    <div class="form-outline my-auto mx-3 ms-auto">
+                                        <input type="number" id="@("addedComplexityRangeDisplay"+complexity.id)" for="@("addedComplexityRange"+complexity.id)" class="form-control ms-auto" onkeyup="@("rangeDisplayChanged("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"')")" min="0" max="100" value="@(complexity.ComplexityScale)" />
+                                        <label class="form-label" for="rangeDisplay">Scale</label>
+                                    </div>
+                                </div>
 
-                <div class="range mx-3 mt-2" style="height: 20px">
-                    <input type="range" class="form-range form-range-lg" id="addedComplexityRange" onchange="rangeChanged(2)" min="0" max="100" value="@(complexity.ComplexityScale)" />
-                </div>
+                                <div class="range mx-3 mt-2" style="height: 20px">
+                                    <input type="range" class="form-range form-range-lg addedSlider" 
+                                    id="@("addedComplexityRange"+complexity.id)" name="@("addedComplexityRange"+complexity.id)"
+                                    oninput="@("rangeChanged("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"')")" onchange="@("rangeChanged("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"')")" 
+                                    min="0" max="100" value="@(complexity.ComplexityScale)" />
+                                </div>
 
-            </div>
+                            </div>
+
         }
     }
 
@@ -200,6 +241,7 @@
                     <div class="container-fluid p-0">
                         <div class="d-flex align-items-start">
                             <div class="d-flex flex-column flex-fill px-3">
+
                                 <!--Complexity Name-->
                                 <div class="d-flex flex-column my-2">
                                     <div class="d-flex my-1">
@@ -231,8 +273,8 @@
                                         <textarea id="createComplexityDescription" asp-for="ComplexityDescription" class="form-control form-control-lg px-2" rows="2"></textarea>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>

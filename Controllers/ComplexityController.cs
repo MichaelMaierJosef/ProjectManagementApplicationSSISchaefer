@@ -69,10 +69,60 @@ namespace ProjectManagementApplication.Controllers
                 return NotFound();
             }
 
-            _context.Complexities.Remove(complexityDb);
+            
             _context.SaveChanges();
 
             return RedirectToAction("Index", new { projectid = pid, projectName = pname });
+        }
+
+        public int UpdateScale(int id, int pid, string pname, int scale)
+        {
+            var complexity = _context.Complexities.Find(id);
+
+            if (complexity == null)
+            {
+                return -1;
+            }
+
+            complexity.ComplexityScale = scale;
+
+            _context.Complexities.Update(complexity);
+            _context.SaveChanges();
+
+            return scale;
+        }
+        public int UpdateWeight(int id, int pid, string pname, int weight)
+        {
+            var complexity = _context.Complexities.Find(id);
+
+            if (complexity == null)
+            {
+                return -1;
+            }
+
+            complexity.ComplexityWeight = weight;
+
+            _context.Complexities.Update(complexity);
+            _context.SaveChanges();
+
+            return weight;
+        }
+
+        public int SwitchComplexity(int id, int pid, string pname)
+        {
+            var complexity = _context.Complexities.Find(id);
+
+            if (complexity == null)
+            {
+                return -1;
+            }
+
+            complexity.ComplexityOn = !complexity.ComplexityOn;
+
+            _context.Complexities.Update(complexity);
+            _context.SaveChanges();
+
+            return 1;
         }
 
 

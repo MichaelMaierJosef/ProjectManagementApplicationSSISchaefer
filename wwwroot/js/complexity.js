@@ -1,28 +1,19 @@
-﻿function weightChanged(event) {
-    var activeAmount = 0;
-    var weightAmount = 0;
-    var newWeightAmount = 0;
+﻿
+function calculateComplexity() {
+
+    
 
 
-    for (const element of document.getElementsByClassName("criteria")) {
-        if (element.getElementsByClassName("criteria-switch")[0].checked) {
-            weightAmount += parseInt(document.getElementById(element.id + "Weight").value);
-            activeAmount++;
-        }
-        }
+
 }
 
-
-
-function onOffCriteria(id) {
-    document.getElementById( )
-}
 
 
 
 const weightInputs = Array.from(document.getElementsByClassName('weightInput'));
 
 weightInputs.forEach(weightInput => {
+    //console.log(weightInput);
     weightInput.addEventListener('change', function setPercent(event) {
         if (!isNaN(parseInt(weightInput.value))) {
             var availableWeight = 100;
@@ -31,8 +22,8 @@ weightInputs.forEach(weightInput => {
                     availableWeight -= parseInt(weight.value);
                 }
             }
-            console.log("availableWeight");
-            console.log(availableWeight);
+            //console.log("availableWeight");
+            //console.log(availableWeight);
             if (availableWeight >= parseInt(weightInput.value)) {
                 weightInput.value = `${parseInt(weightInput.value)}%`;
             } else {
@@ -45,19 +36,108 @@ weightInputs.forEach(weightInput => {
 });
 
 
-function rangeDisplayChanged(id) {
-    console.log(id);
-    var amount = document.getElementById("addedComplexityRangeDisplay").value;
-    document.getElementById("addedComplexityRange").value = amount;
+function rangeDisplayChanged(id, pid, pname) {
+    //console.log(id);
+
+    document.getElementById("addedComplexityRange" + id).value = document.getElementById("addedComplexityRangeDisplay" + id).value;
+
+    updateScale(id, pid, pname);
 }
 
-function rangeChanged(id) {
-    console.log(id);
+function rangeChanged(id, pid, pname) {
+    //console.log(id);
 
-    var amount = document.getElementById("addedComplexityRange").value;
-    document.getElementById("addedComplexityRangeDisplay").value = amount;
+    document.getElementById("addedComplexityRangeDisplay" + id).value = document.getElementById("addedComplexityRange" + id).value;
+
+    updateScale(id, pid, pname);
+}
+
+
+function updateScale(id, pid, pname) {
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/complexity/UpdateScale",
+                data: {
+                    "id": id,
+                    "pid": pid,
+                    "pname": pname,
+                    "scale": document.getElementById("addedComplexityRange" + id).value 
+                },
+                success: function (response) {
+                    //console.log(response);
+                },
+                failure: function (response) {
+                    //alert(response.responseText);
+                },
+                error: function (response) {
+                    //alert(response.responseText);
+                }
+            });
+        });
+}
+
+function updateWeight(id, pid, pname, wInput) {
+    let weight = wInput.value;
+    weight = weight.replace("%", "");
+    
+    if (!isNaN(weight) && weight >= 0 && weight <= 100) {
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/complexity/UpdateWeight",
+                data: {
+                    "id": id,
+                    "pid": pid,
+                    "pname": pname,
+                    "weight": parseInt(wInput.value)
+                },
+                success: function (response) {
+                    //console.log(response);
+                },
+                failure: function (response) {
+                    //alert(response.responseText);
+                },
+                error: function (response) {
+                    //alert(response.responseText);
+                }
+            });
+        });
+    }
 
 }
+
+function switchComplexity(id, pid, pname) {
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/complexity/SwitchComplexity",
+                data: {
+                    "id": id,
+                    "pid": pid,
+                    "pname": pname
+                },
+                success: function (response) {
+                    console.log(response);
+                },
+                failure: function (response) {
+                    //alert(response.responseText);
+                },
+                error: function (response) {
+                    //alert(response.responseText);
+                }
+            });
+        });
+    }
+
+
+function openDelComplexityModal(complexityId) {
+    $(complexityId).modal('show');
+}
+
+
+
 
 
 
