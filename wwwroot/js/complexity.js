@@ -1,10 +1,47 @@
 ﻿
-function calculateComplexity() {
+function updateCalculatedComplexity(complexityScale) {
+    if (complexityScale != -1) {
+        let progressBar = document.getElementById("calculatedComplexity");
+        progressBar.style.width = complexityScale + "%";
+        progressBar.innerHTML = complexityScale + "%";
+        progressBar.ariaValueNow = "" + complexityScale;
 
-    
+        progressBar.classList.remove("bg-success");
+        progressBar.classList.remove("bg-warning");
+        progressBar.classList.remove("bg-danger");
+        if (complexityScale <= 33) {
+            progressBar.classList.add("bg-success");
+        }
+        if (complexityScale >= 34 && complexityScale <= 66) {
+            progressBar.classList.add("bg-warning");
+        }   
+        if (complexityScale >= 67) {
+            progressBar.classList.add("bg-danger");
+        }
 
-
-
+        
+    }
+}
+function getCalculatedComplexity(pid) {
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/complexity/GetCalculatedComplexity",
+            data: {
+                "pid": pid
+            },
+            success: function (response) {
+                console.log(response);
+                updateCalculatedComplexity(response);
+            },
+            failure: function (response) {
+                //alert(response.responseText);
+            },
+            error: function (response) {
+                //alert(response.responseText);
+            }
+        });
+    });
 }
 
 
@@ -13,7 +50,7 @@ function calculateComplexity() {
 const weightInputs = Array.from(document.getElementsByClassName('weightInput'));
 
 weightInputs.forEach(weightInput => {
-    //console.log(weightInput);
+    console.log(weightInput);
     weightInput.addEventListener('change', function setPercent(event) {
         if (!isNaN(parseInt(weightInput.value))) {
             var availableWeight = 100;
@@ -65,7 +102,8 @@ function updateScale(id, pid, pname) {
                     "scale": document.getElementById("addedComplexityRange" + id).value 
                 },
                 success: function (response) {
-                    //console.log(response);
+                    console.log(response);
+                    updateCalculatedComplexity(response);
                 },
                 failure: function (response) {
                     //alert(response.responseText);
@@ -94,7 +132,8 @@ function updateWeight(id, pid, pname, wInput) {
                     "weight": parseInt(wInput.value)
                 },
                 success: function (response) {
-                    //console.log(response);
+                    console.log(response);
+                    updateCalculatedComplexity(response);
                 },
                 failure: function (response) {
                     //alert(response.responseText);
@@ -120,6 +159,7 @@ function switchComplexity(id, pid, pname) {
                 },
                 success: function (response) {
                     console.log(response);
+                    updateCalculatedComplexity(response);
                 },
                 failure: function (response) {
                     //alert(response.responseText);

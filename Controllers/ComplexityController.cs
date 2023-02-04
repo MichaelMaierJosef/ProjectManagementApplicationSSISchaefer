@@ -32,14 +32,30 @@ namespace ProjectManagementApplication.Controllers
             ViewBag.currentProjectId = projectid;
             ViewBag.currentProjectName = projectName;
             ViewBag.Complexities = complexityProjectList;
+            ViewBag.currentComplexityScale = CalculateComplexity(projectid);
 
             return View("Index");
         }
 
 
-        public void KomplexitätBerechnen()
+        public double CalculateComplexity(int projectid)
         {
+            var complexityList = _context.Complexities.ToList();
+            var complexityScale = 0;
+
+            foreach (Complexity complexity in complexityList)
+            {
+                if (complexity.ProjectId == projectid && complexity.ComplexityOn)
+                {
+                    complexityScale += complexity.ComplexityScale * complexity.ComplexityWeight / 100;
+                    
+                }
+            }
+
+            return complexityScale;
+
         }
+
 
         public IActionResult CreateEditComplexity(Complexity complexity, int pid, string pname)
         {
@@ -75,7 +91,7 @@ namespace ProjectManagementApplication.Controllers
             return RedirectToAction("Index", new { projectid = pid, projectName = pname });
         }
 
-        public int UpdateScale(int id, int pid, string pname, int scale)
+        public double UpdateScale(int id, int pid, string pname, int scale)
         {
             var complexity = _context.Complexities.Find(id);
 
@@ -89,9 +105,9 @@ namespace ProjectManagementApplication.Controllers
             _context.Complexities.Update(complexity);
             _context.SaveChanges();
 
-            return scale;
+            return CalculateComplexity(pid);
         }
-        public int UpdateWeight(int id, int pid, string pname, int weight)
+        public double UpdateWeight(int id, int pid, string pname, int weight)
         {
             var complexity = _context.Complexities.Find(id);
 
@@ -105,10 +121,10 @@ namespace ProjectManagementApplication.Controllers
             _context.Complexities.Update(complexity);
             _context.SaveChanges();
 
-            return weight;
+            return CalculateComplexity(pid);
         }
 
-        public int SwitchComplexity(int id, int pid, string pname)
+        public double SwitchComplexity(int id, int pid, string pname)
         {
             var complexity = _context.Complexities.Find(id);
 
@@ -122,7 +138,7 @@ namespace ProjectManagementApplication.Controllers
             _context.Complexities.Update(complexity);
             _context.SaveChanges();
 
-            return 1;
+            return CalculateComplexity(pid);
         }
 
 
