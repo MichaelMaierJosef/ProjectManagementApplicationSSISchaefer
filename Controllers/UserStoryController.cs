@@ -292,7 +292,7 @@ namespace ProjectManagementApplication.Controllers
             return File(file.Data, file.ContentType, file.Name);
         }
 
-        public void DeleteFile(int fileid)
+        public void DeleteFile(int fileid, int projectid, string projectName)
         {
             UploadFile file = _context.UploadFiles.Where(u => u.Id == fileid).FirstOrDefault();
 

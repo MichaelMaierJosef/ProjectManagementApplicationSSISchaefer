@@ -162,6 +162,8 @@ function deleteUserStoryUser(userId, usId) {
     var data = {
         userId: userId,
         storyId: usId,
+        projectid: document.getElementById("projectId").value,
+        projectName: document.getElementById("projectName").value
     };
 
     $.ajax({
