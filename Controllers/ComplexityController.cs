@@ -21,6 +21,16 @@ namespace ProjectManagementApplication.Controllers
             var complexityList = _context.Complexities.ToList();
             List<Complexity> complexityProjectList = new List<Complexity>();
 
+            /*
+            List<Complexity> defaultComplexityList = new List<Complexity>();
+            defaultComplexityList.Add(new Complexity(0,projectid,"wow","",false,0,0));
+            defaultComplexityList.Add(new Complexity(0,projectid,"wow","",false,0,0));
+            defaultComplexityList.Add(new Complexity(0,projectid,"wow","",false,0,0));
+            defaultComplexityList.Add(new Complexity(0,projectid,"wow","",false,0,0));
+            if(complexityList.Contains()
+            _context.Complexities.Add(complexity);
+            */
+
             foreach (Complexity complexity in complexityList)
             {
                 if (complexity.ProjectId == projectid)
