@@ -12,7 +12,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace ProjectManagementApplication.Controllers
 {
@@ -156,7 +158,7 @@ namespace ProjectManagementApplication.Controllers
 
         public IActionResult DeleteStory(int id, int pid, string pname)
         {
-            var storyDB = _context.UserStorys.Find(id);
+            UserStory storyDB = _context.UserStorys.Find(id);
 
             if (storyDB == null)
             {
@@ -166,6 +168,10 @@ namespace ProjectManagementApplication.Controllers
             List<UserStoryUser> usu = new List<UserStoryUser>();
             usu = _context.UserStoryUsers.Where(u => u.UserStoryID == id).ToList();
             _context.UserStoryUsers.RemoveRange(usu);
+
+            List<UploadFile> files = new List<UploadFile>();
+            files = _context.UploadFiles.Where(u => u.userStory == storyDB).ToList();
+            _context.UploadFiles.RemoveRange(files);
 
             _context.UserStorys.Remove(storyDB);
             _context.SaveChanges();
@@ -208,14 +214,14 @@ namespace ProjectManagementApplication.Controllers
 
         /* Old File Upload | Hopefully not necessary anymore
         [HttpPost]
-        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> Files, int projectid, string projectname)
+        public IActionResult MultiUpload(int id/*UserStoryId, List<IFormFile> Files, int projectId, string projectname)
         {
             if (Files.Count > 0)
             {
                 foreach (var userstory in Files)
                 {
 
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectid + "/" + id);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/" + projectId + "/" + id);
 
                     //create folder if not exist
                     if (!Directory.Exists(path))
@@ -243,7 +249,7 @@ namespace ProjectManagementApplication.Controllers
             _context.UserStorys.Update(us);
             _context.SaveChanges();
 
-            return Index(projectid, projectname);
+            return Index(projectId, projectname);
         }*/
 
 
@@ -292,7 +298,8 @@ namespace ProjectManagementApplication.Controllers
             return File(file.Data, file.ContentType, file.Name);
         }
 
-        public void DeleteFile(int fileid, int projectid, string projectName)
+        [HttpPost]
+        public void DeleteFile(int fileid)
         {
             UploadFile file = _context.UploadFiles.Where(u => u.Id == fileid).FirstOrDefault();
 

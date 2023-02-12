@@ -4,8 +4,10 @@ var usName;
 var endD;
 var startD;
 var storyId;
+var projectId;
+var projectName;
 
-function showDetailView(usid, pid) {
+function showDetailView(usid, pid, pname) {
     // UserStory Popup
 
     /*
@@ -16,6 +18,9 @@ function showDetailView(usid, pid) {
     document.getElementById("storyState").value = state;
     document.getElementById("storyId").value = usid;
     */
+
+    projectId = pid;
+    projectName = pname;
 
     var data = {
         userStoryid: usid,
@@ -171,7 +176,7 @@ function deleteUserStoryUser(userId, usId) {
         url: "/userstory/DeleteUserFromStory",
         data: data,
         success: function () {
-            window.location.href = window.location.href;
+            window.location.href = "/UserStory?projectid=" + document.getElementById("projectId").value + "&projectName=" + document.getElementById("projectName").value;
         }
     });
 }
@@ -181,7 +186,7 @@ function deleteFileOfUserStory(fileid) {
     //console.log("ja ich bin hier");
 
     var data = {
-        fileid: fileid,
+        fileid: fileid
     };
 
     $.ajax({
@@ -189,7 +194,7 @@ function deleteFileOfUserStory(fileid) {
         url: "/userstory/DeleteFile",
         data: data,
         success: function () {
-            window.location.href = window.location.href;
+            window.location.href = "/UserStory?projectid=" + document.getElementById("projectId").value + "&projectName=" + document.getElementById("projectName").value;
 
         }
     });
@@ -252,7 +257,7 @@ function addUserToStory(userId) {
         url: "/userstory/AddUserToStory",
         data: data,
         success: function () {
-            window.location.href = window.location.href;
+            window.location.href = "/UserStory?projectid=" + document.getElementById("projectId").value + "&projectName=" + document.getElementById("projectName").value;
 
         }
     });
