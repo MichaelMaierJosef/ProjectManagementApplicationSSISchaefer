@@ -95,6 +95,8 @@ namespace ProjectManagementApplication.Controllers
                 return NotFound();
             }
 
+            _context.Complexities.Remove(complexityDb);
+
             
             _context.SaveChanges();
 
