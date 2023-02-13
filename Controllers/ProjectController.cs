@@ -332,12 +332,20 @@ namespace ProjectManagementApplication.Controllers
             us = _context.UserStorys.Where(u => u.project_id == id).ToList();
             _context.UserStorys.RemoveRange(us);
             List<UserStoryUser> usu = new List<UserStoryUser>();
+            List<UploadFile> uploadFiles = new List<UploadFile>();
 
             foreach (UserStory userStory in us)
             {
                 usu.AddRange(_context.UserStoryUsers.Where(u => u.UserStoryID == userStory.id).ToList());
+                uploadFiles.AddRange(_context.UploadFiles.Where(upload => upload.userStory == userStory).ToList());
             }
             _context.UserStoryUsers.RemoveRange(usu);
+            _context.UploadFiles.RemoveRange(uploadFiles);
+
+            
+            
+            List<Complexity> complexityList = _context.Complexities.Where(comp => comp.ProjectId == id).ToList();
+            _context.Complexities.RemoveRange(complexityList);
 
             _context.SaveChanges();
             try
