@@ -25,6 +25,8 @@
 
         public bool ComplexityOn { get; set; }
 
+        public bool ComplexityCustom { get; set; }
+
 
         public int ComplexityWeight { get; set; }
 

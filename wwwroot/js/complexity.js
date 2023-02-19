@@ -76,7 +76,7 @@ weightInputs.forEach(weightInput => {
 function rangeDisplayChanged(id, pid, pname) {
     //console.log(id);
 
-    document.getElementById("addedComplexityRange" + id).value = document.getElementById("addedComplexityRangeDisplay" + id).value;
+    document.getElementById("complexityRange" + id).value = document.getElementById("complexityRangeDisplay" + id).value;
 
     updateScale(id, pid, pname);
 }
@@ -84,7 +84,7 @@ function rangeDisplayChanged(id, pid, pname) {
 function rangeChanged(id, pid, pname) {
     //console.log(id);
 
-    document.getElementById("addedComplexityRangeDisplay" + id).value = document.getElementById("addedComplexityRange" + id).value;
+    document.getElementById("complexityRangeDisplay" + id).value = document.getElementById("complexityRange" + id).value;
 
     updateScale(id, pid, pname);
 }
@@ -99,7 +99,7 @@ function updateScale(id, pid, pname) {
                     "id": id,
                     "pid": pid,
                     "pname": pname,
-                    "scale": document.getElementById("addedComplexityRange" + id).value 
+                    "scale": document.getElementById("complexityRange" + id).value 
                 },
                 success: function (response) {
                     console.log(response);

@@ -214,6 +214,7 @@ namespace ProjectManagementApplication.Controllers
         public IActionResult Create()
         {
             Project project = new Project("", "", "");
+
             _context.Projects.Add(project);
             _context.SaveChanges();
             ViewBag.projectIdNew = project.id;

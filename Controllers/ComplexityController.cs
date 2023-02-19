@@ -19,7 +19,8 @@ namespace ProjectManagementApplication.Controllers
         public IActionResult Index(int projectid, string projectName)
         {
             var complexityList = _context.Complexities.ToList();
-            List<Complexity> complexityProjectList = new List<Complexity>();
+            List<Complexity> standardComplexityList = new List<Complexity>();
+            List<Complexity> customComplexityList = new List<Complexity>();
 
             /*
             List<Complexity> defaultComplexityList = new List<Complexity>();
@@ -35,13 +36,21 @@ namespace ProjectManagementApplication.Controllers
             {
                 if (complexity.ProjectId == projectid)
                 {
-                    complexityProjectList.Add(complexity);
+                    if (complexity.ComplexityCustom)
+                    {
+                        customComplexityList.Add(complexity);
+                    }
+                    else
+                    {
+                        standardComplexityList.Add(complexity);
+                    }
                 }
             }
 
             ViewBag.currentProjectId = projectid;
             ViewBag.currentProjectName = projectName;
-            ViewBag.Complexities = complexityProjectList;
+            ViewBag.customComplexities = customComplexityList;
+            ViewBag.standardComplexities = standardComplexityList;
             ViewBag.currentComplexityScale = CalculateComplexity(projectid);
 
             return View("Index");
