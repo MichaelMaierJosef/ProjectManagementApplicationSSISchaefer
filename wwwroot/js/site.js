@@ -14,5 +14,10 @@ function hideDetail() {
     document.querySelector('.bg-modal').style.display = 'none';
 }
 
+function setIndicator(pageName) {
+    console.log(pageName);
+    document.getElementById("pageIndicator").innerHTML = pageName;
+}
+
 
 
