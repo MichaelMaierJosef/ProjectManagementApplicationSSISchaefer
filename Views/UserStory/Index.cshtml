@@ -734,7 +734,6 @@
                                     <label class="form-label text-black">Add Attachments</label>
                                     <div class="d-flex flex-wrap">
                                         <div class="d-flex flex-grow-1 mx-2 my-auto">
-                                            <input form="filesForm" asp-for="id" id="userStoryId" hidden />
                                             <input form="filesForm" type="file" name="Files" class="form-control" multiple />
                                             <span form="filesForm" name="Files" class="text-danger"></span>
                                         </div>
@@ -764,11 +763,7 @@
                 </form>
                 <form hidden id="filesForm" asp-controller="UserStory" asp-action="MultiUpload" asp-route-projectid="@ViewBag.currentProjectId" asp-route-projectname="@ViewBag.currentProjectName" method="post" enctype="multipart/form-data">
                 </form>
-                <form hidden id="fileDownloadForm" asp-controller="UserStory" asp-action="DownloadFile" method="post">
-                    <input form="fileDownloadForm" id="hfFileId" name="FileId" hidden />
-                    <input form="fileDownloadForm" type="submit" id="btnFileDownload" value="Download" hidden />
-                </form>
-                <form hidden id="delForm" asp-controller="UserStory" asp-action="DeleteStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pname="@ViewBag.currentProjectName">
+                <form hidden id="delForm" method="delete" asp-controller="UserStory" asp-action="DeleteStory" asp-route-pid="@ViewBag.currentProjectId" asp-route-pname="@ViewBag.currentProjectName">
                     <input asp-for="id" id="storyIdDel" hidden />
                 </form>
             </div>
