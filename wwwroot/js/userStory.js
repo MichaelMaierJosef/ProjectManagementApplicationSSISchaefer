@@ -48,7 +48,9 @@ function showDetailView(usid, pid, pname) {
             dateChange();
             document.getElementById("storyState").value = result.us.state;
             document.getElementById("storyId").value = result.us.id;
-            document.getElementById("userStoryId").value = result.us.id;
+            //document.getElementById("userStoryId").value = result.us.id;
+            document.getElementById("filesForm").action = "/UserStory/MultiUpload?projectid=" + pid + "&projectname=" + pname + "&id=" + usid;
+            document.getElementById("filesForm").setAttribute('asp-route-id', result.us.id);
             document.getElementById("storyIdDel").value = result.us.id;
 
             document.getElementById("finishedCheckedInput").value = result.us.state;
@@ -101,10 +103,10 @@ function showDetailView(usid, pid, pname) {
 
 
 
+
     $.ajax({
-        type: "POST",
-        url: "/userstory/GetFiles",
-        data: data,
+        method: "GET",
+        url: "/userstory/GetFiles?userstoryId=" + usid,
         success: function (uploadfiles) {
 
             var textFiles = "";
@@ -117,7 +119,7 @@ function showDetailView(usid, pid, pname) {
                         "</div>" +
                 "<span class='text-center my-3 text-nowrap overflow-hidden' style='width: 6rem' title='" + file.name + "'>" + file.name + "</span>" +
                         "<div class='d-flex justify-content-end mt-auto'>" +
-                            "<a class='btn btn-dark btn-floating' href='javascript:;' onclick='downloadFile(" + file.id + ")' role='button'>" +
+                            "<a class='btn btn-dark btn-floating' href='/userstory/DownloadFile?fileId=" + file.id + "' role='button'>" +
                                 "<i class='fas fa-download'></i>" +
                             "</a>" +
                             "<button type='button' class='btn btn-dark btn-floating mx-2' onclick=\"deleteFileOfUserStory(" + file.id + ")\">" +
@@ -160,11 +162,6 @@ function showDetailView(usid, pid, pname) {
 
 }
 
-function downloadFile(fileId) {
-    $("#hfFileId").val(fileId);
-    $("#btnFileDownload")[0].click();
-}
-
 function deleteUserStoryUser(userId, usId) {
 
     var data = {
@@ -188,14 +185,9 @@ function deleteFileOfUserStory(fileid) {
 
     //console.log("ja ich bin hier");
 
-    var data = {
-        fileid: fileid
-    };
-
     $.ajax({
-        type: "POST",
-        url: "/userstory/DeleteFile",
-        data: data,
+        method: "DELETE",
+        url: "/userstory/DeleteFile?fileid=" + fileid,
         success: function () {
             window.location.href = "/UserStory?projectid=" + document.getElementById("projectId").value + "&projectName=" + document.getElementById("projectName").value;
 

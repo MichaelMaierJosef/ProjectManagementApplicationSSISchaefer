@@ -280,8 +280,8 @@ namespace ProjectManagementApplication.Controllers
             return Index(projectid, projectName);
         }
 
-        [HttpPost]
-        public List<UploadFile> GetFiles(int userstoryId, int projectId)
+        [HttpGet]
+        public List<UploadFile> GetFiles(int userstoryId)
         {
             //UploadFile[] uploadfiles = _context.UserStorys.Where(u => u.id == userstoryId).FirstOrDefault().Files.ToArray();
 
@@ -290,7 +290,7 @@ namespace ProjectManagementApplication.Controllers
             return uploadfiles;
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult DownloadFile(int fileId)
         {
             UploadFile file = _context.UploadFiles.Where(u => u.Id == fileId).FirstOrDefault();
@@ -298,7 +298,7 @@ namespace ProjectManagementApplication.Controllers
             return File(file.Data, file.ContentType, file.Name);
         }
 
-        [HttpPost]
+        [HttpDelete]
         public void DeleteFile(int fileid)
         {
             UploadFile file = _context.UploadFiles.Where(u => u.Id == fileid).FirstOrDefault();
