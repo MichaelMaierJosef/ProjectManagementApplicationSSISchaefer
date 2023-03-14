@@ -217,7 +217,20 @@ namespace ProjectManagementApplication.Controllers
 
             _context.Projects.Add(project);
             _context.SaveChanges();
+
+            List<Complexity> complexities = new List<Complexity>();
+            complexities.Add(new Complexity(project.id, "Estimated Complexity", "", false, false, 0, 0));
+            complexities.Add(new Complexity(project.id, "Code Comparison", "", false, false, 0, 0));
+            complexities.Add(new Complexity(project.id, "Gerrit Analysis", "", false, false, 0, 0));
+            complexities.Add(new Complexity(project.id, "Jira Analysis", "", false, false, 0, 0));
+
+            _context.Complexities.AddRange(complexities);
+
+            _context.SaveChanges();
+
+
             ViewBag.projectIdNew = project.id;
+
 
             return View("CreateProject");
         }
@@ -237,6 +250,9 @@ namespace ProjectManagementApplication.Controllers
             _context.Projects.Update(project);
             _context.SaveChanges();
             ViewBag.projectIdNew = project.id;
+
+
+
 
 
             return View("CreateProjectTime");

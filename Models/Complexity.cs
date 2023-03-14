@@ -1,19 +1,20 @@
 ﻿namespace ProjectManagementApplication.Models
 {
     public class Complexity
-    {   
-        /*
-        public Complexity(int id, int projectId, string complexityName, string complexityDescription, bool complexityOn, int complexityWeight, int complexityScale)
+    {
+        public Complexity()
         {
-            this.id = id;
+        }
+        public Complexity(int projectId, string complexityName, string complexityDescription, bool complexityOn, bool complexityCustom, int complexityWeight, int complexityScale)
+        {
             ProjectId = projectId;
             ComplexityName = complexityName;
             ComplexityDescription = complexityDescription;
             ComplexityOn = complexityOn;
+            ComplexityCustom = complexityCustom;
             ComplexityWeight = complexityWeight;
             ComplexityScale = complexityScale;
         }
-        */
 
         public int id { get; set; }
 

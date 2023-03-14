@@ -85,7 +85,6 @@
     </div>
 </div>
 
-<hr />
 <!--Standard Complexities-->
 <div class="d-flex flex-column">
     @{
@@ -107,41 +106,6 @@
                             <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="@("flexSwitchCheckDefault" + complexity.id)"
                            onclick="@("switchComplexity("+complexity.id+","+ViewBag.currentProjectId+",'"+ViewBag.currentProjectName+"')")" />
                         }
-                    </div>
-
-
-
-                    <form hidden id="@("delForm"+complexity.id)" asp-action="DeleteComplexity" asp-route-pid="@ViewBag.currentProjectId" asp-route-pName="@ViewBag.currentProjectName" method="post">
-                        <input asp-for="id" id="coplexityIdDel" value="@(complexity.id)" hidden />
-                    </form>
-
-                    <button type="button" class="btn btn-danger btn-floating mx-2" onclick="openDelComplexityModal('@("#delComplexityModal"+complexity.id)');">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-
-
-                    <!-- Modal delete Userstory-->
-                    <div class="modal fade"
-                     id="@("delComplexityModal"+complexity.id)"
-                     data-mdb-backdrop="static"
-                     data-mdb-keyboard="false"
-                     tabindex="-1"
-                     aria-labelledby="@("delComplexityModal"+complexity.id+"Label")"
-                     aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white d-flex justify-content-center">
-                                    <i class="fas fa-trash-alt fa-3x"></i>
-                                </div>
-                                <div class="modal-body d-flex justify-content-center text-black text-center">
-                                    <h5 class="modal-title">Are you sure you want to<br /> delete this User-Story?</h5>
-                                </div>
-                                <div class="modal-footer align-content-between d-flex justify-content-center">
-                                    <button type="submit" form="@("delForm"+complexity.id)" class="btn btn-outline-black" data-mdb-dismiss="modal">Yes</button>
-                                    <button type="button" class="btn btn-dark" data-mdb-dismiss="modal">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -185,69 +149,7 @@
         }
     }
 
-    <!--Estimated Complexity-->
-    <div id="estimatedComplexity" class="criteria py-4 px-3">
-        <div class="d-flex mb-5">
-            <h3 class="text-black my-auto">Estimated Complexity</h3>
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="estimatedComplexityWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
-                <label class="form-label" for="typeNumber">Weight</label>
-            </div>
-
-            <div class="form-check form-switch my-auto">
-                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
-            </div>
-        </div>
-
-        <div class="range mx-3" style="height: 20px">
-            <input type="range" class="form-range form-range-lg" id="customRange1" min="0" max="100" value="0" />
-        </div>
-    </div>
-    <hr />
-    <!--Code Comparison-->
-    <div id="codeComparison" class="criteria py-4 px-3">
-        <div class="d-flex mb-5">
-            <h3 class="text-black my-auto">Code Comparison</h3>
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="codeComparisonWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
-                <label class="form-label" for="typeNumber">Weight</label>
-            </div>
-
-            <div class="form-check form-switch my-auto">
-                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
-            </div>
-        </div>
-    </div>
-    <hr />
-    <!--Gerrit Analysis-->
-    <div id="gerritAnalysis" class="criteria py-4 px-3">
-        <div class="d-flex mb-5">
-            <h3 class="text-black my-auto">Gerrit Analysis</h3>
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="gerritAnalysisWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
-                <label class="form-label" for="typeNumber">Weight</label>
-            </div>
-
-            <div class="form-check form-switch my-auto ">
-                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
-            </div>
-        </div>
-    </div>
-    <hr />
-    <!--Jira Analysis-->
-    <div id="jiraAnalysis" class="criteria py-4 px-3">
-        <div class="d-flex mb-5">
-            <h3 class="text-black my-auto">Jira Analysis</h3>
-            <div class="form-outline my-auto mx-3 ms-auto">
-                <input type="text" id="jiraAnalysisWeight" class="form-control weightInput" onchange="weightChanged(event)" min="0" max="100" value="0%" />
-                <label class="form-label" for="typeNumber">Weight</label>
-            </div>
-
-            <div class="form-check form-switch my-auto">
-                <input class="criteria-switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked />
-            </div>
-        </div>
-    </div>
+    
     <hr />
     <h3 class="text-black">Custom Complexities:</h3>
 
